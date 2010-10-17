@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Place extends \lithium\data\Model {
+class Place {
 
     var $id = "";
     var $name = "";

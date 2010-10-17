@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Address extends \lithium\data\Model {
+class Address {
 
     var $street = "";
     var $number = 0;

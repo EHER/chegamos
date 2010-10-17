@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class City extends \lithium\data\Model {
+class City {
 
     var $country = "";
     var $state = "";
