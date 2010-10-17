@@ -12,6 +12,7 @@
  * references to other feature-specific bootstrap files that you can turn on and off to configure
  * the services needed for your application.
  */
+ini_set("display_errors", 1);
 
 /**
  * This is the path to the class libraries used by your application, and must contain a copy of the
