@@ -9,3 +9,13 @@ Outras features desejadas:
 - Salvar a última localização.
 - Criar uma lista de pontos de busca (CEPs) favoritos.
 - Permitir selecionar quais pontos de busca (CEPs) devem ficar no histórico.
+
+
+Tecnologia usada
+
+Apache 2 <http://httpd.apache.org/>
+Apache Module mod_rewrite <http://httpd.apache.org/docs/current/mod/mod_rewrite.html>
+PHP 5.3 <http://br.php.net/>
+Framework Lithium <http://lithify.me/>
+Apontador API <http://api.apontador.com.br/>
+
