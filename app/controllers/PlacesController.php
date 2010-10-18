@@ -6,9 +6,10 @@ use app\models\Place;
 class PlacesController extends \lithium\action\Controller {
 
     public function index() {
-        $place = new \app\models\Place($config);
-        $place_name = $place->name;
-        return compact('place', 'place_name');
+        $place = new \app\models\Place();
+        $zipcode = '02913000';
+        $place->searchByZipcode($zipcode);
+        return compact('place');
     }
 
     public function add() {

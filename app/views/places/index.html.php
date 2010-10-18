@@ -1,1 +1,1 @@
-My first place: <?=$place_name;?>
+My first place: <?=$place;?>
