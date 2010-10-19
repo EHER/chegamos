@@ -19,3 +19,8 @@ PHP 5.3 <http://br.php.net/>
 Framework Lithium <http://lithify.me/>
 Apontador API <http://api.apontador.com.br/>
 
+
+Setup do projeto
+
+Depois de fazer o pull do projeto, de acesso de escrita na pasta app/resources
+chmod -R 0777 app/resources
