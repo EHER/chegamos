@@ -15,7 +15,7 @@ Tecnologia usada
 
 Apache 2 <http://httpd.apache.org/>
 Apache Module mod_rewrite <http://httpd.apache.org/docs/current/mod/mod_rewrite.html>
-PHP 5.3 <http://br.php.net/>
+PHP 5.3 <http://br.php.net/> com libcurl
 Framework Lithium <http://lithify.me/>
 Apontador API <http://api.apontador.com.br/>
 
