@@ -7,8 +7,11 @@ class PlacesController extends \lithium\action\Controller {
 
     public function index() {
         $place = new \app\models\Place();
-        $zipcode = '02913000';
-        $search = $place->searchByZipcode($zipcode);
+//        $zipcode = '02913-000';
+//        $search = $place->searchByZipcode($zipcode);
+		$lat = "-46.688480447148";
+		$lng = "-23.593873718812";
+        $search = $place->searchByPoint($lat, $lng);
 		var_dump($search);
 		exit;
         return compact('place');

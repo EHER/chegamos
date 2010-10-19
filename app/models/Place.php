@@ -20,7 +20,14 @@ class Place {
         return $this->request('places/'.$placeId);
     }
 
-    public function searchByZipcode($zipcode) {
+    public function searchByPoint($lat, $lng) {
+		return $this->request('search/places/bypoint', array(
+			'lat'=>$lat,
+			'lng'=>$lng,
+			));
+    }
+
+	public function searchByZipcode($zipcode) {
 		return $this->request('search/places/byzipcode', array('zipcode'=>$zipcode));
     }
 
