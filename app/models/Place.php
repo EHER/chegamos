@@ -41,6 +41,7 @@ class Place {
 
 		$curl = curl_init($config['host'] . $method);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_USERPWD, $config['username'].':'.$config['password']);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_PORT, $config['port']);
