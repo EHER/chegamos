@@ -53,6 +53,7 @@ class Context extends \lithium\net\Socket {
 			$context = $config['message']->to('context', array('timeout' => $this->_timeout));
 		}
 		$this->_resource = fopen($url, $config['mode'], false, stream_context_create($context));
+
 		return $this->_resource;
 	}
 

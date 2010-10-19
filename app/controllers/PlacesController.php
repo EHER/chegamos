@@ -8,7 +8,9 @@ class PlacesController extends \lithium\action\Controller {
     public function index() {
         $place = new \app\models\Place();
         $zipcode = '02913000';
-        $place->searchByZipcode($zipcode);
+        $search = $place->searchByZipcode($zipcode);
+		var_dump($search);
+		exit;
         return compact('place');
     }
 
