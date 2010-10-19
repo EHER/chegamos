@@ -22,5 +22,40 @@ Apontador API <http://api.apontador.com.br/>
 
 Setup do projeto
 
-Depois de fazer o pull do projeto, de acesso de escrita na pasta app/resources
-chmod -R 0777 app/resources
+Faça o pull do projeto: git clone git://github.com/EHER/Apontador-Jr.git
+Entre na pasta Apontador-Jr: cd Apontador-Jr
+Verifique se existe a pasta app/resources. Se não existir, crie: mkdir app/resources
+Dê acesso de escrita na pasta app/resources: chmod -R 0777 app/resources
+
+
+Setup do Apache
+
+Procure o arquivo de configurações do site, no meu caso é /etc/apache2/sites-available/default.
+Verifique se AllowOverride está ALL. Por padrão ele vem None.
+Você pode substituir os valores de DocumentRoot e Directory pelo caminho app/webroot do seu projeto.
+Pessoalmente eu prefiro criar symlinks da estrutura padrão para caminho do meu projeto:
+
+sudo mv /var/www /var/www_old
+sudo ln -s /home/eher/src/Apontador-Jr/app/webroot/ /var/www
+
+# Arquivo /etc/apache2/sites-available/default
+<VirtualHost *:80>
+        ServerAdmin alexandre@skd.com.br
+
+        DocumentRoot /var/www
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>
+
+
+Setup do mod_rewrite
+
+Para habilitar o mod_rewrite execute o comando: sudo a2enmod rewrite
