@@ -6,9 +6,9 @@ use app\models\Place;
 class PlacesController extends \lithium\action\Controller {
 
     public function index() {
-        $place = new \app\models\Place();
+        $api = new \app\models\ApontadorApi();
         $zipcode = $_GET['cep'];
-        $search = $place->searchByZipcode($zipcode);
+        $search = $api->searchByZipcode($zipcode);
 		//$lat = "-23.593873718812";
 		//$lng = "-46.688480447148";
         //$search = $place->searchByPoint($lat, $lng);
