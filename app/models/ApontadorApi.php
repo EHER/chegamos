@@ -48,8 +48,9 @@ class ApontadorApi {
 	}
 
 	private function request($method, $params=array()) {
+		$default = array('type'=>'json');
 
-		$queryString = \http_build_query($params);
+		$queryString = \http_build_query($params + $default);
 
 		$curl = curl_init($this->config['apiUrl'] . $method . '?' . $queryString);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
