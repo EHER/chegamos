@@ -18,7 +18,7 @@
 <body class="app">
 	<div id="container">
 		<div id="header">
-			<h1>Application</h1>
+			<h1>Apontador Jr</h1>
 			<h2>
 				Powered by <?php echo $this->html->link('Lithium', 'http://li3.rad-dev.org'); ?>.
 			</h2>

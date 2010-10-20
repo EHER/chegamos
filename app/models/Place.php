@@ -33,7 +33,7 @@ class Place {
 
     private function request($method, $params=array()) {
         $config = array(
-            'apiUrl' => 'api.apontador.com.br/v1/search/places/bypoint',
+            'apiUrl' => 'api.apontador.com.br/v1/',
             'port' => 80,
             'username' => 'ImpfX7kZ3mOQO7vIIR5pJghNMS0Za5RYqKfBf5mnfds~',
             'password' => 'CxhEUWv-D9LKVKiaYhrfWmoyAP0~',
@@ -41,7 +41,7 @@ class Place {
 
 		$queryString = \http_build_query($params);
 
-		$curl = curl_init($config['apiUrl'] . '?' . $queryString);
+		$curl = curl_init($config['apiUrl'] . $method. '?' . $queryString);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_USERPWD, $config['username'].':'.$config['password']);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
