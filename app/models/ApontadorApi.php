@@ -47,6 +47,13 @@ class ApontadorApi {
 		));
 	}
 
+	public function getPlace($param) {
+		if(empty($param['placeid'])) {
+			return false;
+		}
+		return $this->request('places/' . $param['placeid']	);
+	}
+
 	private function request($method, $params=array()) {
 		$default = array('type'=>'json');
 

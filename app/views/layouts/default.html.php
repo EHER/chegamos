@@ -10,13 +10,14 @@
 <html>
 <head>
 	<?php echo $this->html->charset();?>
-	<title>Apontador Jr > <?php echo $this->title(); ?></title>
+	<title>Apontador Jr <?php echo $this->title(); ?></title>
 	<?php echo $this->html->style(array('debug', 'lithium')); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 </head>
 <body class="app">
 	<div id="container">
+		<a href="http://github.com/EHER/Apontador-Jr" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub" /></a>
 		<div id="header">
 			<h1>Apontador Jr</h1>
 			<h2>
