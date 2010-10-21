@@ -10,11 +10,16 @@
   <p><?php echo $place->place->thumbs->up; ?></p>
  */
 ?>
-
-<?php
-echo $this->html->link(
-	"Veja no Apontador",
-	"http://www.apontador.com.br/local/poi/" . $place->place->id . ".html",
-	array("target" => "_blank")
-);
-?>
+<ul>
+	<li>
+		<?php
+		echo $this->html->link(
+				"Veja no Apontador",
+				"http://www.apontador.com.br/local/poi/" . $place->place->id . ".html",
+				array("target" => "_blank")
+		); ?>
+	</li>
+	<li>
+		<?php echo $this->html->link("Estou aqui", "/places/checkin/" . $place->place->id . ""); ?>
+	</li>
+</ul>

@@ -5,14 +5,14 @@ namespace app\models;
 class ApontadorApi {
 
 	var $config = array(
-		'apiUrl' => 'http://api.apontador.com.br/v1/',
+		'apiUrl' => 'api.apontador.com.br/v1/',
 		'port' => 80,
 		'consumerKey' => 'ImpfX7kZ3mOQO7vIIR5pJghNMS0Za5RYqKfBf5mnfds~',
 		'consumerSecret' => 'CxhEUWv-D9LKVKiaYhrfWmoyAP0~',
 	);
 
 	public function searchByPoint($param) {
-		if(empty($param['lat']) and empty($param['lng'])) {
+		if (empty($param['lat']) and empty($param['lng'])) {
 			return false;
 		}
 		return $this->request('search/places/bypoint', array(
@@ -22,7 +22,7 @@ class ApontadorApi {
 	}
 
 	public function searchByAddress($param) {
-		if(empty($param['state']) and empty($param['city'])) {
+		if (empty($param['state']) and empty($param['city'])) {
 			return false;
 		}
 		return $this->request('search/places/bypoint', array(
@@ -39,7 +39,7 @@ class ApontadorApi {
 	}
 
 	public function searchByZipcode($param) {
-		if(empty($param['zipcode'])) {
+		if (empty($param['zipcode'])) {
 			return false;
 		}
 		return $this->request('search/places/byzipcode', array(
@@ -48,14 +48,14 @@ class ApontadorApi {
 	}
 
 	public function getPlace($param) {
-		if(empty($param['placeid'])) {
+		if (empty($param['placeid'])) {
 			return false;
 		}
-		return $this->request('places/' . $param['placeid']	);
+		return $this->request('places/' . $param['placeid']);
 	}
 
 	private function request($method, $params=array()) {
-		$default = array('type'=>'json');
+		$default = array('type' => 'json');
 
 		$queryString = \http_build_query($params + $default);
 
@@ -69,6 +69,27 @@ class ApontadorApi {
 		curl_setopt($curl, CURLOPT_FAILONERROR, false);
 		$curl_response = curl_exec($curl);
 		curl_close($curl);
+
+		return $curl_response;
+	}
+
+	private function request_native($method, $params=array()) {
+		$default = array('type' => 'json');
+
+		$queryString = \http_build_query($params + $default);
+
+		$config = array(
+			'host' => $this->config['apiUrl'] . $method . '?' . $queryString,
+			'port' => $this->config['port'],
+			'auth' => 'Basic',
+			'username' => $this->config['consumerKey'],
+			'password' => $this->config['consumerSecret'],
+			'timeout' => 10,
+			'socket' => 'Curl',
+			'encoding' => 'UTF-8',
+		);
+		$request = new \lithium\net\http\Service($config);
+		$response = $request->post($method, $params);
 
 		return $curl_response;
 	}
