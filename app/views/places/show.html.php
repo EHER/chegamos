@@ -19,17 +19,14 @@
 	<?php if(!empty($place->place->phone->number)) echo $place->place->phone->number; ?>
 </p>
 <p><?php echo $place->place->description; ?></p>
-
-<!--
+<?php /*
 <p><?php echo round($place->place->thumbs->up / $place->place->thumbs->total * 100); ?>% recomendam</p>
 <p><?php echo $place->place->category->name; ?> > <?php echo $place->place->category->subcategory->name; ?></p>
 <p><?php echo $place->place->click_count; ?> visitas</p>
 <p><?php echo $place->place->review_count; ?> avaliações</p>
 <p><?php echo $place->place->point->lat; ?></p>
 <p><?php echo $place->place->point->lng; ?></p>
--->
-
-
+ */?>
 <p>
 	Cadastrado por:
 	<a href="http://www.apontador.com.br/profile/<?php echo $place->place->created->user->id; ?>.html" target="_blank">
@@ -37,10 +34,10 @@
 	</a>
 </p>
 
-
-
-
 <ul>
+	<li>
+		<?php echo $this->html->link("Voltar", "/"); ?>
+	</li>
 	<li>
 		<?php
 		echo $this->html->link(
@@ -49,12 +46,10 @@
 				array("target" => "_blank")
 		); ?>
 	</li>
-	<?php if(!empty($place->place->address->zipcode)): ?>
+	<?php if(!empty($place->place->address->zipcode) and intval($place->place->address->zipcode)!=0): ?>
 	<li>
-		<?php echo $this->html->link("Locais próximos", "/places/?cep=" . $place->place->address->zipcode); ?>
-	</li>
-	<li>
-		<?php echo $this->html->link("Estou aqui", "/places/checkin/" . $place->place->id); ?>
+		<?php echo $this->html->link("Estou aqui", "/places/?cep=" . $place->place->address->zipcode); ?>
 	</li>
 	<?php endif; ?>
 </ul>
+

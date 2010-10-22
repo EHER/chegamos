@@ -9,8 +9,8 @@ class PlacesController extends \lithium\action\Controller {
 
 	public function index() {
 		$api = new \app\models\ApontadorApi();
-		$zipcode = isset($_GET['cep']) ? $_GET['cep'] : null;
 		$zipcode = isset($_GET['cep']) ? $_GET['cep'] : \lithium\storage\Session::read('zipcode');
+		\lithium\storage\Session::write('zipcode',$zipcode);
 		$search = $api->searchByZipcode(array('zipcode' => $zipcode));
 		$search = json_decode($search, false);
 		//$lat = "-23.593873718812";
