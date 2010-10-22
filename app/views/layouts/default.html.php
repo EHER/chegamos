@@ -20,13 +20,16 @@
 		<a href="http://github.com/EHER/Apontador-Jr" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub" /></a>
 		<div id="header">
 			<h1><a href="/">Apontador Jr</a></h1>
-			<h2>
-				Powered by <?php echo $this->html->link('Lithium', 'http://li3.rad-dev.org'); ?>.
-			</h2>
+			<h2>Usando a <a href="http://api.apontador.com.br/" target="_blank">Apontador API</a></h2>
 		</div>
 		<div id="content">
 			<?php echo $this->content(); ?>
 		</div>
+		<br/>
+		<div id="footer">
+			<p>Powered by <?php echo $this->html->link('Lithium', 'http://li3.rad-dev.org'); ?>.</p>
+		</div>
+
 	</div>
 </body>
 </html>
