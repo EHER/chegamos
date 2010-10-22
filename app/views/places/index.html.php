@@ -14,7 +14,7 @@
 <?php else: ?>
 	<h3>Onde você está?</h3>
 	<span>
-	<form action="" method="GET" style="width: 100px;">
+	<form action="" method="GET" style="width: 115px;">
 	CEP: <input type="text" name="cep" value="<?=$zipcode; ?>" style="width: 100px;">
     <input type="submit" value="Estou aqui">
 </form>
