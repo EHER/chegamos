@@ -57,7 +57,7 @@ require __DIR__ . '/bootstrap/cache.php';
 /**
  * Include this file if your application uses one or more database connections.
  */
-require __DIR__ . '/bootstrap/connections.php';
+//require __DIR__ . '/bootstrap/connections.php';
 
 /**
  * This file defines bindings between classes which are triggered during the request cycle, and
