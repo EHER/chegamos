@@ -101,11 +101,11 @@ class ApontadorApi {
     private function removeAccents($var) {
         $var = strtolower($var);
 
-        $var = ereg_replace("[áàâãª]", "a", $var);
-        $var = ereg_replace("[éèê]", "e", $var);
-        $var = ereg_replace("[óòôõº]", "o", $var);
-        $var = ereg_replace("[úùû]", "u", $var);
-        $var = ereg_replace("[ç]", "c", $var);
+        $var = str_replace(array("á","à","â","ã","ª"), "a", $var);
+        $var = str_replace(array("é","è","ê"), "e", $var);
+        $var = str_replace(array("ó","ò","ô","õ","º"), "o", $var);
+        $var = str_replace(array("ú","ù","û"), "u", $var);
+        $var = str_replace("ç", "c", $var);
 
         return $var;
     }
