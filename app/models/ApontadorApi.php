@@ -5,11 +5,26 @@ namespace app\models;
 class ApontadorApi {
 
     var $config = array(
-        'apiUrl' => 'api.apontador.com.br/v1/',
-        'port' => 80,
-        'consumerKey' => 'ImpfX7kZ3mOQO7vIIR5pJghNMS0Za5RYqKfBf5mnfds~',
-        'consumerSecret' => 'CxhEUWv-D9LKVKiaYhrfWmoyAP0~',
+        'apiUrl' => APONTADOR_URL,
+        'port' => APONTADOR_PORT,
+        'consumerKey' => APONTADOR_COMSUMER_KEY,
+        'consumerSecret' => APONTADOR_COMSUMER_SECRET,
     );
+
+    public function __construct() {
+        if (empty($this->config['apiUrl'])) {
+            throw new \Exception('URL da API Apontador deve ser configurada em app/config/bootstrap.php');
+        }
+        if (empty($this->config['port'])) {
+            throw new \Exception('Porta da API Apontador deve ser configurada em app/config/bootstrap.php');
+        }
+        if (empty($this->config['consumerKey'])) {
+            throw new \Exception('Consumer Key da API Apontador deve ser configurada em app/config/bootstrap.php');
+        }
+        if (empty($this->config['consumerSecret'])) {
+            throw new \Exception('Consumer Secret da API Apontador deve ser configurada em app/config/bootstrap.php');
+        }
+    }
 
     public function searchByPoint($param) {
         if (empty($param['lat']) and empty($param['lng'])) {
@@ -101,10 +116,10 @@ class ApontadorApi {
     private function removeAccents($var) {
         $var = strtolower($var);
 
-        $var = str_replace(array("á","à","â","ã","ª"), "a", $var);
-        $var = str_replace(array("é","è","ê"), "e", $var);
-        $var = str_replace(array("ó","ò","ô","õ","º"), "o", $var);
-        $var = str_replace(array("ú","ù","û"), "u", $var);
+        $var = str_replace(array("á", "à", "â", "ã", "ª"), "a", $var);
+        $var = str_replace(array("é", "è", "ê"), "e", $var);
+        $var = str_replace(array("ó", "ò", "ô", "õ", "º"), "o", $var);
+        $var = str_replace(array("ú", "ù", "û"), "u", $var);
         $var = str_replace("ç", "c", $var);
 
         return $var;

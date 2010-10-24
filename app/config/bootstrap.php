@@ -14,6 +14,21 @@
  */
 ini_set("display_errors", 1);
 
+
+/**
+ * Para usar a api do apontador basta fazer o cadastro no link
+ * http://www.apontador.com.br/accounts/app/create.html
+ * Você pode consultar esses dados a qualquer momento no seu perfil do Apontador
+ * http://www.apontador.com.br/accounts/apps.html
+ * Qualquer dúvida sobre a api do apontador, a documentação está em
+ * http://api.apontador.com.br/pt/acesso.html
+ */
+define('APONTADOR_URL', 'api.apontador.com.br/v1/');
+define('APONTADOR_PORT', 80);
+define('APONTADOR_COMSUMER_KEY', '');
+define('APONTADOR_COMSUMER_SECRET', '');
+
+
 /**
  * This is the path to the class libraries used by your application, and must contain a copy of the
  * Lithium core.  By default, this directory is named `libraries`, and resides in the same
