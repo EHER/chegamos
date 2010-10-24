@@ -4,94 +4,110 @@ namespace app\models;
 
 class ApontadorApi {
 
-	var $config = array(
-		'apiUrl' => 'api.apontador.com.br/v1/',
-		'port' => 80,
-		'consumerKey' => 'ImpfX7kZ3mOQO7vIIR5pJghNMS0Za5RYqKfBf5mnfds~',
-		'consumerSecret' => 'CxhEUWv-D9LKVKiaYhrfWmoyAP0~',
-	);
+    var $config = array(
+        'apiUrl' => 'api.apontador.com.br/v1/',
+        'port' => 80,
+        'consumerKey' => 'ImpfX7kZ3mOQO7vIIR5pJghNMS0Za5RYqKfBf5mnfds~',
+        'consumerSecret' => 'CxhEUWv-D9LKVKiaYhrfWmoyAP0~',
+    );
 
-	public function searchByPoint($param) {
-		if (empty($param['lat']) and empty($param['lng'])) {
-			return false;
-		}
-		return $this->request('search/places/bypoint', array(
-			'lat' => $param['lat'],
-			'lng' => $param['lng'],
-		));
-	}
+    public function searchByPoint($param) {
+        if (empty($param['lat']) and empty($param['lng'])) {
+            return false;
+        }
+        return $this->request('search/places/bypoint', array(
+            'lat' => $param['lat'],
+            'lng' => $param['lng'],
+        ));
+    }
 
-	public function searchByAddress($param) {
-		if (empty($param['state']) and empty($param['city'])) {
-			return false;
-		}
-		return $this->request('search/places/bypoint', array(
-			'country' => $param['country'],
-			'state' => $param['state'],
-			'city' => $param['city'],
-			'street' => $param['street'],
-			'number' => $param['number'],
-			'district' => $param['district'],
-			'radius_mt' => $param['radius_mt'],
-			'term' => $param['term'],
-			'category_id' => $param['category_id'],
-		));
-	}
+    public function searchByAddress($param) {
+        if (empty($param['state']) and empty($param['city'])) {
+            return false;
+        }
+        return $this->request('search/places/byaddress', array(
+            'country' => $param['country'],
+            'state' => $param['state'],
+            'city' => $this->removeAccents($param['city']),
+            'street' => isset($param['street']) ? $param['street'] : '',
+            'number' => isset($param['number']) ? $param['number'] : '',
+            'district' => isset($param['district']) ? $param['district'] : '',
+            'radius_mt' => isset($param['radius_mt']) ? $param['radius_mt'] : '',
+            'term' => isset($param['term']) ? $param['term'] : '',
+            'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
+        ));
+    }
 
-	public function searchByZipcode($param) {
-		if (empty($param['zipcode'])) {
-			return false;
-		}
-		return $this->request('search/places/byzipcode', array(
-			'zipcode' => $param['zipcode']
-		));
-	}
+    public function searchByZipcode($param) {
+        if (empty($param['zipcode'])) {
+            return false;
+        }
+        return $this->request('search/places/byzipcode', array(
+            'zipcode' => $param['zipcode']
+        ));
+    }
 
-	public function getPlace($param) {
-		if (empty($param['placeid'])) {
-			return false;
-		}
-		return $this->request('places/' . $param['placeid']);
-	}
+    public function getPlace($param) {
+        if (empty($param['placeid'])) {
+            return false;
+        }
+        return $this->request('places/' . $param['placeid']);
+    }
 
-	private function request($method, $params=array()) {
-		$default = array('type' => 'json');
+    private function request($method, $params=array()) {
+        $default = array('type' => 'json');
 
-		$queryString = \http_build_query($params + $default);
+        $queryString = \http_build_query($params + $default);
 
-		$curl = curl_init($this->config['apiUrl'] . $method . '?' . $queryString);
-		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($curl, CURLOPT_USERPWD, $this->config['consumerKey'] . ':' . $this->config['consumerSecret']);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_PORT, $this->config['port']);
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-		curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-		curl_setopt($curl, CURLOPT_FAILONERROR, false);
-		$curl_response = curl_exec($curl);
-		curl_close($curl);
+        $url = $this->config['apiUrl'] . $method . '?' . $queryString;
 
-		return $curl_response;
-	}
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_USERPWD, $this->config['consumerKey'] . ':' . $this->config['consumerSecret']);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_PORT, $this->config['port']);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_FAILONERROR, false);
+        $curl_response = curl_exec($curl);
+        curl_close($curl);
 
-	private function request_native($method, $params=array()) {
-		$default = array('type' => 'json');
+        return $curl_response;
+    }
 
-		$queryString = \http_build_query($params + $default);
+    private function requestNative($method, $params=array()) {
+        $default = array('type' => 'json');
 
-		$config = array(
-			'host' => $this->config['apiUrl'] . $method . '?' . $queryString,
-			'port' => $this->config['port'],
-			'auth' => 'Basic',
-			'username' => $this->config['consumerKey'],
-			'password' => $this->config['consumerSecret'],
-			'timeout' => 10,
-			'socket' => 'Curl',
-			'encoding' => 'UTF-8',
-		);
-		$request = new \lithium\net\http\Service($config);
-		$response = $request->post($method, $params);
+        $queryString = \http_build_query($params + $default);
 
-		return $curl_response;
-	}
+        $url = $this->config['apiUrl'] . $method . '?' . $queryString;
+
+        $config = array(
+            'host' => $url,
+            'port' => $this->config['port'],
+            'auth' => 'Basic',
+            'username' => $this->config['consumerKey'],
+            'password' => $this->config['consumerSecret'],
+            'timeout' => 10,
+            'socket' => 'Curl',
+            'encoding' => 'UTF-8',
+        );
+        $request = new \lithium\net\http\Service($config);
+        $response = $request->post($method, $params);
+
+        return $curl_response;
+    }
+
+    private function removeAccents($var) {
+        $var = strtolower($var);
+
+        $var = ereg_replace("[áàâãª]", "a", $var);
+        $var = ereg_replace("[éèê]", "e", $var);
+        $var = ereg_replace("[óòôõº]", "o", $var);
+        $var = ereg_replace("[úùû]", "u", $var);
+        $var = ereg_replace("[ç]", "c", $var);
+
+        return $var;
+    }
 
 }

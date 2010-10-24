@@ -1,26 +1,33 @@
-<?php if ($search and !isset ($_GET['checkin'])): ?>
-	<h3>
-		Locais próximos ao CEP <?=$zipcode; ?>
-		<?php
-			echo $this->html->link("(mudar onde estou)","/?checkin");
-		?>
-	</h3>
+<h3>
+    Onde estou
+    <?php echo $this->html->link("(mudar)", "/places/checkin"); ?>
+</h3>
 
-	<ul>
-	<?php foreach ($search->search->places as $place): ?>
-	<li>
-		<?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?>
-	</li>
-	<?php endforeach; ?>
-	</ul>
+<p>
+<?php if ($placeName): ?>
+<a href="/places/show/<?= $placeId; ?>"><?= $placeName; ?></a>
+<?php endif; ?>
+
+<?php if ($zipcode): ?>
+CEP: <?= $zipcode; ?>
+<?php endif; ?>
+
+<?php if ($cityState): ?>
+<?= $cityState; ?>
+<?php endif; ?>
+
+<?php if ($lat and $lng): ?>
+(<?= $lat; ?>, <?= $lng; ?>)
+<?php endif; ?>
+</p>
+<h3>Locais próximos</h3>
+<?php if ($search): ?>
+
+    <ul>
+        <?php foreach ($search->search->places as $place): ?>
+            <li><?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?></li>
+        <?php endforeach; ?>
+    </ul>
 <?php else: ?>
-	<h3>Onde você está?</h3>
-	<span>
-	<form action="" method="GET" style="width: 115px;">
-		<label for="cep">CEP:</label>
-		<input type="text" id="cep" name="cep" value="<?=$zipcode; ?>" style="width: 100px;">
-		<input type="submit" value="Estou aqui">
-		</form>
-	</span>
-
+    <p>Nenhum local próximo.</p>
 <?php endif; ?>

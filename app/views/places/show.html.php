@@ -1,15 +1,17 @@
 <h2>
-	<?php echo $place->place->name; ?>
-	<small>(<?php echo $place->place->average_rating; ?> estrelas)</small>
+	<?= $place->place->name; ?>
+        <?php if(!empty($place->place->average_rating)): ?>
+	<small>(<?= $place->place->average_rating; ?>)</small>
+        <?php endif; ?>
 </h2>
 <p>
-	<?php echo $place->place->address->street; ?>,
-	<?php echo $place->place->address->number; ?>
-	<?php echo $place->place->address->complement; ?>
-	<?php echo $place->place->address->district; ?>
+	<?= $place->place->address->street; ?>,
+	<?= $place->place->address->number; ?>
+	<?= $place->place->address->complement; ?>
+	<?= $place->place->address->district; ?>
 	<br/>
-	<?php echo $place->place->address->city->name; ?> -
-	<?php echo $place->place->address->city->state; ?>
+	<?= $place->place->address->city->name; ?> -
+	<?= $place->place->address->city->state; ?>
 </p>
 
 <p>
@@ -46,10 +48,8 @@
 				array("target" => "_blank")
 		); ?>
 	</li>
-	<?php if(!empty($place->place->address->zipcode) and intval($place->place->address->zipcode)!=0): ?>
 	<li>
-		<?php echo $this->html->link("Estou aqui", "/places/?cep=" . $place->place->address->zipcode); ?>
+		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->place->id); ?>
 	</li>
-	<?php endif; ?>
 </ul>
 
