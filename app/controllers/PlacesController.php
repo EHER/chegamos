@@ -55,6 +55,54 @@ class PlacesController extends \lithium\action\Controller {
         return compact('search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
     }
 
+    public function near() {
+        $api = new \app\models\ApontadorApi();
+
+        $placeId = \lithium\storage\Session::read('placeId');
+        $placeName = \lithium\storage\Session::read('placeName');
+        $zipcode = \lithium\storage\Session::read('zipcode');
+        $cityState = \lithium\storage\Session::read('cityState');
+        $lat = \lithium\storage\Session::read('lat');
+        $lng = \lithium\storage\Session::read('lng');
+
+        if (!empty($placeId)) {
+            $placeJson = $api->getPlace(array('placeid' => $placeId));
+            $place = json_decode($placeJson, false);
+            $lat = $place->place->point->lat;
+            $lng = $place->place->point->lng;
+            $searchJson = $api->searchByPoint(array(
+                        'lat' => $lat,
+                        'lng' => $lng
+                    ));
+            $clear = array('zipcode', 'cityState', 'lat', 'lng');
+        } elseif (!empty($zipcode)) {
+            $searchJson = $api->searchByZipcode(array(
+                        'zipcode' => $zipcode
+                    ));
+            $clear = array('placeId', 'cityState', 'lat', 'lng');
+        } elseif (!empty($cityState) and strstr($cityState, ',')) {
+            list($city, $state) = \explode(',', $cityState);
+            $searchJson = $api->searchByAddress(array(
+                        'city' => trim($city),
+                        'state' => trim($state),
+                        'country' => 'BR'
+                    ));
+            $clear = array('placeId', 'zipcode', 'lat', 'lng');
+        } elseif (!empty($lat) and !empty($lng)) {
+            $searchJson = $api->searchByPoint(array(
+                        'lat' => $lat,
+                        'lng' => $lng
+                    ));
+            $clear = array('placeId', 'zipcode', 'cityState');
+        } else {
+            $this->redirect('/places/checkin');
+        }
+
+        $search = json_decode($searchJson, false);
+
+        return compact('search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+    }
+
     public function checkin() {
         $title = "Estou aqui";
         $api = new \app\models\ApontadorApi();
