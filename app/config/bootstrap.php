@@ -12,22 +12,6 @@
  * references to other feature-specific bootstrap files that you can turn on and off to configure
  * the services needed for your application.
  */
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-
-
-/**
- * Para usar a api do apontador basta fazer o cadastro no link
- * http://www.apontador.com.br/accounts/app/create.html
- * Você pode consultar esses dados a qualquer momento no seu perfil do Apontador
- * http://www.apontador.com.br/accounts/apps.html
- * Qualquer dúvida sobre a api do apontador, a documentação está em
- * http://api.apontador.com.br/pt/acesso.html
- */
-define('APONTADOR_URL', 'api.apontador.com.br/v1/');
-define('APONTADOR_PORT', 80);
-define('APONTADOR_COMSUMER_KEY', '');
-define('APONTADOR_COMSUMER_SECRET', '');
-
 
 /**
  * This is the path to the class libraries used by your application, and must contain a copy of the
@@ -54,6 +38,13 @@ if (!include LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php') {
 	$message .= "/libraries directory.";
 	throw new ErrorException($message);
 }
+
+
+/**
+ * Arquivo de configuração
+ */
+require __DIR__ . '/config.php';
+
 
 /**
  * This file contains the loading instructions for all class libraries used in the application,

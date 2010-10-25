@@ -1,2 +1,2 @@
 app/resources/*
-app/config/bootstrap.php
+app/config/config.php
