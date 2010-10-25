@@ -20,9 +20,14 @@ CEP: <?= $zipcode; ?>
 (<?= $lat; ?>, <?= $lng; ?>)
 <?php endif; ?>
 </p>
-<h3>Locais</h3>
-<ul>
-	<li><?php echo $this->html->link('Locais Próximos', "/places/near"); ?></li>
-	<li><?php echo $this->html->link('Categorias', "/places/category"); ?></li>
-	<li><?php echo $this->html->link('Por nome', "/places/name"); ?></li>
-</ul>
+<h3>Locais da categoria <?= $category; ?></h3>
+<?php if ($search): ?>
+
+    <ul>
+        <?php foreach ($search->search->places as $place): ?>
+            <li><?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Nenhum local próximo.</p>
+<?php endif; ?>

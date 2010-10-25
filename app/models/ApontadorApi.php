@@ -26,6 +26,12 @@ class ApontadorApi {
         }
     }
 
+    public function getCategories($param) {
+        return $this->request('categories', array(
+            'term' => $param['term']
+        ));
+    }
+
     public function searchByPoint($param) {
         if (empty($param['lat']) and empty($param['lng'])) {
             return false;
