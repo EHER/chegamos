@@ -151,12 +151,16 @@ class PlacesController extends \lithium\action\Controller {
 
         $categoryJson = $api->getCategories(array('term' => $categoryName));
         $category = json_decode($categoryJson, false);
-        $categoryId = $category->categories[0]->category->id;
+
+		if(empty($category->categories)) {
+            $this->redirect('/places/categories');
+        }
+
+		$categoryId = $category->categories[0]->category->id;
 
         if (empty($categoryId)) {
             $this->redirect('/places/categories');
         }
-
 
         if (!empty($placeId)) {
             $placeJson = $api->getPlace(array('placeid' => $placeId));
