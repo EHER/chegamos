@@ -28,9 +28,20 @@ class ApontadorApi {
 
     public function getCategories($param) {
         return $this->request('categories', array(
-            'term' => $param['term']
+            'term' => $this->removeAccents($param['term'])
         ));
     }
+
+    public function getCategoriesTop() {
+        return $this->request('categories/top');
+    }
+
+    public function getSubcategories($param) {
+        return $this->request('categories', array(
+            'categoryid' => $param['categoryid']
+        ));
+    }
+
 
     public function searchByPoint($param) {
         if (empty($param['lat']) and empty($param['lng'])) {

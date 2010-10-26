@@ -32,8 +32,8 @@ if (!Environment::is('production')) {
 /**
  * Finally, connect the default routes.
  */
-Router::connect('/{:controller}/{:action}/{:id:[0-9]+}.{:type}', array('id' => null));
-Router::connect('/{:controller}/{:action}/{:id:[0-9]+}');
+Router::connect('/{:controller}/{:action}/{:id:[0-9]}.{:type}', array('id' => null));
+Router::connect('/{:controller}/{:action}/{:id:[0-9]}');
 Router::connect('/{:controller}/{:action}/{:args}');
 
 ?>

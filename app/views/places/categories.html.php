@@ -20,13 +20,14 @@ CEP: <?= $zipcode; ?>
 (<?= $lat; ?>, <?= $lng; ?>)
 <?php endif; ?>
 </p>
-<h3>Locais da categoria <?= str_replace('_',' ',$categoryName); ?></h3>
-<?php if ($search): ?>
+<h3>Locais por categoria</h3>
+<?php if ($categories): ?>
     <ul>
-        <li><?php echo $this->html->link("Voltar", "/places/categories"); ?></li>
-        <?php foreach ($search->search->places as $place): ?>
-            <li><?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?></li>
+        <li><?php echo $this->html->link("Voltar", "/"); ?></li>
+        <?php foreach ($categories->categories as $category): ?>
+            <li><?php echo $this->html->link($category->category->name, "/places/category/" . str_replace(' ','_',$category->category->name)); ?></li>
         <?php endforeach; ?>
+        <li><?php echo $this->html->link("Todas as categorias", "/places/categories?all"); ?></li>
     </ul>
 <?php else: ?>
     <p>Nenhum local próximo.</p>
