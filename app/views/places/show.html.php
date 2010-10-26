@@ -40,6 +40,8 @@
 	<li>
 		<?php echo $this->html->link("Voltar", "/"); ?>
 	</li>
+</ul>
+<ul>
 	<li>
 		<?php
 		echo $this->html->link(
