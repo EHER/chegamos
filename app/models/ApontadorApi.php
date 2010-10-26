@@ -37,8 +37,11 @@ class ApontadorApi {
 	}
 
 	public function getSubcategories($param=array()) {
-		return $this->request('categories', array(
-			'categoryid'	=> isset($param['categoryid']) ? $param['categoryid'] : '',
+		if (empty($param['categoryid'])) {
+			return false;
+		}
+		return $this->request('categories/'.$param['categoryid'].'/subcategories', array(
+			'categoryid'	=> $param['categoryid'],
 			'term'			=> isset($param['term']) ? $this->removeAccents($param['term']) : '',
 		));
 	}
