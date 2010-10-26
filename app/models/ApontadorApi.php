@@ -111,7 +111,6 @@ class ApontadorApi {
 		$queryString = \http_build_query($params + $default);
 
 		$url = $this->config['apiUrl'] . $method . '?' . $queryString;
-		var_dump($url);
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
