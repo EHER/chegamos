@@ -248,34 +248,40 @@ class PlacesController extends \lithium\action\Controller {
         return compact('placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
     }
 
-    public function show($placeid = null) {
-        $api = new \app\models\ApontadorApi();
-        $placeJson = $api->getPlace(array('placeid' => $placeid));
-
-        if ($placeJson) {
-            $place = json_decode($placeJson, false);
-
-            switch ($place->place->average_rating) {
-                case 1:
-                    $place->place->average_rating = "Péssimo";
-                    break;
-                case 2:
-                    $place->place->average_rating = "Ruim";
-                    break;
-                case 3:
-                    $place->place->average_rating = "Regular";
-                    break;
-                case 4:
-                    $place->place->average_rating = "Bom";
-                    break;
-                case 5:
-                    $place->place->average_rating = "Excelente";
-                    break;
-            }
-            return compact('place');
-        } else {
+    public function show($placeId = null) {
+        if (empty($placeId)) {
             $this->redirect('/');
         }
+
+        $api = new \app\models\ApontadorApi();
+        $placeJson = $api->getPlace(array('placeid' => $placeId));
+
+		if ($placeJson) {
+            $place = json_decode($placeJson, false);
+			if ($place) {
+				switch ($place->place->average_rating) {
+					case 1:
+						$place->place->average_rating = "Péssimo";
+						break;
+					case 2:
+						$place->place->average_rating = "Ruim";
+						break;
+					case 3:
+						$place->place->average_rating = "Regular";
+						break;
+					case 4:
+						$place->place->average_rating = "Bom";
+						break;
+					case 5:
+						$place->place->average_rating = "Excelente";
+						break;
+				}
+				return compact('place');
+			} else {
+				$this->redirect('/');
+			}
+			$this->redirect('/');
+		}
     }
 
 }
