@@ -21,9 +21,11 @@ CEP: <?= $zipcode; ?>
 <?php endif; ?>
 </p>
 <h3>Locais da categoria <?= str_replace('_',' ',$categoryName); ?></h3>
+<ul>
+	<li><?php echo $this->html->link("Voltar", "/places/categories"); ?></li>
+</ul>
 <?php if ($search): ?>
     <ul>
-        <li><?php echo $this->html->link("Voltar", "/places/categories"); ?></li>
         <?php foreach ($search->search->places as $place): ?>
             <li><?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?></li>
         <?php endforeach; ?>

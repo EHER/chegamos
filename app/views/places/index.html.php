@@ -23,6 +23,6 @@ CEP: <?= $zipcode; ?>
 <h3>Locais</h3>
 <ul>
 	<li><?php echo $this->html->link('Locais Próximos', "/places/near"); ?></li>
-	<li><?php echo $this->html->link('Locais por Categorias', "/places/category"); ?></li>
+	<li><?php echo $this->html->link('Locais por Categoria', "/places/categories"); ?></li>
 <!--	<li><?php echo $this->html->link('Por nome', "/places/name"); ?></li>-->
 </ul>

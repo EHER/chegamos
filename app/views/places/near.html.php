@@ -21,8 +21,10 @@ CEP: <?= $zipcode; ?>
 <?php endif; ?>
 </p>
 <h3>Locais próximos</h3>
+<ul>
+	<li><?php echo $this->html->link("Voltar", "/"); ?></li>
+</ul>
 <?php if ($search): ?>
-
     <ul>
         <?php foreach ($search->search->places as $place): ?>
             <li><?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?></li>
