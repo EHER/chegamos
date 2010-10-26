@@ -133,9 +133,10 @@ class PlacesController extends \lithium\action\Controller {
         return compact('categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
     }
 
-    public function category($categoryName) {
-        $categoryName = \str_replace('_', ' ', $categoryName);
-
+    public function category($categoryId) {
+        if (empty($categoryId)) {
+            $this->redirect('/places/categories');
+        }
         $api = new \app\models\ApontadorApi();
 
         $placeId = \lithium\storage\Session::read('placeId');
@@ -145,22 +146,11 @@ class PlacesController extends \lithium\action\Controller {
         $lat = \lithium\storage\Session::read('lat');
         $lng = \lithium\storage\Session::read('lng');
 
-        if (empty($categoryName)) {
-            $this->redirect('/places/categories');
-        }
 
-        $categoryJson = $api->getCategories(array('term' => $categoryName));
+        $categoryJson = $api->getSubcategories(array('categoryid' => $categoryId));
         $category = json_decode($categoryJson, false);
 
-		if(empty($category->categories)) {
-            $this->redirect('/places/categories');
-        }
-
-		$categoryId = $category->categories[0]->category->id;
-
-        if (empty($categoryId)) {
-            $this->redirect('/places/categories');
-        }
+		$categoryName = $category->category->name;
 
         if (!empty($placeId)) {
             $placeJson = $api->getPlace(array('placeid' => $placeId));

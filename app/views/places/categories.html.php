@@ -27,7 +27,7 @@ CEP: <?= $zipcode; ?>
 <?php if ($categories): ?>
     <ul>
         <?php foreach ($categories->categories as $category): ?>
-            <li><?php echo $this->html->link($category->category->name, "/places/category/" . str_replace(' ','_',$category->category->name)); ?></li>
+            <li><?php echo $this->html->link($category->category->name, "/places/category/" . $category->category->id); ?></li>
         <?php endforeach; ?>
         <li><?php echo $this->html->link("Todas as categorias", "/places/categories?all"); ?></li>
     </ul>
