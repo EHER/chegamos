@@ -24,12 +24,12 @@ CEP: <?= $zipcode; ?>
 <ul>
 	<li><?php echo $this->html->link("Voltar", "/places/categories"); ?></li>
 </ul>
-<?php if ($search): ?>
+<?php if ($search->search->result_count): ?>
     <ul>
         <?php foreach ($search->search->places as $place): ?>
             <li><?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?></li>
         <?php endforeach; ?>
     </ul>
 <?php else: ?>
-    <p>Nenhum local próximo.</p>
+    <p>Nenhum local encontrado.</p>
 <?php endif; ?>
