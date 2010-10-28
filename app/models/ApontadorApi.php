@@ -5,10 +5,10 @@ namespace app\models;
 class ApontadorApi {
 
 	var $config = array(
-		'apiUrl' => APONTADOR_URL,
-		'port' => APONTADOR_PORT,
-		'consumerKey' => APONTADOR_COMSUMER_KEY,
-		'consumerSecret' => APONTADOR_COMSUMER_SECRET,
+		'apiUrl'			=> APONTADOR_URL,
+		'port'				=> APONTADOR_PORT,
+		'consumerKey'		=> APONTADOR_COMSUMER_KEY,
+		'consumerSecret'	=> APONTADOR_COMSUMER_SECRET,
 	);
 
 	public function __construct() {
@@ -53,15 +53,15 @@ class ApontadorApi {
 		return $this->request('search/places/bypoint', array(
 			'lat'			=> $param['lat'],
 			'lng'			=> $param['lng'],
-			'radius_mt'		=> isset($param['radius_mt']) ? $param['radius_mt'] : '',
+			'radius_mt'		=> isset($param['radius_mt'])	? $param['radius_mt'] : '',
 			'term'			=> isset($param['term']) ? $this->removeAccents($param['term']) : '',
 			'category_id'	=> isset($param['category_id']) ? $param['category_id'] : '',
-			'sort_by'		=> isset($param['sort_by']) ? $param['sort_by'] : '',
-			'order'			=> isset($param['order']) ? $param['order'] : '',
-			'rating'		=> isset($param['rating']) ? $param['rating'] : '',
-			'page'			=> isset($param['page']) ? $param['page'] : '',
-			'limit'			=> isset($param['limit']) ? $param['limit'] : '',
-			'user_id'		=> isset($param['user_id']) ? $param['user_id'] : '',
+			'sort_by'		=> isset($param['sort_by'])		? $param['sort_by'] : '',
+			'order'			=> isset($param['order'])		? $param['order'] : '',
+			'rating'		=> isset($param['rating'])		? $param['rating'] : '',
+			'page'			=> isset($param['page'])		? $param['page'] : '',
+			'limit'			=> isset($param['limit'])		? $param['limit'] : '',
+			'user_id'		=> isset($param['user_id'])		? $param['user_id'] : '',
 		));
 	}
 
@@ -73,11 +73,11 @@ class ApontadorApi {
 			'country'		=> $param['country'],
 			'state'			=> $param['state'],
 			'city'			=> $this->removeAccents($param['city']),
-			'street'		=> isset($param['street']) ? $param['street'] : '',
-			'number'		=> isset($param['number']) ? $param['number'] : '',
-			'district'		=> isset($param['district']) ? $param['district'] : '',
-			'radius_mt'		=> isset($param['radius_mt']) ? $param['radius_mt'] : '',
-			'term'			=> isset($param['term']) ? $param['term'] : '',
+			'street'		=> isset($param['street'])		? $param['street'] : '',
+			'number'		=> isset($param['number'])		? $param['number'] : '',
+			'district'		=> isset($param['district'])	? $param['district'] : '',
+			'radius_mt'		=> isset($param['radius_mt'])	? $param['radius_mt'] : '',
+			'term'			=> isset($param['term'])		? $param['term'] : '',
 			'category_id'	=> isset($param['category_id']) ? $param['category_id'] : '',
 		));
 	}
@@ -89,15 +89,15 @@ class ApontadorApi {
 		
 		return $this->request('search/places/byzipcode', array(
 			'zipcode'		=> $param['zipcode'],
-			'radius_mt'		=> isset($param['radius_mt']) ? $param['radius_mt'] : '',
-			'term'			=> isset($param['term']) ? $this->removeAccents($param['term']) : '',
+			'radius_mt'		=> isset($param['radius_mt'])	? $param['radius_mt'] : '',
+			'term'			=> isset($param['term'])		? $this->removeAccents($param['term']) : '',
 			'category_id'	=> isset($param['category_id']) ? $param['category_id'] : '',
-			'sort_by'		=> isset($param['sort_by']) ? $param['sort_by'] : '',
-			'order'			=> isset($param['order']) ? $param['order'] : '',
-			'rating'		=> isset($param['rating']) ? $param['rating'] : '',
-			'page'			=> isset($param['page']) ? $param['page'] : '',
-			'limit'			=> isset($param['limit']) ? $param['limit'] : '',
-			'user_id'		=> isset($param['user_id']) ? $param['user_id'] : '',
+			'sort_by'		=> isset($param['sort_by'])		? $param['sort_by'] : '',
+			'order'			=> isset($param['order'])		? $param['order'] : '',
+			'rating'		=> isset($param['rating'])		? $param['rating'] : '',
+			'page'			=> isset($param['page'])		? $param['page'] : '',
+			'limit'			=> isset($param['limit'])		? $param['limit'] : '',
+			'user_id'		=> isset($param['user_id'])		? $param['user_id'] : '',
 		));
 	}
 
