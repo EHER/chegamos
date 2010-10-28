@@ -45,8 +45,16 @@
 	<li>
 		<?php
 		echo $this->html->link(
-				"Veja no Apontador",
+				"Ver no Apontador",
 				"http://www.apontador.com.br/local/poi/" . $place->place->id . ".html",
+				array("target" => "_blank")
+		); ?>
+	</li>
+	<li>
+		<?php
+		echo $this->html->link(
+				"Como chegar",
+				"http://maplink.apontador.com.br/?placeid=@" . $place->place->id,
 				array("target" => "_blank")
 		); ?>
 	</li>
