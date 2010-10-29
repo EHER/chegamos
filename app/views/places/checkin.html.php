@@ -12,7 +12,7 @@
     <form method="GET" style="width: 180px;">
             Detectar onde estou
             <input type="hidden" name="detect" value="true">
-        <input type="submit" value="Detectar">
+        <input type="submit" onclick="getUserLocation();return false;" value="Detectar">
     </form>
     <form method="GET" style="width: 180px;">
         <fieldset>
@@ -40,3 +40,13 @@
     </form>
      */?>
 </span>
+<script type="text/javascript">
+getUserLocation = function() {
+	navigator.geolocation.getCurrentPosition(showpos);
+}
+showpos = function(position){
+	lat=position.coords.latitude
+	lon=position.coords.longitude
+	location.href = location.href + "?lat=" + lat + '&lng='+lon;
+}
+</script>
