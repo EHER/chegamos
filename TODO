@@ -1,0 +1,3 @@
+trocar o getPlace para retornar um objeto e não JSON
+
+trocar o checkin para um model
