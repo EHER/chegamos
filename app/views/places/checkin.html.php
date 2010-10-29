@@ -10,6 +10,11 @@
     </form>
      */?>
     <form method="GET" style="width: 180px;">
+            Detectar onde estou
+            <input type="hidden" name="detect" value="true">
+        <input type="submit" value="Detectar">
+    </form>
+    <form method="GET" style="width: 180px;">
         <fieldset>
             <label for="cep">CEP:</label>
             <input type="text" id="cep" name="cep" value="<?= $zipcode; ?>" style="width: 100px;">
