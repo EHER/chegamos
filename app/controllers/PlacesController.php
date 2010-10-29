@@ -125,7 +125,8 @@ class PlacesController extends \lithium\action\Controller {
         } elseif (!empty($lat) and !empty($lng)) {
             $searchJson = $api->searchByPoint(array(
                         'lat' => $lat,
-                        'lng' => $lng
+                        'lng' => $lng,
+			'radius_mt' => 10,
                     ));
             $clear = array('placeId', 'zipcode', 'cityState');
         } else {
@@ -221,55 +222,37 @@ class PlacesController extends \lithium\action\Controller {
         $title = "Estou aqui";
         $api = new \app\models\ApontadorApi();
 
-        $placeId = null;
-        $placeName = null;
-        $zipcode = null;
-        $cityState = null;
-        $lat = null;
-        $lng = null;
-
         if (!empty($_GET)) {
-            $placeId = !empty($_GET['placeId']) ? $_GET['placeId'] : $placeId;
-            if ($placeId) {
-                $placeJson = $api->getPlace(array('placeid' => $placeId));
+			if (!empty($_GET['placeId'])) {
+				$placeJson = $api->getPlace(array('placeid' => $_GET['placeId']));
                 $place = json_decode($placeJson, false);
                 $placeName = $place->place->name;
-                \lithium\storage\Session::write('placeName', $placeName);
-            }
-            \lithium\storage\Session::write('placeId', $placeId);
-
-            $zipcode = !empty($_GET['cep']) ? $_GET['cep'] : $zipcode;
-            \lithium\storage\Session::write('zipcode', $zipcode);
-
-            $cityState = !empty($_GET['cityState']) ? $_GET['cityState'] : $cityState;
-            \lithium\storage\Session::write('cityState', $cityState);
-
-            $lat = !empty($_GET['lat']) ? $_GET['lat'] : $lat;
-            $lng = !empty($_GET['lng']) ? $_GET['lng'] : $lng;
-            \lithium\storage\Session::write('lat', $lat);
-            \lithium\storage\Session::write('lng', $lng);
-
-            if (!empty($placeId)) {
-                $clear = array('zipcode', 'cityState', 'lat', 'lng');
-            } elseif (!empty($zipcode)) {
-                $clear = array('placeId', 'placeName', 'cityState', 'lat', 'lng');
-            } elseif (!empty($cityState)) {
-                $clear = array('placeId', 'placeName', 'zipcode', 'lat', 'lng');
-            } elseif (!empty($lat) and !empty($lng)) {
-                $clear = array('placeId', 'placeName', 'zipcode', 'cityState');
-            } else {
-                $clear = array();
+                $checkinData = array('placeId' => $_GET['placeId'], 'placeName' => $placeName);
+			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
+                $checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
+            } elseif (!empty($_GET['cep'])) {
+                $checkinData = array('zipcode' => $_GET['cep']);
+            } elseif (!empty($_GET['cityState'])) {
+               	$checkinData = array('cityState' => $_GET['cityState']);
             }
 
-            foreach ($clear as $cookie) {
-                \lithium\storage\Session::write($cookie);
-            }
+			$this->doCheckin($checkinData);
 
             $this->redirect('/');
         }
-
-        return compact('placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
     }
+
+	private function doCheckin(Array $checkinData = array()) {
+		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId');
+
+		foreach ($checkinVars as $method) {
+       		\lithium\storage\Session::write($method);
+        }
+
+		foreach ($checkinData as $method => $value) {
+			\lithium\storage\Session::write($method, $value);
+		}
+	}
 
     public function show($placeId = null) {
         if (empty($placeId)) {
