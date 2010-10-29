@@ -1,3 +1,9 @@
-trocar o getPlace para retornar um objeto e não JSON
+trocar o getPlace para retornar um objeto e não JSON OK (falta no category)
 
 trocar o checkin para um model
+
+paginacao nas buscas
+
+busca aumentando o raio de acordo com os resultados esperados OK
+
+mais dados no resultado das buscas

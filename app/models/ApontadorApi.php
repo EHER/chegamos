@@ -50,7 +50,7 @@ class ApontadorApi {
 		if (empty($param['lat']) and empty($param['lng'])) {
 			return false;
 		}
-		return $this->request('search/places/bypoint', array(
+		$response = $this->request('search/places/bypoint', array(
 			'lat'			=> $param['lat'],
 			'lng'			=> $param['lng'],
 			'radius_mt'		=> isset($param['radius_mt'])	? $param['radius_mt'] : '',
@@ -63,13 +63,31 @@ class ApontadorApi {
 			'limit'			=> isset($param['limit'])		? $param['limit'] : '',
 			'user_id'		=> isset($param['user_id'])		? $param['user_id'] : '',
 		));
+
+		return json_decode($response, false);
+	}
+
+	public function searchRecursive($param, $type = 'byPoint') {
+		$numFound = 0;
+		$radiusLimit = 10000000;
+		$param['limit'] = !empty($param['limit']) ? $param['limit'] : 20;
+		$param['radius_mt'] = !empty($param['radius_mt'])	 ? $param['radius_mt'] : 10;
+		
+		do {
+			$param['radius_mt'] . " ";
+			$result = $this->searchByPoint($param);
+			$numFound = $result->search->result_count;
+			$param['radius_mt'] = $param['radius_mt'] * 10;
+		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
+
+		return $result;
 	}
 
 	public function searchByAddress($param=array()) {
 		if (empty($param['state']) and empty($param['city'])) {
 			return false;
 		}
-		return $this->request('search/places/byaddress', array(
+		$response = $this->request('search/places/byaddress', array(
 			'country'		=> $param['country'],
 			'state'			=> $param['state'],
 			'city'			=> $this->removeAccents($param['city']),
@@ -80,6 +98,8 @@ class ApontadorApi {
 			'term'			=> isset($param['term'])		? $param['term'] : '',
 			'category_id'	=> isset($param['category_id']) ? $param['category_id'] : '',
 		));
+
+		return json_decode($response, false);
 	}
 
 	public function searchByZipcode($param=array()) {
@@ -87,7 +107,7 @@ class ApontadorApi {
 			return false;
 		}
 		
-		return $this->request('search/places/byzipcode', array(
+		$response = $this->request('search/places/byzipcode', array(
 			'zipcode'		=> $param['zipcode'],
 			'radius_mt'		=> isset($param['radius_mt'])	? $param['radius_mt'] : '',
 			'term'			=> isset($param['term'])		? $this->removeAccents($param['term']) : '',
@@ -99,13 +119,16 @@ class ApontadorApi {
 			'limit'			=> isset($param['limit'])		? $param['limit'] : '',
 			'user_id'		=> isset($param['user_id'])		? $param['user_id'] : '',
 		));
+
+		return json_decode($response, false);
 	}
 
 	public function getPlace($param=array()) {
 		if (empty($param['placeid'])) {
 			return false;
 		}
-		return $this->request('places/' . $param['placeid']);
+		$response = $this->request('places/' . $param['placeid']);
+		return json_decode($response, false);
 	}
 
 	private function request($method, $params=array()) {

@@ -44,13 +44,12 @@ class PlacesController extends \lithium\action\Controller {
         $searchName = empty($_GET['name']) ? '' : $_GET['name'];
 
         if (!empty($placeId)) {
-            $placeJson = $api->getPlace(array('placeid' => $placeId));
-            $place = json_decode($placeJson, false);
+            $place = $api->getPlace(array('placeid' => $placeId));
             $lat = $place->place->point->lat;
             $lng = $place->place->point->lng;
-            $searchJson = $api->searchByPoint(array(
+            $searchJson = $api->searchRecursive(array(
                         'term' => $searchName,
-                        'radius_mt' => 100000,
+                        'radius_mt' => 100,
                         'lat' => $lat,
                         'lng' => $lng
                     ));
@@ -73,7 +72,7 @@ class PlacesController extends \lithium\action\Controller {
                     ));
             $clear = array('placeId', 'zipcode', 'lat', 'lng');
         } elseif (!empty($lat) and !empty($lng)) {
-            $searchJson = $api->searchByPoint(array(
+            $searchJson = $api->searchRecursive(array(
                         'term' => $searchName,
                         'radius_mt' => 100000,
                         'lat' => $lat,
@@ -100,40 +99,36 @@ class PlacesController extends \lithium\action\Controller {
         $lng = \lithium\storage\Session::read('lng');
 
         if (!empty($placeId)) {
-            $placeJson = $api->getPlace(array('placeid' => $placeId));
-            $place = json_decode($placeJson, false);
+            $place = $api->getPlace(array('placeid' => $placeId));
             $lat = $place->place->point->lat;
             $lng = $place->place->point->lng;
-            $searchJson = $api->searchByPoint(array(
+            $search = $api->searchRecursive(array(
                         'lat' => $lat,
                         'lng' => $lng
                     ));
             $clear = array('zipcode', 'cityState', 'lat', 'lng');
         } elseif (!empty($zipcode)) {
-            $searchJson = $api->searchByZipcode(array(
+            $search = $api->searchByZipcode(array(
                         'zipcode' => $zipcode
                     ));
             $clear = array('placeId', 'cityState', 'lat', 'lng');
         } elseif (!empty($cityState) and strstr($cityState, ',')) {
             list($city, $state) = \explode(',', $cityState);
-            $searchJson = $api->searchByAddress(array(
+            $search = $api->searchByAddress(array(
                         'city' => trim($city),
                         'state' => trim($state),
                         'country' => 'BR'
                     ));
             $clear = array('placeId', 'zipcode', 'lat', 'lng');
         } elseif (!empty($lat) and !empty($lng)) {
-            $searchJson = $api->searchByPoint(array(
+            $search = $api->searchRecursive(array(
                         'lat' => $lat,
-                        'lng' => $lng,
-			'radius_mt' => 10,
+                        'lng' => $lng
                     ));
             $clear = array('placeId', 'zipcode', 'cityState');
         } else {
             $this->redirect('/places/checkin');
         }
-
-        $search = json_decode($searchJson, false);
 
         return compact('search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
     }
@@ -224,8 +219,7 @@ class PlacesController extends \lithium\action\Controller {
 
         if (!empty($_GET)) {
 			if (!empty($_GET['placeId'])) {
-				$placeJson = $api->getPlace(array('placeid' => $_GET['placeId']));
-                $place = json_decode($placeJson, false);
+				$place = $api->getPlace(array('placeid' => $_GET['placeId']));
                 $placeName = $place->place->name;
                 $checkinData = array('placeId' => $_GET['placeId'], 'placeName' => $placeName);
 			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
@@ -260,34 +254,29 @@ class PlacesController extends \lithium\action\Controller {
         }
 
         $api = new \app\models\ApontadorApi();
-        $placeJson = $api->getPlace(array('placeid' => $placeId));
+        $place = $api->getPlace(array('placeid' => $placeId));
 
-        if ($placeJson) {
-            $place = json_decode($placeJson, false);
-            if ($place) {
-                switch ($place->place->average_rating) {
-                    case 1:
-                        $place->place->average_rating = "Péssimo";
-                        break;
-                    case 2:
-                        $place->place->average_rating = "Ruim";
-                        break;
-                    case 3:
-                        $place->place->average_rating = "Regular";
-                        break;
-                    case 4:
-                        $place->place->average_rating = "Bom";
-                        break;
-                    case 5:
-                        $place->place->average_rating = "Excelente";
-                        break;
-                }
-                return compact('place');
-            } else {
-                $this->redirect('/');
+        if ($place) {
+            switch ($place->place->average_rating) {
+                case 1:
+                    $place->place->average_rating = "Péssimo";
+                    break;
+                case 2:
+                    $place->place->average_rating = "Ruim";
+                    break;
+                case 3:
+                    $place->place->average_rating = "Regular";
+                    break;
+                case 4:
+                    $place->place->average_rating = "Bom";
+                    break;
+                case 5:
+                    $place->place->average_rating = "Excelente";
+                    break;
             }
+            return compact('place');
+        } else {
             $this->redirect('/');
         }
     }
-
 }
