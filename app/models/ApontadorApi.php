@@ -80,11 +80,9 @@ class ApontadorApi {
 			$param['radius_mt'] . " ";
 			$result = $this->$type($param);
 			$numFound = $result->search->result_count;
-			$radius = $param['radius_mt'];
 			$param['radius_mt'] = $param['radius_mt'] * 10;
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
 
-		echo 'radius:' . $radius;
 		return $result;
 	}
 
