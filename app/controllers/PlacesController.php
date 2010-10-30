@@ -16,16 +16,7 @@ class PlacesController extends \lithium\action\Controller {
 		$lng = \lithium\storage\Session::read('lng');
 
 		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
-			$geo = new \app\models\Geocode();
-			$geo->getByIp();
-			$lat = $geo->getLatitude();
-			$lng = $geo->getLongitude();
-
-			if (empty($lat) || empty($lng)) {
-				$this->redirect('/places/checkin');
-			} else {
-				$this->redirect('/places/checkin?lat=' . $lat . '&lng=' . $lng);
-			}
+			$this->redirect('/places/checkin');
 		}
 
 		return compact('placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
@@ -55,13 +46,11 @@ class PlacesController extends \lithium\action\Controller {
 							'lat' => $lat,
 							'lng' => $lng
 								), 'searchByPoint');
-				$clear = array('zipcode', 'cityState', 'lat', 'lng');
 			} elseif (!empty($zipcode)) {
 				$search = $api->searchRecursive(array(
 							'term' => $searchName,
 							'zipcode' => $zipcode
 								), 'searchByZipcode');
-				$clear = array('placeId', 'cityState', 'lat', 'lng');
 			} elseif (!empty($cityState) and strstr($cityState, ',')) {
 				list($city, $state) = \explode(',', $cityState);
 				$search = $api->searchRecursive(array(
@@ -70,14 +59,12 @@ class PlacesController extends \lithium\action\Controller {
 							'state' => trim($state),
 							'country' => 'BR'
 								), 'searchByAddress');
-				$clear = array('placeId', 'zipcode', 'lat', 'lng');
 			} elseif (!empty($lat) and !empty($lng)) {
 				$search = $api->searchRecursive(array(
 							'term' => $searchName,
 							'lat' => $lat,
 							'lng' => $lng
 								), 'searchByPoint');
-				$clear = array('placeId', 'zipcode', 'cityState');
 			} else {
 				$this->redirect('/places/checkin');
 			}
@@ -103,12 +90,10 @@ class PlacesController extends \lithium\action\Controller {
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
-			$clear = array('zipcode', 'cityState', 'lat', 'lng');
 		} elseif (!empty($zipcode)) {
 			$search = $api->searchRecursive(array(
 						'zipcode' => $zipcode
 							), 'searchByZipcode');
-			$clear = array('placeId', 'cityState', 'lat', 'lng');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
 			$search = $api->searchRecursive(array(
@@ -116,13 +101,11 @@ class PlacesController extends \lithium\action\Controller {
 						'state' => trim($state),
 						'country' => 'BR'
 							), 'searchByAddress');
-			$clear = array('placeId', 'zipcode', 'lat', 'lng');
 		} elseif (!empty($lat) and !empty($lng)) {
 			$search = $api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
-			$clear = array('placeId', 'zipcode', 'cityState');
 		} else {
 			$this->redirect('/places/checkin');
 		}
@@ -175,13 +158,11 @@ class PlacesController extends \lithium\action\Controller {
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
-			$clear = array('zipcode', 'cityState', 'lat', 'lng');
 		} elseif (!empty($zipcode)) {
 			$search = $api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'zipcode' => $zipcode
 							), 'searchByZipcode');
-			$clear = array('placeId', 'cityState', 'lat', 'lng');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
 			$search = $api->searchRecursive(array(
@@ -190,14 +171,12 @@ class PlacesController extends \lithium\action\Controller {
 						'state' => trim($state),
 						'country' => 'BR'
 							), 'searchByAddress');
-			$clear = array('placeId', 'zipcode', 'lat', 'lng');
 		} elseif (!empty($lat) and !empty($lng)) {
 			$search = $api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
-			$clear = array('placeId', 'zipcode', 'cityState');
 		} else {
 			$this->redirect('/places/checkin');
 		}
@@ -211,8 +190,12 @@ class PlacesController extends \lithium\action\Controller {
 		if (!empty($_GET)) {
 			if (!empty($_GET['placeId'])) {
 				$place = $api->getPlace(array('placeid' => $_GET['placeId']));
-				$placeName = $place->place->name;
-				$checkinData = array('placeId' => $_GET['placeId'], 'placeName' => $placeName);
+				$checkinData = array(
+										'placeId' => $_GET['placeId'], 
+										'placeName' => $place->place->name,
+										'lat' => $place->place->point->lat,
+										'lng' => $place->place->point->lng,
+									);
 			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
 				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
 			} elseif (!empty($_GET['cep'])) {
