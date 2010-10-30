@@ -139,7 +139,13 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('places/' . $param['placeid'] . '/visitors');
+		
+		// resolvendo bug da api que está trazendo o visitors com uma vírgula no final
+		$response = str_replace(',]}', ']}', $response);
 		$visitors = json_decode($response, false);
+		if (!is_object($visitors)) {
+			return false;
+		}
 		return $visitors->visitors;
 	}
 

@@ -63,12 +63,14 @@
 	</li>
 </ul>
 <?php if (!empty($visitors)) { ?>
-	<p>Quem Visitou?</p>
+	<p>Últimos Checkins</p>
+	<ul>
 	<?php foreach ($visitors as $visitor) { ?>
-		<ul>	
-			<li>
-				<?php var_dump($visitor); ?>
-			</li>
-		</ul>
+		<li>
+			<a href="<?php echo 'http://www.apontador.com.br/profile/' . $visitor->visitor->user->id . '.html'; ?>">
+				<?php echo $visitor->visitor->user->name; ?>
+			</a>
+		</li>
 	<?php }?>
+	</ul>
 <?php } ?>
