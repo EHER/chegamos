@@ -13,16 +13,16 @@ class ApontadorApi {
 
 	public function __construct() {
 		if (empty($this->config['apiUrl'])) {
-			throw new \Exception('URL da API Apontador deve ser configurada em app/config/bootstrap.php');
+			throw new \Exception('URL da API Apontador deve ser configurada');
 		}
 		if (empty($this->config['port'])) {
-			throw new \Exception('Porta da API Apontador deve ser configurada em app/config/bootstrap.php');
+			throw new \Exception('Porta da API Apontador deve ser configurada');
 		}
 		if (empty($this->config['consumerKey'])) {
-			throw new \Exception('Consumer Key da API Apontador deve ser configurada em app/config/bootstrap.php');
+			throw new \Exception('Consumer Key da API Apontador deve ser configurada');
 		}
 		if (empty($this->config['consumerSecret'])) {
-			throw new \Exception('Consumer Secret da API Apontador deve ser configurada em app/config/bootstrap.php');
+			throw new \Exception('Consumer Secret da API Apontador deve ser configurada');
 		}
 	}
 
