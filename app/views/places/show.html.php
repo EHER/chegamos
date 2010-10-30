@@ -62,7 +62,9 @@
 		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->place->id); ?>
 	</li>
 </ul>
-<?php if (!empty($visitors)) { ?>
+<?php if (!empty($visitors)) {
+	$visitors = array_reverse($visitors);
+?>
 	<p>Últimos Checkins</p>
 	<ul>
 	<?php foreach ($visitors as $visitor) { ?>
@@ -70,6 +72,8 @@
 			<a href="<?php echo 'http://www.apontador.com.br/profile/' . $visitor->visitor->user->id . '.html'; ?>">
 				<?php echo $visitor->visitor->user->name; ?>
 			</a>
+			(<?php echo $visitor->visitor->visits . ($visitor->visitor->visits == 1 ? ' visita' : ' visitas'); ?>)
+			em <?php echo date("d/m H:i", strtotime($visitor->visitor->last_visit)); ?>
 		</li>
 	<?php }?>
 	</ul>
