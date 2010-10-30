@@ -3,7 +3,7 @@ TODO
 
 Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
 
-- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados. 
+- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados. OK 
 - Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados. 
 - Trocar o getPlace para retornar um objeto e não JSON OK (falta no category) OK
 - Trocar o checkin para um model

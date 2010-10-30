@@ -41,30 +41,34 @@ class PlacesController extends \lithium\action\Controller {
 				$place = $api->getPlace(array('placeid' => $placeId));
 				$lat = $place->place->point->lat;
 				$lng = $place->place->point->lng;
-				$search = $api->searchRecursive(array(
+				$search = $api->searchByPoint(array(
 							'term' => $searchName,
+							'radius_mt' => 10000,
 							'lat' => $lat,
 							'lng' => $lng
-								), 'searchByPoint');
+								));
 			} elseif (!empty($zipcode)) {
-				$search = $api->searchRecursive(array(
+				$search = $api->searchByZipcode(array(
 							'term' => $searchName,
+							'radius_mt' => 10000,
 							'zipcode' => $zipcode
-								), 'searchByZipcode');
+								));
 			} elseif (!empty($cityState) and strstr($cityState, ',')) {
 				list($city, $state) = \explode(',', $cityState);
-				$search = $api->searchRecursive(array(
+				$search = $api->searchByAddress(array(
 							'term' => $searchName,
+							'radius_mt' => 10000,
 							'city' => trim($city),
 							'state' => trim($state),
 							'country' => 'BR'
-								), 'searchByAddress');
+								));
 			} elseif (!empty($lat) and !empty($lng)) {
-				$search = $api->searchRecursive(array(
+				$search = $api->searchByPoint(array(
 							'term' => $searchName,
+							'radius_mt' => 10000,
 							'lat' => $lat,
 							'lng' => $lng
-								), 'searchByPoint');
+								));
 			} else {
 				$this->redirect('/places/checkin');
 			}
@@ -143,7 +147,6 @@ class PlacesController extends \lithium\action\Controller {
 		$cityState = \lithium\storage\Session::read('cityState');
 		$lat = \lithium\storage\Session::read('lat');
 		$lng = \lithium\storage\Session::read('lng');
-
 
 		$category = $api->getSubcategories(array('categoryid' => $categoryId));
 
