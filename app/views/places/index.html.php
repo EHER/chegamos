@@ -4,9 +4,11 @@
 </h3>
 
 <p>
-<?php if ($placeName): ?>
-<a href="/places/show/<?= $placeId; ?>"><?= $placeName; ?></a>
-<?php endif; ?>
+<?php 
+if ($placeName) {
+	echo $this->html->link($placeName, '/places/show/' . $placeId);
+}
+?>
 
 <?php if ($zipcode): ?>
 CEP: <?= $zipcode; ?>
