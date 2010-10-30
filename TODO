@@ -3,6 +3,8 @@ TODO
 
 Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
 
+Pendentes
+
 - Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados. 
 - Trocar o checkin para um model
 - Paginacao nas buscas
@@ -10,9 +12,9 @@ Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade intere
 - Fazer o checkin usando a api.
 - Trazer as avaliações e fotos do local (sob demanda do usuário)
 
-OK
+Finalizadas
 
-- Fazer o layout dos checkins (depois que eu descobrir onde tem uma poi que tem checkin)
+- Fazer o layout dos checkins (places/show/UCV34B2P)
 - Trazer a lista de checkins feitos no local.
 - Busca aumentando o raio de acordo com os resultados esperados
 - Trocar o getPlace para retornar um objeto e não JSON
