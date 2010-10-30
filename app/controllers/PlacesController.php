@@ -231,7 +231,7 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	private function doCheckin(Array $checkinData = array()) {
-		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId');
+		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
 		foreach ($checkinVars as $method) {
 			\lithium\storage\Session::write($method);
