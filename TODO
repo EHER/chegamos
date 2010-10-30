@@ -11,5 +11,8 @@ Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade intere
 - Busca aumentando o raio de acordo com os resultados esperados OK
 - Mais dados no resultado das buscas
 - Decidir se colocamos OK ou apagamos os TODOs =p
-- Trazer a lista de checkins feitos no local. (Rodrigo - working)
+	Talvez seja legal manter por um tempo para sabermos o que já foi feito recentemente, mas em outra lista.
+- Trazer a lista de checkins feitos no local. OK
+- Fazer o layout dos checkins (depois que eu descobrir onde tem uma poi que tem checkin)
 - Fazer o checkin usando a api.
+- Trazer as avaliações e fotos do local (sob demanda do usuário)

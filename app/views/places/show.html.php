@@ -62,4 +62,13 @@
 		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->place->id); ?>
 	</li>
 </ul>
-
+<?php if (!empty($visitors)) { ?>
+	<p>Quem Visitou?</p>
+	<?php foreach ($visitors as $visitor) { ?>
+		<ul>	
+			<li>
+				<?php var_dump($visitor); ?>
+			</li>
+		</ul>
+	<?php }?>
+<?php } ?>

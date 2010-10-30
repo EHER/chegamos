@@ -134,6 +134,15 @@ class ApontadorApi {
 		return json_decode($response, false);
 	}
 
+	public function getVisitors($param=array()) {
+		if (empty($param['placeid'])) {
+			return false;
+		}
+		$response = $this->request('places/' . $param['placeid'] . '/visitors');
+		$visitors = json_decode($response, false);
+		return $visitors->visitors;
+	}
+
 	private function request($method, $params=array()) {
 		$default = array('type'		=> 'json');
 

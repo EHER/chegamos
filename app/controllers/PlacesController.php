@@ -234,6 +234,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		$api = new \app\models\ApontadorApi();
 		$place = $api->getPlace(array('placeid' => $placeId));
+		$visitors = $api->getVisitors(array('placeid' => $placeId));
 
 		if ($place) {
 			switch ($place->place->average_rating) {
@@ -253,7 +254,7 @@ class PlacesController extends \lithium\action\Controller {
 					$place->place->average_rating = "Excelente";
 					break;
 			}
-			return compact('place');
+			return compact('place', 'visitors');
 		} else {
 			$this->redirect('/');
 		}

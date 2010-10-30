@@ -15,5 +15,6 @@ class Place {
     var $main_url = "";
     var $icon_url = "";
     var $other_url = "";
+	var $visitors = null;
 
 }
