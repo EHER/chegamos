@@ -11,3 +11,5 @@ Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade intere
 - Busca aumentando o raio de acordo com os resultados esperados OK
 - Mais dados no resultado das buscas
 - Decidir se colocamos OK ou apagamos os TODOs =p
+- Trazer a lista de checkins feitos no local. (Rodrigo - working)
+- Fazer o checkin usando a api.
