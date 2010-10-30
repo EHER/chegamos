@@ -1,9 +1,11 @@
-trocar o getPlace para retornar um objeto e não JSON OK (falta no category)
+TODO
+====
 
-trocar o checkin para um model
+Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
 
-paginacao nas buscas
-
-busca aumentando o raio de acordo com os resultados esperados OK
-
-mais dados no resultado das buscas
+- Trocar o getPlace para retornar um objeto e não JSON OK (falta no category) OK
+- Trocar o checkin para um model
+- Paginacao nas buscas
+- Busca aumentando o raio de acordo com os resultados esperados OK
+- Mais dados no resultado das buscas
+- Decidir se colocamos OK ou apagamos os TODOs =p
