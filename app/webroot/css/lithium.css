@@ -292,3 +292,9 @@ input, textarea {
 	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
 	box-shadow: inset 0 0 3px rgba(0,0,0,.1);
 }
+span.address {
+	font-size: 0.9em;
+}
+span.placename {
+	font-weight: bold;
+}

@@ -370,6 +370,10 @@ class Inflector {
 		return static::$_camelized[$word] = $word;
 	}
 
+	public static function formatTitle($word) {
+		return ucwords(strtolower($word));
+	} 
+
 	/**
 	 * Takes a CamelCased version of a word and turns it into an under_scored one.
 	 *
