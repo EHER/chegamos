@@ -220,6 +220,8 @@ class PlacesController extends \lithium\action\Controller {
 				$checkinData = array('zipcode' => $_GET['cep']);
 			} elseif (!empty($_GET['cityState'])) {
 				$checkinData = array('cityState' => $_GET['cityState']);
+			} else {
+				$checkinData = array();
 			}
 
 			$this->doCheckin($checkinData);
