@@ -3,16 +3,17 @@ TODO
 
 Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
 
-- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados. OK 
 - Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados. 
-- Trocar o getPlace para retornar um objeto e não JSON OK
 - Trocar o checkin para um model
 - Paginacao nas buscas
-- Busca aumentando o raio de acordo com os resultados esperados OK
 - Mais dados no resultado das buscas
-- Decidir se colocamos OK ou apagamos os TODOs =p
-	Talvez seja legal manter por um tempo para sabermos o que já foi feito recentemente, mas em outra lista.
-- Trazer a lista de checkins feitos no local. OK
-- Fazer o layout dos checkins (depois que eu descobrir onde tem uma poi que tem checkin)
 - Fazer o checkin usando a api.
 - Trazer as avaliações e fotos do local (sob demanda do usuário)
+
+OK
+
+- Fazer o layout dos checkins (depois que eu descobrir onde tem uma poi que tem checkin)
+- Trazer a lista de checkins feitos no local.
+- Busca aumentando o raio de acordo com os resultados esperados
+- Trocar o getPlace para retornar um objeto e não JSON
+- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados.
