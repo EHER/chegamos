@@ -23,14 +23,18 @@ CEP: <?= $zipcode; ?>
 <h3>Locais por categoria</h3>
 <ul>
 	<li><?php echo $this->html->link("Voltar", "/"); ?></li>
+	<?php if (isset($_GET['all'])): ?>
+		<li><?php echo $this->html->link("Principais categorias", "/places/categories"); ?></li>
+	<?php else: ?>
+		<li><?php echo $this->html->link("Todas as categorias", "/places/categories?all"); ?></li>
+	<?php endif; ?>
 </ul>
 <?php if ($categories): ?>
     <ul>
         <?php foreach ($categories->categories as $category): ?>
-            <li><?php echo $this->html->link($category->category->name, "/places/category/" . $category->category->id); ?></li>
+            <li><?php echo $this->html->link($category->category->name, "/places/category/0" . $category->category->id); ?></li>
         <?php endforeach; ?>
-        <li><?php echo $this->html->link("Todas as categorias", "/places/categories?all"); ?></li>
     </ul>
 <?php else: ?>
-    <p>Nenhum local próximo.</p>
+    <p>Nenhuma categoria encontrada.</p>
 <?php endif; ?>
