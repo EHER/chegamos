@@ -206,7 +206,6 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function checkin() {
-		$title = "Estou aqui";
 		$api = new \app\models\ApontadorApi();
 
 		if (!empty($_GET)) {
