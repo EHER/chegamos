@@ -2,9 +2,9 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
- *                Copyright 2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @license       http://opensource.org/licenses/mit-license.php The MIT License
+ * @copyright	 Copyright 2010, Union of RAD (http://union-of-rad.org)
+ *				Copyright 2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @license	   http://opensource.org/licenses/mit-license.php The MIT License
  */
 
 namespace lithium\util;
@@ -66,12 +66,12 @@ class Inflector {
 	 * @see lithium\util\Inflector::rules()
 	 * @var array Contains the following keys:
 	 *   - `'rules'`: An array of regular expression rules in the form of `'match' => 'replace'`,
-	 *     which specify the matching and replacing rules for the pluralization of words.
+	 *	 which specify the matching and replacing rules for the pluralization of words.
 	 *   - `'uninflected'`: A indexed array containing regex word patterns which do not get
-	 *     inflected (i.e. singular and plural are the same).
+	 *	 inflected (i.e. singular and plural are the same).
 	 *   - `'irregular'`: Contains key-value pairs of specific words which are not inflected
-	 *     according to the rules. This is populated from `Inflector::$_plural` when the class
-	 *     is loaded.
+	 *	 according to the rules. This is populated from `Inflector::$_plural` when the class
+	 *	 is loaded.
 	 */
 	protected static $_singular = array(
 		'rules' => array(
@@ -127,11 +127,11 @@ class Inflector {
 	 * @see lithium\util\Inflector::rules()
 	 * @var array Contains the following keys:
 	 *   - `'rules'`: An array of regular expression rules in the form of `'match' => 'replace'`,
-	 *     which specify the matching and replacing rules for the pluralization of words.
+	 *	 which specify the matching and replacing rules for the pluralization of words.
 	 *   - `'uninflected'`: A indexed array containing regex word patterns which do not get
-	 *     inflected (i.e. singular and plural are the same).
+	 *	 inflected (i.e. singular and plural are the same).
 	 *   - `'irregular'`: Contains key-value pairs of specific words which are not inflected
-	 *     according to the rules.
+	 *	 according to the rules.
 	 */
 	protected static $_plural = array(
 		'rules' => array(
@@ -208,7 +208,7 @@ class Inflector {
 	 * @param string $type Either `'transliteration'`, `'uninflected'`, `'singular'` or `'plural'`.
 	 * @param array $config
 	 * @return array|void If `$config` is empty, returns the rules list specified
-	 *         by `$type`, otherwise returns `null`.
+	 *		 by `$type`, otherwise returns `null`.
 	 */
 	public static function rules($type, $config = array()) {
 		$var = '_' . $type;
@@ -370,8 +370,38 @@ class Inflector {
 		return static::$_camelized[$word] = $word;
 	}
 
-	public static function formatTitle($word) {
-		return ucwords(strtolower($word));
+	protected static function my_ucwords($string){ 
+
+		$invalid_characters = array('"', '\(', '\[', '\/', '<.*?>', '<\/.*?>', '-'); 
+
+		foreach($invalid_characters as $regex){
+			$string = preg_replace('/('.$regex.')/','$1 ',$string); 
+		}
+
+		$string=ucwords(mb_convert_case($string, MB_CASE_LOWER, "UTF-8"));
+
+		foreach($invalid_characters as $regex){ 
+			$string = preg_replace('/('.$regex.') /','$1',$string); 
+		}
+
+		return $string; 
+	}
+
+	public static function formatTitle($title) {
+		$smallwordsarray = array(
+			'de', 'do', 'da', 'dos', 'das', 'e', 'o', 'a'
+		);
+
+		$words = explode(' ', $title); 
+		foreach ($words as $key => $word) 
+		{
+			if ($key == 0 or !in_array($word, $smallwordsarray)) {
+				$words[$key] = self::my_ucwords(strtolower($word));
+			}
+		}
+
+		$newtitle = implode(' ', $words);
+		return $newtitle;
 	} 
 
 	/**

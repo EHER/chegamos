@@ -29,7 +29,7 @@ CEP: <?= $zipcode; ?>
         <?php foreach ($search->search->places as $place): ?>
             <li>
 				<span class="placename">
-					<?php echo $this->html->link($place->place->name, "/places/show/" . $place->place->id . ""); ?>
+					<?php echo $this->html->link(lithium\util\Inflector::formatTitle($place->place->name), "/places/show/" . $place->place->id . ""); ?>
 				</span>
 				<br />
 				<span class="address">
