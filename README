@@ -25,7 +25,7 @@ Dentro do raiz do seu Apache, que geralmente é /var/www/, faça o pull do proje
 Renomeie a pasta para algo mais fácil de digitar, como "jr".
 Entre nesta pasta e verifique se existe a pasta app/resources. Se não existir, crie-o.
 Dê acesso de escrita por qualquer usuário na pasta app/resourcespor qualquer usuário.
-Copie o arquivo app/config/config.exemplo.php para /app/config/config.php e adicione seu consumer key e comsumer secret do Apontador Api <http://api.apontador.com.br/>. 
+Copie o arquivo app/config/config.exemplo.php para /app/config/config.php e adicione seu consumer key e consumer secret do Apontador Api <http://api.apontador.com.br/>.
 
 
 Links rápidos para cadastro e listagem de Aplicativos do Apontador Api
