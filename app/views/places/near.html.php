@@ -24,7 +24,7 @@ CEP: <?= $zipcode; ?>
 <ul>
 	<li><?php echo $this->html->link("Voltar", "/"); ?></li>
 </ul>
-<?php if ($search->search->result_count): ?>
+<?php if ($search and $search->search->result_count): ?>
     <ul>
         <?php foreach ($search->search->places as $place): ?>
             <li>

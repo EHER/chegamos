@@ -43,18 +43,21 @@
 </ul>
 <ul>
 	<li>
-		<?php
-		echo $this->html->link(
-				"Ver no Apontador",
-				"http://www.apontador.com.br/local/poi/" . $place->place->id . ".html",
-				array("target" => "_blank")
-		); ?>
+		<?php echo $this->html->link("Avaliações", "/places/review/" . $place->place->id); ?>
 	</li>
 	<li>
 		<?php
 		echo $this->html->link(
 				"Como chegar",
 				"http://maplink.apontador.com.br/?placeid=@" . $place->place->id,
+				array("target" => "_blank")
+		); ?>
+	</li>
+	<li>
+		<?php
+		echo $this->html->link(
+				"Ver no Apontador",
+				"http://www.apontador.com.br/local/poi/" . $place->place->id . ".html",
 				array("target" => "_blank")
 		); ?>
 	</li>

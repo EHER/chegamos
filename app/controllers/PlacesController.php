@@ -2,18 +2,27 @@
 
 namespace app\controllers;
 
-use app\models\Place;
-use lithium\storage;
+use app\models\ApontadorApi;
+use app\models\oauth;
+use lithium\storage\Session;
 
 class PlacesController extends \lithium\action\Controller {
 
+	var $api;
+
+	public function __construct(array $config = array()) {
+		$this->api = new ApontadorApi();
+		Session::write('redir', $_SERVER['REQUEST_URI']);
+		parent::__construct($config);
+	}
+
 	public function index() {
-		$placeId = \lithium\storage\Session::read('placeId');
-		$placeName = \lithium\storage\Session::read('placeName');
-		$zipcode = \lithium\storage\Session::read('zipcode');
-		$cityState = \lithium\storage\Session::read('cityState');
-		$lat = \lithium\storage\Session::read('lat');
-		$lng = \lithium\storage\Session::read('lng');
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
 
 		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
 			$this->redirect('/places/checkin');
@@ -23,14 +32,12 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function search() {
-		$api = new \app\models\ApontadorApi();
-
-		$placeId = \lithium\storage\Session::read('placeId');
-		$placeName = \lithium\storage\Session::read('placeName');
-		$zipcode = \lithium\storage\Session::read('zipcode');
-		$cityState = \lithium\storage\Session::read('cityState');
-		$lat = \lithium\storage\Session::read('lat');
-		$lng = \lithium\storage\Session::read('lng');
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
 
 		$searchName = '';
 
@@ -38,37 +45,37 @@ class PlacesController extends \lithium\action\Controller {
 			$searchName = $_GET['name'];
 
 			if (!empty($placeId)) {
-				$place = $api->getPlace(array('placeid' => $placeId));
+				$place = $this->api->getPlace(array('placeid' => $placeId));
 				$lat = $place->place->point->lat;
 				$lng = $place->place->point->lng;
-				$search = $api->searchByPoint(array(
+				$search = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'lat' => $lat,
 							'lng' => $lng
-								));
+						));
 			} elseif (!empty($zipcode)) {
-				$search = $api->searchByZipcode(array(
+				$search = $this->api->searchByZipcode(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'zipcode' => $zipcode
-								));
+						));
 			} elseif (!empty($cityState) and strstr($cityState, ',')) {
 				list($city, $state) = \explode(',', $cityState);
-				$search = $api->searchByAddress(array(
+				$search = $this->api->searchByAddress(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'city' => trim($city),
 							'state' => trim($state),
 							'country' => 'BR'
-								));
+						));
 			} elseif (!empty($lat) and !empty($lng)) {
-				$search = $api->searchByPoint(array(
+				$search = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'lat' => $lat,
 							'lng' => $lng
-								));
+						));
 			} else {
 				$this->redirect('/places/checkin');
 			}
@@ -77,36 +84,34 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function near() {
-		$api = new \app\models\ApontadorApi();
-
-		$placeId = \lithium\storage\Session::read('placeId');
-		$placeName = \lithium\storage\Session::read('placeName');
-		$zipcode = \lithium\storage\Session::read('zipcode');
-		$cityState = \lithium\storage\Session::read('cityState');
-		$lat = \lithium\storage\Session::read('lat');
-		$lng = \lithium\storage\Session::read('lng');
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
 
 		if (!empty($placeId)) {
-			$place = $api->getPlace(array('placeid' => $placeId));
+			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->place->point->lat;
 			$lng = $place->place->point->lng;
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
 		} elseif (!empty($zipcode)) {
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'zipcode' => $zipcode
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'city' => trim($city),
 						'state' => trim($state),
 						'country' => 'BR'
 							), 'searchByAddress');
 		} elseif (!empty($lat) and !empty($lng)) {
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
@@ -118,19 +123,17 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function categories() {
-		$api = new \app\models\ApontadorApi();
-
-		$placeId = \lithium\storage\Session::read('placeId');
-		$placeName = \lithium\storage\Session::read('placeName');
-		$zipcode = \lithium\storage\Session::read('zipcode');
-		$cityState = \lithium\storage\Session::read('cityState');
-		$lat = \lithium\storage\Session::read('lat');
-		$lng = \lithium\storage\Session::read('lng');
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
 
 		if (isset($_GET['all'])) {
-			$categories = $api->getCategories();
+			$categories = $this->api->getCategories();
 		} else {
-			$categories = $api->getCategoriesTop();
+			$categories = $this->api->getCategoriesTop();
 		}
 		return compact('categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
@@ -139,43 +142,43 @@ class PlacesController extends \lithium\action\Controller {
 		if (empty($categoryId)) {
 			$this->redirect('/places/categories');
 		}
-		$api = new \app\models\ApontadorApi();
 
-		$placeId = \lithium\storage\Session::read('placeId');
-		$placeName = \lithium\storage\Session::read('placeName');
-		$zipcode = \lithium\storage\Session::read('zipcode');
-		$cityState = \lithium\storage\Session::read('cityState');
-		$lat = \lithium\storage\Session::read('lat');
-		$lng = \lithium\storage\Session::read('lng');
 
-		$category = $api->getSubcategories(array('categoryid' => $categoryId));
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
+
+		$category = $this->api->getSubcategories(array('categoryid' => $categoryId));
 
 		$categoryName = $category->category->name;
 
 		if (!empty($placeId)) {
-			$place = $api->getPlace(array('placeid' => $placeId));
+			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->place->point->lat;
 			$lng = $place->place->point->lng;
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
 		} elseif (!empty($zipcode)) {
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'zipcode' => $zipcode
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'city' => trim($city),
 						'state' => trim($state),
 						'country' => 'BR'
 							), 'searchByAddress');
 		} elseif (!empty($lat) and !empty($lng)) {
-			$search = $api->searchRecursive(array(
+			$search = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
 						'lng' => $lng
@@ -188,17 +191,15 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function checkin() {
-		$api = new \app\models\ApontadorApi();
-
 		if (!empty($_GET)) {
 			if (!empty($_GET['placeId'])) {
-				$place = $api->getPlace(array('placeid' => $_GET['placeId']));
+				$place = $this->api->getPlace(array('placeid' => $_GET['placeId']));
 				$checkinData = array(
-										'placeId' => $_GET['placeId'], 
-										'placeName' => $place->place->name,
-										'lat' => $place->place->point->lat,
-										'lng' => $place->place->point->lng,
-									);
+					'placeId' => $_GET['placeId'],
+					'placeName' => $place->place->name,
+					'lat' => $place->place->point->lat,
+					'lng' => $place->place->point->lng,
+				);
 			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
 				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
 			} elseif (!empty($_GET['cep'])) {
@@ -219,11 +220,27 @@ class PlacesController extends \lithium\action\Controller {
 		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
 		foreach ($checkinVars as $method) {
-			\lithium\storage\Session::write($method);
+			Session::write($method);
 		}
 
 		foreach ($checkinData as $method => $value) {
-			\lithium\storage\Session::write($method, $value);
+			Session::write($method, $value);
+		}
+
+		$placeId = Session::read('placeId');
+		$oauthToken = Session::read('oauthToken');
+		$oauthTokenSecret = Session::read('oauthTokenSecret');
+
+		if ($placeId) {
+			if ($oauthToken) {
+				$response = $this->api->checkin(array(
+							'place_id' => $placeId,
+							'oauth_token' => $oauthToken,
+							'oauth_token_secret' => $oauthTokenSecret,
+						));
+			} else {
+				$this->redirect('/oauth');
+			}
 		}
 	}
 
@@ -232,9 +249,8 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/');
 		}
 
-		$api = new \app\models\ApontadorApi();
-		$place = $api->getPlace(array('placeid' => $placeId));
-		$visitors = $api->getVisitors(array('placeid' => $placeId));
+		$place = $this->api->getPlace(array('placeid' => $placeId));
+		$visitors = $this->api->getVisitors(array('placeid' => $placeId));
 
 		if ($place) {
 			switch ($place->place->average_rating) {
@@ -257,6 +273,50 @@ class PlacesController extends \lithium\action\Controller {
 			return compact('place', 'visitors');
 		} else {
 			$this->redirect('/');
+		}
+	}
+
+	public function review($placeId = null) {
+		if (empty($placeId)) {
+			$this->redirect('/');
+		}
+
+		if (!empty($_GET)) {
+
+			$reviewData = array(
+				'place_id' => $placeId,
+				'rating' => $_GET['rating'],
+				'content' => $_GET['content'],
+			);
+			$this->doReview($reviewData);
+
+			$this->redirect(Session::read('redir'));
+		}
+		$reviews = $this->api->getReviews(array(
+				'place_id' => $placeId,
+				'limit' => 100,
+				));
+
+		return compact('placeId','reviews');
+	}
+
+	private function doReview(Array $reviewData = array()) {
+		$oauthToken = Session::read('oauthToken');
+		$oauthTokenSecret = Session::read('oauthTokenSecret');
+
+		if ($reviewData['place_id']) {
+			if ($oauthToken) {
+				$response = $this->api->review(array(
+							'place_id' => $reviewData['place_id'],
+							'rating' => $reviewData['rating'],
+							'content' => $reviewData['content'],
+							'oauth_token' => $oauthToken,
+							'oauth_token_secret' => $oauthTokenSecret,
+						));
+				return $response;
+			} else {
+				$this->redirect('/oauth');
+			}
 		}
 	}
 
