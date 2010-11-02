@@ -43,7 +43,7 @@
 </ul>
 <ul>
 	<li>
-		<?php echo $this->html->link("Avaliações", "/places/review/" . $place->place->id); ?>
+		<?php echo $this->html->link("Avaliações (" . $place->place->review_count . ")", "/places/review/" . $place->place->id); ?>
 	</li>
 	<li>
 		<?php
