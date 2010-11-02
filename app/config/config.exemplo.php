@@ -16,5 +16,5 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
  */
 define('APONTADOR_URL', 'api.apontador.com.br/v1/');
 define('APONTADOR_PORT', 80);
-define('APONTADOR_COMSUMER_KEY', '');
-define('APONTADOR_COMSUMER_SECRET', '');
+define('APONTADOR_CONSUMER_KEY', '');
+define('APONTADOR_CONSUMER_SECRET', '');
