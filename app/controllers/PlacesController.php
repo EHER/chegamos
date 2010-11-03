@@ -250,7 +250,6 @@ class PlacesController extends \lithium\action\Controller {
 		}
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
-		$visitors = $this->api->getVisitors(array('placeid' => $placeId));
 
 		if ($place) {
 			switch ($place->place->average_rating) {
@@ -270,10 +269,21 @@ class PlacesController extends \lithium\action\Controller {
 					$place->place->average_rating = "Excelente";
 					break;
 			}
-			return compact('place', 'visitors');
+			return compact('place');
 		} else {
 			$this->redirect('/');
 		}
+	}
+
+	public function checkins($placeId = null) {
+		if (empty($placeId)) {
+			$this->redirect('/');
+		}
+
+		$visitors = $this->api->getVisitors(array('placeid' => $placeId));
+		$visitors = array_reverse($visitors);
+
+		return compact('placeId','visitors');
 	}
 
 	public function review($placeId = null) {
@@ -293,11 +303,11 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect(Session::read('redir'));
 		}
 		$reviews = $this->api->getReviews(array(
-				'place_id' => $placeId,
-				'limit' => 100,
+					'place_id' => $placeId,
+					'limit' => 100,
 				));
 
-		return compact('placeId','reviews');
+		return compact('placeId', 'reviews');
 	}
 
 	private function doReview(Array $reviewData = array()) {
