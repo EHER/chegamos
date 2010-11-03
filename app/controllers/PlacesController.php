@@ -12,7 +12,6 @@ class PlacesController extends \lithium\action\Controller {
 
 	public function __construct(array $config = array()) {
 		$this->api = new ApontadorApi();
-		Session::write('redir', $_SERVER['REQUEST_URI']);
 		parent::__construct($config);
 	}
 
