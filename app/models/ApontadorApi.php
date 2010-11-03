@@ -35,8 +35,14 @@ class ApontadorApi {
 		if (empty($param['place_id'])) {
 			return false;
 		}
-		$response = $this->request('users/self/visits', $param, 'PUT');
+		$response = $this->request('users/self/visits', array(
+					'place_id' => $param['place_id'],
+					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
+					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret'],
+				), 'PUT');
 		//return $response;
+		//echo $response;
+		//exit;
 		return json_decode($response, false);
 	}
 
@@ -48,6 +54,8 @@ class ApontadorApi {
 					'place_id' => $param['place_id'],
 					'rating' => empty($param['rating']) ? '' : $param['rating'],
 					'content' => empty($param['content']) ? '' : $param['content'],
+					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
+					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret'],
 				), 'PUT');
 		return $response;
 		return json_decode($response, false);

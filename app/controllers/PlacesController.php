@@ -232,7 +232,7 @@ class PlacesController extends \lithium\action\Controller {
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 
 		if ($placeId) {
-			if ($oauthToken) {
+			if (!empty ($oauthToken)) {
 				$response = $this->api->checkin(array(
 							'place_id' => $placeId,
 							'oauth_token' => $oauthToken,
@@ -311,11 +311,12 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	private function doReview(Array $reviewData = array()) {
+
 		$oauthToken = Session::read('oauthToken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 
 		if ($reviewData['place_id']) {
-			if ($oauthToken) {
+			if (!empty ($oauthToken)) {
 				$response = $this->api->review(array(
 							'place_id' => $reviewData['place_id'],
 							'rating' => $reviewData['rating'],
