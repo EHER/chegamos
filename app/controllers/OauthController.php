@@ -10,7 +10,7 @@ class OauthController extends \lithium\action\Controller{
 
 	public function index() {
 		$api = new ApontadorApi();
-		$callbackurl = "http://localhost/oauth/callback";
+		$callbackurl = ROOT_URL . "oauth/callback";
 		$api->apontadorRedirectAutorizacao($callbackurl);
 	}
 

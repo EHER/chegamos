@@ -14,7 +14,9 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
  * Qualquer dúvida sobre a api do apontador, a documentação está em
  * http://api.apontador.com.br/pt/acesso.html
  */
+define('ROOT_URL', 'http://localhost/');
 define('APONTADOR_URL', 'api.apontador.com.br/v1/');
 define('APONTADOR_PORT', 80);
 define('APONTADOR_CONSUMER_KEY', '');
 define('APONTADOR_CONSUMER_SECRET', '');
+
