@@ -14,22 +14,59 @@
 	<?php echo $this->html->style(array('debug', 'lithium')); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js"></script>
 </head>
-<body class="app">
-	<div id="container">
-		<a href="http://github.com/EHER/Apontador-Jr" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub" /></a>
-		<div id="header">
+<body>
+	<div data-role="page" data-theme="d" id="jqm-home">
+		<div data-role="header"> 
 			<h1><?php echo $this->html->link('Apontador Jr', '/'); ?></h1>
-			<h2>Usando a <a href="http://api.apontador.com.br/" target="_blank">Apontador API</a></h2>
 		</div>
-		<div id="content">
+		<div data-role="content">
+				<p>Estou aqui:</p>
+
+				<p><b>
+				<?php
+				if (!empty($placeName)) {
+					echo $this->html->link($placeName, '/places/show/' . $placeId);
+				}
+				?>
+
+				<?php if (!empty($zipcode)): ?>
+				CEP: <?= $zipcode; ?>
+				<?php endif; ?>
+
+				<?php if (!empty($cityState)): ?>
+				<?= $cityState; ?>
+				<?php endif; ?>
+
+				<?php if (!empty($lat) and !empty($lng)): ?>
+				(<?= $lat; ?>, <?= $lng; ?>)
+				<?php endif; ?>
+				</b>
+				</p>
+				<p>
+				<?php if (!isset($hideWhereAmI) || !$hideWhereAmI) { ?>
+					<a data-inline="true" href="<?php echo ROOT_URL; ?>places/checkin" data-role="button" data-theme="b">alterar</a>
+				<?php } ?>
+				<a data-inline="true" onclick="javascript:getUserLocation()" href="#" data-role="button" data-theme="b">detectar</a>
+				</p>
 			<?php echo $this->content(); ?>
 		</div>
-		<br/>
-		<div id="footer">
-			<p>Powered by <?php echo $this->html->link('Lithium', 'http://li3.rad-dev.org'); ?>.</p>
+		<div data-role="footer">
+			<h2><a href="http://api.apontador.com.br/" target="_blank">Apontador API</a></h2>
 		</div>
-
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	getUserLocation = function() {
+		navigator.geolocation.getCurrentPosition(showpos);
+	}
+	showpos = function(position){
+		lat=position.coords.latitude;
+		lon=position.coords.longitude;
+		location.href = '<?php echo ROOT_URL; ?>' + 'places/checkin?lat=' + lat + '&lng='+lon;
+	}
+</script>

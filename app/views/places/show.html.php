@@ -35,12 +35,6 @@
 		<?php echo $place->place->created->user->name; ?>
 	</a>
 </p>
-
-<ul>
-	<li>
-		<?php echo $this->html->link("Voltar", "/"); ?>
-	</li>
-</ul>
 <ul>
 	<li>
 		<?php echo $this->html->link("Avaliações (" . $place->place->review_count . ")", "/places/review/" . $place->place->id); ?>

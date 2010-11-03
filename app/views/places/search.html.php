@@ -1,36 +1,7 @@
-<h3>
-    Onde estou
-    <?php echo $this->html->link("(mudar)", "/places/checkin"); ?>
-</h3>
-
-<p>
-<?php if ($placeName): ?>
-<a href="/places/show/<?= $placeId; ?>"><?= $placeName; ?></a>
-<?php endif; ?>
-
-<?php if ($zipcode): ?>
-CEP: <?= $zipcode; ?>
-<?php endif; ?>
-
-<?php if ($cityState): ?>
-<?= $cityState; ?>
-<?php endif; ?>
-
-<?php if ($lat and $lng): ?>
-(<?= $lat; ?>, <?= $lng; ?>)
-<?php endif; ?>
-</p>
-
 <?php if ($searchName): ?>
-	<h3>
-		Locais com nome "<?= $searchName; ?>"
-		<?php echo $this->html->link("(mudar)", "/places/search"); ?>
-	</h3>
-	<ul>
-		<li><?php echo $this->html->link("Voltar", "/"); ?></li>
-	</ul>
 	<?php if ($search and $search->search->result_count): ?>
-		<ul>
+		<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+			<li data-role="list-divider">Locais com nome "<?= $searchName; ?>"</li>
 			<?php foreach ($search->search->places as $place): ?>
 				<li>
 					<span class="placename">
@@ -48,14 +19,11 @@ CEP: <?= $zipcode; ?>
 		<p>Nenhum local encontrado.</p>
 	<?php endif; ?>
 <?php else: ?>
-	<h3>
-		Buscar local por nome
-	</h3>
-
-	<form method="GET" style="width: 180px;">
+	<h3>Buscar local por nome</h3>
+	<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		<fieldset>
 			<label for="cep">Nome:</label>
-			<input type="text" id="name" name="name" value="<?= $searchName; ?>" style="width: 100px;">
+			<input type="text" id="name" name="name" value="<?= $searchName; ?>">
 		</fieldset>
 		<input type="submit" value="Buscar">
 	</form>
