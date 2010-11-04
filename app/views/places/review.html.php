@@ -2,7 +2,7 @@
 	<li data-role="list-divider">Deixe sua avaliação</li>
 </ul>
 
-	<form method="GET">
+	<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		<fieldset>
 			<label for="rating">Nota:</label>
 			<select id="rating" name="rating">

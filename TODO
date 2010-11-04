@@ -5,8 +5,10 @@ Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade intere
 
 Pendentes
 
+- Fazer a avaliação funcionar após o login e autorização da API
 - Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados. 
 - Trocar o checkin para um model
+- Trocar todos os elementos para um model
 - Paginacao nas buscas (como twitter)
 - Mais dados no resultado das buscas
 - Fazer o checkin usando a api.
@@ -16,6 +18,7 @@ Pendentes
 
 Finalizadas
 
+- Reformular todo o layout
 - Fazer o layout dos checkins (places/show/UCV34B2P)
 - Trazer a lista de checkins feitos no local.
 - Busca aumentando o raio de acordo com os resultados esperados
