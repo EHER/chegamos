@@ -125,6 +125,7 @@ class PlacesController extends \lithium\action\Controller {
 		} else {
 			$categories = $this->api->getCategoriesTop();
 		}
+		
 		return compact('categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
@@ -301,7 +302,7 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	public function review($placeId = null) {
+	public function review($placeId = null, $reviewId = null) {
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
@@ -315,18 +316,27 @@ class PlacesController extends \lithium\action\Controller {
 			);
 			$this->doReview($reviewData);
 		}
+		
 		$reviews = $this->api->getReviews(array(
 					'place_id' => $placeId,
 					'limit' => 100,
 				));
 
+		if ($reviewId != null) {
+			foreach ($reviews->place->reviews as $k => $review) {
+				if ($review->review->id != $reviewId) {
+					unset($reviews->place->reviews[$k]);
+				}
+			}
+		}
+				
 		$thePlaceId = $placeId;
 
 		extract($this->whereAmI());
 		
 		$placeId = $thePlaceId;
 
-		return compact('reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doReview(Array $reviewData = array()) {

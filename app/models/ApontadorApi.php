@@ -223,6 +223,12 @@ class ApontadorApi {
 		$curl_response = curl_exec($curl);
 		curl_close($curl);
 
+		//echo $this->config['consumerKey'] . ':' . $this->config['consumerSecret'];
+		//echo $url;
+		//$curl_response = utf8_encode($curl_response);
+		//exit;
+		//json_decode($curl_response, false);
+		//exit;
 		return $curl_response;
 	}
 
