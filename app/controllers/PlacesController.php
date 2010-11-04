@@ -271,8 +271,12 @@ class PlacesController extends \lithium\action\Controller {
 					$place->place->average_rating = "Excelente";
 					break;
 			}
-			extract($this->whereAmI());
+			$thePlaceId = $placeId;
 
+			extract($this->whereAmI());
+		
+			$placeId = $thePlaceId;
+			
 			return compact('place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
@@ -288,7 +292,11 @@ class PlacesController extends \lithium\action\Controller {
 		$visitors = array_reverse($visitors);
 
 
+		$thePlaceId = $placeId;
+
 		extract($this->whereAmI());
+	
+		$placeId = $thePlaceId;
 
 		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
@@ -306,8 +314,6 @@ class PlacesController extends \lithium\action\Controller {
 				'content' => $_GET['content'],
 			);
 			$this->doReview($reviewData);
-
-			$this->redirect(Session::read('redir'));
 		}
 		$reviews = $this->api->getReviews(array(
 					'place_id' => $placeId,
@@ -339,6 +345,7 @@ class PlacesController extends \lithium\action\Controller {
 						));
 				return $response;
 			} else {
+				Session::write('redir', $_SERVER['REQUEST_URI']);
 				$this->redirect('/oauth');
 			}
 		}

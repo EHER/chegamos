@@ -1,5 +1,5 @@
 <h2>
-	<?= $place->place->name; ?>
+	<?php echo $place->place->name; ?>
         <?php if(!empty($place->place->average_rating)): ?>
 	<small>(<?= $place->place->average_rating; ?>)</small>
         <?php endif; ?>

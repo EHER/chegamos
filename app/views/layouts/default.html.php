@@ -51,6 +51,10 @@
 					<a data-inline="true" href="<?php echo ROOT_URL; ?>places/checkin" data-role="button" data-theme="b">alterar</a>
 				<?php } ?>
 				<a data-inline="true" onclick="javascript:getUserLocation()" href="#" data-role="button" data-theme="b">detectar</a>
+				<?php if (!empty($placeId)) { ?>
+				<a data-inline="true" href="<?php echo ROOT_URL . 'places/checkin?placeId=' . $placeId ?>" data-role="button" data-theme="b">check-in</a>
+				<?php } ?>
+				
 				</p>
 			<?php echo $this->content(); ?>
 		</div>
