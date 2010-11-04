@@ -314,9 +314,13 @@ class PlacesController extends \lithium\action\Controller {
 					'limit' => 100,
 				));
 
-		extract($this->whereAmI());
+		$thePlaceId = $placeId;
 
-		return compact('placeId','reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		extract($this->whereAmI());
+		
+		$placeId = $thePlaceId;
+
+		return compact('reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doReview(Array $reviewData = array()) {

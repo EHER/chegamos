@@ -298,3 +298,15 @@ span.address {
 span.placename {
 	font-weight: bold;
 }
+
+.rate, .rate b, .rate a {
+	width: 100px;
+	height: 20px;
+	overflow: hidden;
+	background: url(../img/star.gif);
+}
+.rate b {
+	float: left;
+	margin-bottom: -100%;
+	background-color: #FDCE30;
+}

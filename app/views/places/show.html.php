@@ -13,7 +13,6 @@
 	<?= $place->place->address->city->name; ?> -
 	<?= $place->place->address->city->state; ?>
 </p>
-
 <p>
 	<?php if(!empty($place->place->phone->number)) echo 'Fone:'; ?>
 	<?php if(!empty($place->place->phone->country)) echo '+' . $place->place->phone->country; ?>
@@ -35,17 +34,16 @@
 		<?php echo $place->place->created->user->name; ?>
 	</a>
 </p>
-<ul>
+
+<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
-		<?php echo $this->html->link("Avaliações (" . $place->place->review_count . ")", "/places/review/" . $place->place->id); ?>
+		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->place->id); ?>
 	</li>
 	<li>
-		<?php
-		echo $this->html->link(
-				"Como chegar",
-				"http://maplink.apontador.com.br/?placeid=@" . $place->place->id,
-				array("target" => "_blank")
-		); ?>
+		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->place->id); ?>
+	</li>
+	<li>
+		<?php echo $this->html->link("Avaliações"/* (" . $place->place->review_count . ")"*/, "/places/review/" . $place->place->id); ?>
 	</li>
 	<li>
 		<?php
@@ -56,9 +54,11 @@
 		); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->place->id); ?>
-	</li>
-	<li>
-		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->place->id); ?>
+		<?php
+		echo $this->html->link(
+				"Como chegar",
+				"http://maplink.apontador.com.br/?placeid=@" . $place->place->id,
+				array("target" => "_blank")
+		); ?>
 	</li>
 </ul>

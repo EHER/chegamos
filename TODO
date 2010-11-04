@@ -7,10 +7,12 @@ Pendentes
 
 - Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados. 
 - Trocar o checkin para um model
-- Paginacao nas buscas
+- Paginacao nas buscas (como twitter)
 - Mais dados no resultado das buscas
 - Fazer o checkin usando a api.
-- Trazer as avaliações e fotos do local (sob demanda do usuário)
+- Trazer as fotos do local (sob demanda do usuário)
+- Filtragem por nome (js) na listagem de categorias
+- Melhorar o layout das reviews
 
 Finalizadas
 

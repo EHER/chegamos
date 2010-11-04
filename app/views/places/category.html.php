@@ -10,7 +10,6 @@
 				<span class="address">
 					<?php echo lithium\util\Inflector::formatTitle($place->place->address->street) . ", " . $place->place->address->number; ?>
 				</span>
-				<br />
 			</li>
 		<?php endforeach; ?>
 	</ul>

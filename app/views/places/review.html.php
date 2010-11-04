@@ -1,21 +1,25 @@
-<h3>Avaliações</h3>
-<ul>
-	<li><?php echo $this->html->link("Voltar", "/places/show/".$placeId); ?></li>
-</ul>
 <?php if ($reviews and $reviews->place->result_count): ?>
+	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+		<li data-role="list-divider">Avaliações (<?php echo $reviews->place->result_count; ?>)</li>
         <?php foreach ($reviews->place->reviews as $review): ?>
-	    <ul>
             <li>
-				<span class="content">
-					<strong>
-						<a href="http://www.apontador.com.br/local/review/<?php echo $placeId; ?>/<?php echo $review->review->id; ?>.html" target="_blank">
-						<?php echo $review->review->created->user->name; ?></a>:
-					</strong>
-					<?php echo $review->review->content; ?>
-				</span>
+            	<div class="ui-btn-text">
+					<img width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb" />
+					<h3 class="ui-li-heading">
+						<a href="http://www.apontador.com.br/local/review/<?php echo $review->review->place->id; ?>/<?php echo $review->review->id; ?>.html">
+							<?php echo $review->review->created->user->name; ?>
+						</a>
+					</h3>
+				</div>
+				<p>
+				<div class="rate">
+					<b style="width: <? echo $review->review->rating * 20;?>%;"></b>
+				</div>
+				em <?php echo date("d/m H:i", strtotime($review->review->created->timestamp)); ?></p>
+				<p><?php echo $review->review->content; ?></p>
 			</li>
-	    </ul>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
+	</ul>
 <?php else: ?>
     <p>Esse local ainda não foi avaliado.</p>
 <?php endif; ?>
