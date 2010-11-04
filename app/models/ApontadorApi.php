@@ -38,11 +38,9 @@ class ApontadorApi {
 		$response = $this->request('users/self/visits', array(
 					'place_id' => $param['place_id'],
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
-					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret'],
+					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
 				), 'PUT');
-		//return $response;
-		//echo $response;
-		//exit;
+				
 		return json_decode($response, false);
 	}
 
@@ -332,13 +330,15 @@ class ApontadorApi {
 	 * @return resultado da chamada.
 	 */
 	function apontadorChamaApi($verbo="GET", $metodo, $params=array(), $oauth_token="", $oauth_token_secret="") {
-
+	
 		extract($this->config);
 
+		$params['type'] = 'json';
+		
 		$key = $consumerKey;
 		$secret = $consumerSecret;
 
-		$endpoint = "http://api.apontador.com.br/v1/$metodo";
+		$endpoint = APONTADOR_URL . $metodo;
 		if (!$oauth_token) {
 			$queryparams = http_build_query($params);
 			$auth_hash = base64_encode("$email:$key");
@@ -350,6 +350,7 @@ class ApontadorApi {
 			$signature_method = new OAuthSignatureMethod_HMAC_SHA1();
 			$req_req = OAuthRequest::from_consumer_and_token($consumer, $token, $verbo, $endpoint, $params);
 			$req_req->sign_request($signature_method, $consumer, $token);
+
 			if ($verbo == "GET") {
 				return $this->_post($req_req, $verbo);
 			} else {
@@ -359,6 +360,7 @@ class ApontadorApi {
 	}
 
 	function _post($url, $method, $data = null, $optional_headers = null) {
+		
 		$params = array('http' => array(
 				'method' => $method,
 				'ignore_errors' => true
@@ -372,6 +374,7 @@ class ApontadorApi {
 		$ctx = stream_context_create($params);
 		$fp = @fopen($url, 'rb', false, $ctx);
 		$response = @stream_get_contents($fp);
+		
 		return $response;
 	}
 

@@ -234,17 +234,19 @@ class PlacesController extends \lithium\action\Controller {
 		$oauthToken = Session::read('oauthToken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 
-		/*if ($placeId) {
+		if ($placeId) {
 			if (!empty ($oauthToken)) {
 				$response = $this->api->checkin(array(
 							'place_id' => $placeId,
 							'oauth_token' => $oauthToken,
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
+
+				$this->redirect('http://localhost/places/show/C40291821C2A5O2A59');
 			} else {
 				$this->redirect('/oauth');
 			}
-		}*/
+		}
 	}
 
 	public function show($placeId = null) {
