@@ -237,7 +237,7 @@ class PlacesController extends \lithium\action\Controller {
 		if ($placeId) {
 			if (!empty ($oauthToken)) {
 				$response = $this->api->checkin(array(
-							'place_id' => $placeId,
+							'place_id' => $checkinData['placeId'],
 							'oauth_token' => $oauthToken,
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
