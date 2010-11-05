@@ -20,6 +20,7 @@ PENDENTES
 	GERAL
 	- Paginacao nas buscas (como twitter)
 	- Mais dados no resultado das buscas
+	- Informações de postos	
 	
 	USER
 	- Criar um model de user para armazenar o WhereAmI
