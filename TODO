@@ -1,35 +1,40 @@
 TODO
 ====
+Essa é a lista de coisas a fazer no projeto.
+Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
 
-Essa é a lista de coisas a fazer no projeto. Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
+PENDENTES
+=========
 
------PENDENTES-----
+	CATEGORIAS
+	- Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados.
+	- Verificar porque a categoria aeroportos nao traz nada.
+	- Filtragem por nome (js) na listagem de categorias.
+	
+	POI/AVALIACOES/CHECKIN/FOTOS
+	- Trazer as fotos do local (sob demanda do usuário)
+	- Fazer o checkin usando a api.
+	- Melhorar o layout das reviews
+	- Fazer página específica de uma review
+	
+	GERAL
+	- Paginacao nas buscas (como twitter)
+	- Mais dados no resultado das buscas
+	
+	USER
+	- Criar um model de user para armazenar o WhereAmI
+	
+	ESTRUTURA/REFACTORING
+	- Trocar o checkin para um model
+	- Trocar todos os objetos para models
 
-CATEGORIAS
-- Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados.
-- Verificar porque a categoria aeroportos nao traz nada.
-- Filtragem por nome (js) na listagem de categorias
+FINALIZADAS
+===========
 
-POI/AVALIACOES/CHECKIN/FOTOS
-- Trazer as fotos do local (sob demanda do usuário)
-- Fazer o checkin usando a api.
-- Melhorar o layout das reviews
-- Fazer página específica de uma review
-
-GERAL
-- Paginacao nas buscas (como twitter)
-- Mais dados no resultado das buscas
-
-ESTRUTURA/REFACTORING
-- Trocar o checkin para um model
-- Trocar todos os objetos para models
-
------FINALIZADAS-----
-
-- Reformular todo o layout
-- Fazer o layout dos checkins (places/show/UCV34B2P)
-- Trazer a lista de checkins feitos no local.
-- Busca aumentando o raio de acordo com os resultados esperados
-- Trocar o getPlace para retornar um objeto e não JSON
-- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados.
-- Fazer a avaliação funcionar após o login e autorização da API
+	- Reformular todo o layout
+	- Fazer o layout dos checkins (places/show/UCV34B2P)
+	- Trazer a lista de checkins feitos no local.
+	- Busca aumentando o raio de acordo com os resultados esperados
+	- Trocar o getPlace para retornar um objeto e não JSON
+	- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados.
+	- Fazer a avaliação funcionar após o login e autorização da API

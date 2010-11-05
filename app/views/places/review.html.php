@@ -1,3 +1,25 @@
+<h2 style="margin:0;">
+	<?php echo $place->place->name; ?>
+        <?php if(!empty($place->place->average_rating)): ?>
+	<small>(<?= $place->place->average_rating; ?>)</small>
+        <?php endif; ?>
+</h2>
+<p>
+	<?= $place->place->address->street; ?>,
+	<?= $place->place->address->number; ?>
+	<?= $place->place->address->complement; ?>
+	<?= $place->place->address->district; ?>
+	<br/>
+	<?= $place->place->address->city->name; ?> -
+	<?= $place->place->address->city->state; ?>
+</p>
+<p>
+	<?php if(!empty($place->place->phone->number)) echo 'Fone:'; ?>
+	<?php if(!empty($place->place->phone->country)) echo '+' . $place->place->phone->country; ?>
+	<?php if(!empty($place->place->phone->area)) echo '(' . $place->place->phone->area . ')'; ?>
+	<?php if(!empty($place->place->phone->number)) echo $place->place->phone->number; ?>
+</p>
+
 <?php if ($reviewId != null) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<?php foreach ($reviews->place->reviews as $review): ?>

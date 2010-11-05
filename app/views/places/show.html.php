@@ -1,4 +1,4 @@
-<h2>
+<h2 style="margin:0;">
 	<?php echo $place->place->name; ?>
         <?php if(!empty($place->place->average_rating)): ?>
 	<small>(<?= $place->place->average_rating; ?>)</small>

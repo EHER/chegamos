@@ -111,7 +111,7 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
-
+		
 		return json_decode($response, false);
 	}
 
@@ -128,6 +128,9 @@ class ApontadorApi {
 			$param['radius_mt'] = $param['radius_mt'] * 10;
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
 
+		//var_dump($result);
+		//exit;
+		
 		return $result;
 	}
 
@@ -220,9 +223,10 @@ class ApontadorApi {
 		curl_setopt($curl, CURLOPT_FAILONERROR, false);
 		$curl_response = curl_exec($curl);
 		curl_close($curl);
-
+		
 		//echo $this->config['consumerKey'] . ':' . $this->config['consumerSecret'];
-		//echo $url;
+		//echo $url . '<br />';
+		//exit;
 		//$curl_response = utf8_encode($curl_response);
 		//exit;
 		//json_decode($curl_response, false);

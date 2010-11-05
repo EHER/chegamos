@@ -1,2 +1,5 @@
 app/resources/*
 app/config/config.php
+.buildpath
+.project
+.settings/

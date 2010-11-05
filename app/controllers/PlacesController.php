@@ -108,7 +108,7 @@ class PlacesController extends \lithium\action\Controller {
 		} else {
 			$this->redirect('/places/checkin');
 		}
-
+		
 		return compact('search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
@@ -280,7 +280,9 @@ class PlacesController extends \lithium\action\Controller {
 		
 			$placeId = $thePlaceId;
 			
-			return compact('place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			$showCheckin = true;
+			
+			return compact('showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}
@@ -301,6 +303,8 @@ class PlacesController extends \lithium\action\Controller {
 	
 		$placeId = $thePlaceId;
 
+		$place = $this->api->getPlace(array('placeid' => $placeId));
+		
 		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
@@ -323,7 +327,7 @@ class PlacesController extends \lithium\action\Controller {
 					'place_id' => $placeId,
 					'limit' => 100,
 				));
-
+				
 		if ($reviewId != null) {
 			foreach ($reviews->place->reviews as $k => $review) {
 				if ($review->review->id != $reviewId) {
@@ -338,6 +342,8 @@ class PlacesController extends \lithium\action\Controller {
 		
 		$placeId = $thePlaceId;
 
+		$place = $this->api->getPlace(array('placeid' => $placeId));
+		
 		return compact('reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
