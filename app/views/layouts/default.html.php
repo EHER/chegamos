@@ -42,9 +42,19 @@
 				<?= $cityState; ?>
 				<?php endif; ?>
 
-				<?php if (!empty($lat) and !empty($lng)): ?>
+				<?php if (!empty($geocode)) { ?>
+					<p>
+						<?= $geocode->street; ?>,
+						<?= $geocode->number; ?>
+						<?= $geocode->complement; ?>
+						<?= $geocode->district; ?>
+						<br/>
+						<?= $geocode->city->name; ?> -
+						<?= $geocode->city->state; ?>
+					</p>	
+				<?php } else if (!empty($lat) and !empty($lng)) { ?>
 				(<?= $lat; ?>, <?= $lng; ?>)
-				<?php endif; ?>
+				<?php } ?>
 				</b>
 				</p>
 				<p>

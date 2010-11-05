@@ -152,6 +152,18 @@ class ApontadorApi {
 
 		return json_decode($response, false);
 	}
+	
+	public function geocode($lat, $lng) {
+		if ($lat && $lng) {
+			$search = $this->searchRecursive(array(
+							'lat' => $lat,
+							'lng' => $lng,
+							'limit' => 1
+								), 'searchByPoint');
+			return $search->search->places[0]->place->address;
+		}
+		return false;
+	}
 
 	public function searchByZipcode($param=array()) {
 		if (empty($param['zipcode'])) {

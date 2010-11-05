@@ -20,7 +20,10 @@ PENDENTES
 	GERAL
 	- Paginacao nas buscas (como twitter)
 	- Mais dados no resultado das buscas
-	- Informações de postos	
+	- Informações de postos
+	
+	POSTOS
+	- Posto mais barato perto de mim
 	
 	USER
 	- Criar um model de user para armazenar o WhereAmI
@@ -32,6 +35,7 @@ PENDENTES
 FINALIZADAS
 ===========
 
+	- Geocode dos Pobres
 	- Reformular todo o layout
 	- Fazer o layout dos checkins (places/show/UCV34B2P)
 	- Trazer a lista de checkins feitos no local.

@@ -70,16 +70,11 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 
-		return compact('search', 'searchName', \extract($this->whereAmI()));
+		return compact('geocode','search', 'searchName', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function near() {
-		$placeId = Session::read('placeId');
-		$placeName = Session::read('placeName');
-		$zipcode = Session::read('zipcode');
-		$cityState = Session::read('cityState');
-		$lat = Session::read('lat');
-		$lng = Session::read('lng');
+		extract($this->whereAmI());
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
@@ -109,16 +104,11 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/places/checkin');
 		}
 		
-		return compact('search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('geocode', 'search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function categories() {
-		$placeId = Session::read('placeId');
-		$placeName = Session::read('placeName');
-		$zipcode = Session::read('zipcode');
-		$cityState = Session::read('cityState');
-		$lat = Session::read('lat');
-		$lng = Session::read('lng');
+		extract($this->whereAmI());
 
 		if (isset($_GET['all'])) {
 			$categories = $this->api->getCategories();
@@ -126,7 +116,7 @@ class PlacesController extends \lithium\action\Controller {
 			$categories = $this->api->getCategoriesTop();
 		}
 		
-		return compact('categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('geocode','categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function category($categoryId) {
@@ -174,7 +164,7 @@ class PlacesController extends \lithium\action\Controller {
 		
 		extract($this->whereAmI());
 
-		return compact('search', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('geocode','search', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function whereAmI() {
@@ -184,8 +174,9 @@ class PlacesController extends \lithium\action\Controller {
 		$cityState = Session::read('cityState');
 		$lat = Session::read('lat');
 		$lng = Session::read('lng');
+		$geocode = $this->api->geocode($lat, $lng);
 
-		return compact('placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function checkin() {
@@ -216,7 +207,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		extract($this->whereAmI());
 
-		return compact('hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('geocode','hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doCheckin(Array $checkinData = array()) {
@@ -282,7 +273,7 @@ class PlacesController extends \lithium\action\Controller {
 			
 			$showCheckin = true;
 			
-			return compact('showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			return compact('geocode','showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}
@@ -305,7 +296,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 		
-		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('geocode','placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function review($placeId = null, $reviewId = null) {
@@ -344,7 +335,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 		
-		return compact('reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('geocode','reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doReview(Array $reviewData = array()) {
