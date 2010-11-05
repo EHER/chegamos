@@ -242,7 +242,7 @@ class PlacesController extends \lithium\action\Controller {
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
 
-				$this->redirect('http://localhost/places/show/C40291821C2A5O2A59');
+				$this->redirect('/show/'.$placeId);
 			} else {
 				$this->redirect('/oauth');
 			}
