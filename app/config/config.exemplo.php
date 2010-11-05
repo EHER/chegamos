@@ -5,6 +5,10 @@
  */
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
+/**
+ * Define o timezone padrão 
+ */
+date_default_timezone_set("America/Sao_Paulo");
 
 /**
  * Para usar a api do apontador basta fazer o cadastro no link
