@@ -1,24 +1,3 @@
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li data-role="list-divider">Deixe sua avaliação</li>
-</ul>
-
-<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-	<fieldset>
-		<label for="rating">Nota:</label>
-		<select id="rating" name="rating">
-		  <option></option>
-		  <option value="1">Péssimo</option>
-		  <option value="2">Ruim</option>
-		  <option value="3">Regular</option>
-		  <option value="4">Bom</option>
-		  <option value="5">Excelente</option>
-		</select>
-		<label for="content">Avaliação:</label>
-		<textarea id="content" name="content"></textarea>
-	</fieldset>
-	<input type="submit" value="Publicar">
-</form>
-
 <?php if ($reviewId != null) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<?php foreach ($reviews->place->reviews as $review): ?>
@@ -41,13 +20,35 @@
 		</li>
 		<?php endforeach; ?>
 	</ul>
-<?php } else if ($reviews and $reviews->place->result_count): ?>
+<?php } ?>
+
+<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+	<li data-role="list-divider">Deixe sua avaliação</li>
+</ul>
+<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+	<fieldset>
+		<label for="rating">Nota:</label>
+		<select id="rating" name="rating">
+		  <option></option>
+		  <option value="1">Péssimo</option>
+		  <option value="2">Ruim</option>
+		  <option value="3">Regular</option>
+		  <option value="4">Bom</option>
+		  <option value="5">Excelente</option>
+		</select>
+		<label for="content">Avaliação:</label>
+		<textarea id="content" name="content"></textarea>
+	</fieldset>
+	<input type="submit" value="Publicar">
+</form>
+
+<?php if ($reviewId == null and $reviews and $reviews->place->result_count) { ?>
 	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 		<li data-role="list-divider">Avaliações (<?php echo $reviews->place->result_count; ?>)</li>
         <?php foreach ($reviews->place->reviews as $review): ?>
             <li>
 				<div style="padding-left:-20px;">
-					<a href="<?php echo ROOT_URL . '/places/review/' . $review->review->place->id . '/' . $review->review->id; ?>">
+					<a href="<?php echo ROOT_URL . 'places/review/' . $review->review->place->id . '/' . $review->review->id; ?>">
 						<h4><?php echo $review->review->created->user->name; ?></h4>
 					</a>
 					<p><?php echo $review->review->content; ?></p>
@@ -55,6 +56,6 @@
 			</li>
 		<?php endforeach; ?>
 	</ul>
-<?php else: ?>
+<?php } else if ($reviewId == null) { ?>
     <p>Esse local ainda não foi avaliado.</p>
-<?php endif; ?>
+<?php } ?>
