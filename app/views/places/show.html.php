@@ -23,7 +23,7 @@
 	</a>
 </p>
 
-<?php if($place->getPlaceInfo()->getGasStation() instanceof GasStation) { ?>
+<?php if($place->getPlaceInfo() instanceof PlaceInfo && $place->getPlaceInfo()->getGasStation() instanceof GasStation) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">
 		Preços de combustível
