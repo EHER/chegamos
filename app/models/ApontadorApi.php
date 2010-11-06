@@ -40,7 +40,6 @@ class ApontadorApi {
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
 				), 'PUT');
-				
 		return json_decode($response, false);
 	}
 
@@ -393,7 +392,7 @@ class ApontadorApi {
 			$params['http']['content'] = $data;
 		}
 		$ctx = stream_context_create($params);
-		$fp = @fopen($url, 'rb', false, $ctx);
+		$fp = @fopen('http://' . $url, 'rb', false, $ctx);
 		$response = @stream_get_contents($fp);
 		
 		return $response;
