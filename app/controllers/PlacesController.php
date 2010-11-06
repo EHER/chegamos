@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\ApontadorApi;
+use app\models\Place;
+use app\models\PlaceList;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -241,30 +243,15 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function show($placeId = null) {
+
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-		if ($place) {
-			switch ($place->place->average_rating) {
-				case 1:
-					$place->place->average_rating = "Péssimo";
-					break;
-				case 2:
-					$place->place->average_rating = "Ruim";
-					break;
-				case 3:
-					$place->place->average_rating = "Regular";
-					break;
-				case 4:
-					$place->place->average_rating = "Bom";
-					break;
-				case 5:
-					$place->place->average_rating = "Excelente";
-					break;
-			}
+		if ($place instanceof Place) {
+		
 			$thePlaceId = $placeId;
 
 			extract($this->whereAmI());

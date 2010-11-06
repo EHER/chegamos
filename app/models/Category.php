@@ -15,7 +15,15 @@ class Category {
 	public function populate($data) {
 		$this->setId($data->id);
 		$this->setName($data->name);
-		$this->setSubcategory(new Subcategory($data->subcategory));
+		if (isset($data->subcategory)) {
+			$this->setSubcategory(new Subcategory($data->subcategory));
+		}
+	}
+	
+	public function __toString() {
+		$category = $this->getName();
+		$category .= $this->getSubcategory() ? ' - ' . $this->getSubcategory() : '';
+		return $category;
 	}
 
 	public function setId($id) {

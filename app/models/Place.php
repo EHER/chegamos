@@ -15,6 +15,8 @@ class Place {
 	var $mainUrl = "";
 	var $iconUrl = "";
 	var $otherUrl = "";
+	var $description = "";
+	var $created = null;
 	var $visitors = null;
 
 	public function __construct($data) {
@@ -32,6 +34,14 @@ class Place {
 		$this->setMainUrl($data->main_url);
 		$this->setOtherUrl($data->other_url);
 		$this->setIconUrl($data->icon_url);
+		
+		if (isset($data->description)) {
+			$this->setDescription($data->description);
+		}
+		
+		if (isset($data->created)) {
+			$this->setCreated($data->created);
+		}
 	}
 	
 	public function setId($id) {
@@ -50,12 +60,46 @@ class Place {
 		return $this->name;
 	}
 	
+	public function setCreated($created) {
+		$this->created = $created;
+	}
+	
+	public function getCreated() {
+		return $this->created;
+	}
+	
+	public function setDescription($description) {
+		$this->description = $description;
+	}
+	
+	public function getDescription() {
+		return $this->description;
+	}
+	
 	public function setAverageRating($averageRating) {
 		$this->averageRating = $averageRating;
 	}
 	
 	public function getAverageRating() {
 		return $this->averageRating;
+	}
+	
+	public function getAverageRatingString() {
+		switch ($this->getAverageRating()) {
+			case 1:
+				return "Péssimo";
+			case 2:
+				return "Ruim";
+			case 3:
+				return "Regular";
+			case 4:
+				return "Bom";
+			case 5:
+				return "Excelente";
+			default:
+				return '';
+				break;
+		}
 	}
 	
 	public function setReviewCount($reviewCount) {

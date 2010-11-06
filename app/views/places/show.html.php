@@ -1,37 +1,23 @@
 <h2 style="margin:0;">
-	<?php echo $place->place->name; ?>
-        <?php if(!empty($place->place->average_rating)): ?>
-	<small>(<?= $place->place->average_rating; ?>)</small>
-        <?php endif; ?>
+	<?php echo $place->getName(); ?>
+	<?php if($place->getAverageRatingString()) { ?>
+		<small>(<?php echo $place->getAverageRatingString() ?>)</small>
+	<?php } ?>
 </h2>
-<p>
-	<?= $place->place->address->street; ?>,
-	<?= $place->place->address->number; ?>
-	<?= $place->place->address->complement; ?>
-	<?= $place->place->address->district; ?>
-	<br/>
-	<?= $place->place->address->city->name; ?> -
-	<?= $place->place->address->city->state; ?>
-</p>
+<p><?php echo $place->getAddress(); ?></p>
 <p>
 	<?php if(!empty($place->place->phone->number)) echo 'Fone:'; ?>
 	<?php if(!empty($place->place->phone->country)) echo '+' . $place->place->phone->country; ?>
 	<?php if(!empty($place->place->phone->area)) echo '(' . $place->place->phone->area . ')'; ?>
 	<?php if(!empty($place->place->phone->number)) echo $place->place->phone->number; ?>
 </p>
-<p>Categoria: <?php echo $place->place->category->subcategory->name; ?></p>
-<p><?php echo $place->place->description; ?></p>
-<?php /*
-<p><?php echo round($place->place->thumbs->up / $place->place->thumbs->total * 100); ?>% recomendam</p>
-<p><?php echo $place->place->click_count; ?> visitas</p>
-<p><?php echo $place->place->review_count; ?> avaliações</p>
-<p><?php echo $place->place->point->lat; ?></p>
-<p><?php echo $place->place->point->lng; ?></p>
- */?>
+<p>Categoria: <?php echo $place->getCategory(); ?></p>
+<p><?php echo $place->getDescription(); ?></p>
+
 <p>
 	Cadastrado por:
-	<a href="http://www.apontador.com.br/profile/<?php echo $place->place->created->user->id; ?>.html" target="_blank">
-		<?php echo $place->place->created->user->name; ?>
+	<a href="http://www.apontador.com.br/profile/<?php echo $place->getCreated()->user->id; ?>.html" target="_blank">
+		<?php echo $place->getCreated()->user->name; ?>
 	</a>
 </p>
 
@@ -61,19 +47,19 @@
 <?php } ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
-		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->place->id); ?>
+		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->getId()); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->place->id); ?>
+		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->getId()); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Avaliações"/* (" . $place->place->review_count . ")"*/, "/places/review/" . $place->place->id); ?>
+		<?php echo $this->html->link("Avaliações"/* (" . $place->place->review_count . ")"*/, "/places/review/" . $place->getId()); ?>
 	</li>
 	<li>
 		<?php
 		echo $this->html->link(
 				"Ver no Apontador",
-				"http://www.apontador.com.br/local/poi/" . $place->place->id . ".html",
+				$place->getMainUrl(),
 				array("target" => "_blank")
 		); ?>
 	</li>
@@ -81,7 +67,7 @@
 		<?php
 		echo $this->html->link(
 				"Como chegar",
-				"http://maplink.apontador.com.br/?placeid=@" . $place->place->id,
+				"http://maplink.apontador.com.br/?placeid=@" . $place->getId(),
 				array("target" => "_blank")
 		); ?>
 	</li>

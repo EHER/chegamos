@@ -75,12 +75,16 @@ class ApontadorApi {
 		$response = $this->request('categories', array(
 					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 				));
-		return json_decode($response, false);
+
+		$response = json_decode($response, false);
+		return new CategoryList($response);
 	}
 
 	public function getCategoriesTop() {
 		$response = $this->request('categories/top');
-		return json_decode($response, false);
+		
+		$response = json_decode($response, false);
+		return new CategoryList($response);
 	}
 
 	public function getSubcategories($param=array()) {
@@ -128,7 +132,6 @@ class ApontadorApi {
 			$numFound = $localList->getNumFound() ? $localList->getNumFound() : 0;
 			$param['radius_mt'] = $param['radius_mt'] * 10;
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
-		
 		return $localList;
 	}
 
@@ -191,7 +194,9 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('places/' . $param['placeid']);
-		return json_decode($response, false);
+		
+		$response = json_decode($response, false);		
+		return new Place($response->place);
 	}
 
 	public function getVisitors($param=array()) {

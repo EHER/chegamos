@@ -15,6 +15,10 @@ class Subcategory {
 		$this->setId($data->id);
 		$this->setName($data->name);
 	}
+	
+	public function __toString() {
+		return $this->getName();
+	}
 
 	public function setId($id) {
 		$this->id = $id;
