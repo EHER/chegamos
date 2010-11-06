@@ -1,23 +1,15 @@
 <h2 style="margin:0;">
-	<?php echo $place->place->name; ?>
-        <?php if(!empty($place->place->average_rating)): ?>
-	<small>(<?= $place->place->average_rating; ?>)</small>
-        <?php endif; ?>
+	<?php echo $place->getName(); ?>
+	<?php if($place->getAverageRatingString()) { ?>
+		<small>(<?php echo $place->getAverageRatingString() ?>)</small>
+	<?php } ?>
 </h2>
+<p><?php echo $place->getAddress(); ?></p>
 <p>
-	<?= $place->place->address->street; ?>,
-	<?= $place->place->address->number; ?>
-	<?= $place->place->address->complement; ?>
-	<?= $place->place->address->district; ?>
-	<br/>
-	<?= $place->place->address->city->name; ?> -
-	<?= $place->place->address->city->state; ?>
-</p>
-<p>
-	<?php if(!empty($place->place->phone->number)) echo 'Fone:'; ?>
-	<?php if(!empty($place->place->phone->country)) echo '+' . $place->place->phone->country; ?>
-	<?php if(!empty($place->place->phone->area)) echo '(' . $place->place->phone->area . ')'; ?>
-	<?php if(!empty($place->place->phone->number)) echo $place->place->phone->number; ?>
+	<?php if(!empty($place->getPhone()->number)) echo 'Fone:'; ?>
+	<?php if(!empty($place->getPhone()->country)) echo '+' . $place->getPhone()->country; ?>
+	<?php if(!empty($place->getPhone()->area)) echo '(' . $place->getPhone()->area . ')'; ?>
+	<?php if(!empty($place->getPhone()->number)) echo $place->getPhone()->number; ?>
 </p>
 
 <ul data-role="listview" role="listbox" data-inset="true" data-theme="c" data-dividertheme="b">

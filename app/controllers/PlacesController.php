@@ -37,8 +37,8 @@ class PlacesController extends \lithium\action\Controller {
 
 			if (!empty($placeId)) {
 				$place = $this->api->getPlace(array('placeid' => $placeId));
-				$lat = $place->place->point->lat;
-				$lng = $place->place->point->lng;
+				$lat = $place->getPoint()->lat;
+				$lng = $place->getPoint()->lng;
 				$placeList = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
@@ -80,8 +80,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->place->point->lat;
-			$lng = $place->place->point->lng;
+			$lat = $place->getPoint()->lat;
+			$lng = $place->getPoint()->lng;
 			$placeList = $this->api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng
@@ -134,8 +134,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->place->point->lat;
-			$lng = $place->place->point->lng;
+			$lat = $place->getPoint()->lat;
+			$lng = $place->getPoint()->lng;
 			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
@@ -188,9 +188,9 @@ class PlacesController extends \lithium\action\Controller {
 				$place = $this->api->getPlace(array('placeid' => $_GET['placeId']));
 				$checkinData = array(
 					'placeId' => $_GET['placeId'],
-					'placeName' => $place->place->name,
-					'lat' => $place->place->point->lat,
-					'lng' => $place->place->point->lng,
+					'placeName' => $place->getName(),
+					'lat' => $place->getPoint()->lat,
+					'lng' => $place->getPoint()->lng,
 				);
 			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
 				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
