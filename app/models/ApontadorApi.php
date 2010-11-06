@@ -195,7 +195,7 @@ class ApontadorApi {
 		}
 		$response = $this->request('places/' . $param['placeid']);
 		
-		$response = json_decode($response, false);		
+		$response = json_decode($response, false);
 		return new Place($response->place);
 	}
 
