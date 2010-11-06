@@ -112,7 +112,8 @@ class ApontadorApi {
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
 		
-		return json_decode($response, false);
+		$response = json_decode($response, false);
+		return new PlaceList($response->search);
 	}
 
 	public function searchRecursive($param, $type = 'searchByPoint') {
@@ -123,15 +124,12 @@ class ApontadorApi {
 
 		do {
 			$param['radius_mt'] . " ";
-			$result = $this->$type($param);
-			$numFound = $result->search->result_count ? $result->search->result_count : 0;
+			$localList = $this->$type($param);
+			$numFound = $localList->getNumFound() ? $localList->getNumFound() : 0;
 			$param['radius_mt'] = $param['radius_mt'] * 10;
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
-
-		//var_dump($result);
-		//exit;
 		
-		return $result;
+		return $localList;
 	}
 
 	public function searchByAddress($param=array()) {
@@ -150,7 +148,8 @@ class ApontadorApi {
 					'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
 				));
 
-		return json_decode($response, false);
+		$response = json_decode($response, false);
+		return new PlaceList($response->search);
 	}
 	
 	public function geocode($lat, $lng) {
@@ -160,7 +159,7 @@ class ApontadorApi {
 							'lng' => $lng,
 							'limit' => 1
 								), 'searchByPoint');
-			return $search->search->places[0]->place->address;
+			return $search->getItem(0)->getAddress();
 		}
 		return false;
 	}
@@ -183,7 +182,8 @@ class ApontadorApi {
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
 
-		return json_decode($response, false);
+		$response = json_decode($response, false);
+		return new PlaceList($response->search);
 	}
 
 	public function getPlace($param=array()) {

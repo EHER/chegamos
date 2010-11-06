@@ -37,21 +37,21 @@ class PlacesController extends \lithium\action\Controller {
 				$place = $this->api->getPlace(array('placeid' => $placeId));
 				$lat = $place->place->point->lat;
 				$lng = $place->place->point->lng;
-				$search = $this->api->searchByPoint(array(
+				$placeList = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'lat' => $lat,
 							'lng' => $lng
 						));
 			} elseif (!empty($zipcode)) {
-				$search = $this->api->searchByZipcode(array(
+				$placeList = $this->api->searchByZipcode(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'zipcode' => $zipcode
 						));
 			} elseif (!empty($cityState) and strstr($cityState, ',')) {
 				list($city, $state) = \explode(',', $cityState);
-				$search = $this->api->searchByAddress(array(
+				$placeList = $this->api->searchByAddress(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'city' => trim($city),
@@ -59,7 +59,7 @@ class PlacesController extends \lithium\action\Controller {
 							'country' => 'BR'
 						));
 			} elseif (!empty($lat) and !empty($lng)) {
-				$search = $this->api->searchByPoint(array(
+				$placeList = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'lat' => $lat,
@@ -70,7 +70,7 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 
-		return compact('geocode','search', 'searchName', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('geocode','placeList', 'searchName', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function near() {
@@ -80,23 +80,23 @@ class PlacesController extends \lithium\action\Controller {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->place->point->lat;
 			$lng = $place->place->point->lng;
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
 		} elseif (!empty($zipcode)) {
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'zipcode' => $zipcode
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'city' => trim($city),
 						'state' => trim($state),
 						'country' => 'BR'
 							), 'searchByAddress');
 		} elseif (!empty($lat) and !empty($lng)) {
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
@@ -104,7 +104,7 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/places/checkin');
 		}
 		
-		return compact('geocode', 'search', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function categories() {
@@ -134,26 +134,26 @@ class PlacesController extends \lithium\action\Controller {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->place->point->lat;
 			$lng = $place->place->point->lng;
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
 						'lng' => $lng
 							), 'searchByPoint');
 		} elseif (!empty($zipcode)) {
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'zipcode' => $zipcode
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'city' => trim($city),
 						'state' => trim($state),
 						'country' => 'BR'
 							), 'searchByAddress');
 		} elseif (!empty($lat) and !empty($lng)) {
-			$search = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
 						'lng' => $lng
@@ -164,7 +164,7 @@ class PlacesController extends \lithium\action\Controller {
 		
 		extract($this->whereAmI());
 
-		return compact('geocode','search', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('geocode','placeList', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function whereAmI() {

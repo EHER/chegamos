@@ -44,13 +44,7 @@
 
 				<?php if (!empty($geocode)) { ?>
 					<p>
-						<?= $geocode->street; ?>,
-						<?= $geocode->number; ?>
-						<?= $geocode->complement; ?>
-						<?= $geocode->district; ?>
-						<br/>
-						<?= $geocode->city->name; ?> -
-						<?= $geocode->city->state; ?>
+						<?php echo $geocode; ?>
 					</p>	
 				<?php } else if (!empty($lat) and !empty($lng)) { ?>
 				(<?= $lat; ?>, <?= $lng; ?>)
