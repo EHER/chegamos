@@ -6,10 +6,10 @@
 </h2>
 <p><?php echo $place->getAddress(); ?></p>
 <p>
-	<?php if(!empty($place->place->phone->number)) echo 'Fone:'; ?>
-	<?php if(!empty($place->place->phone->country)) echo '+' . $place->place->phone->country; ?>
-	<?php if(!empty($place->place->phone->area)) echo '(' . $place->place->phone->area . ')'; ?>
-	<?php if(!empty($place->place->phone->number)) echo $place->place->phone->number; ?>
+	<?php if(!empty($place->getPhone()->number)) echo 'Fone:'; ?>
+	<?php if(!empty($place->getPhone()->country)) echo '+' . $place->getPhone()->country; ?>
+	<?php if(!empty($place->getPhone()->area)) echo '(' . $place->getPhone()->area . ')'; ?>
+	<?php if(!empty($place->getPhone()->number)) echo $place->getPhone()->number; ?>
 </p>
 <p>Categoria: <?php echo $place->getCategory(); ?></p>
 <p><?php echo $place->getDescription(); ?></p>

@@ -17,6 +17,7 @@ class Place {
 	var $otherUrl = "";
 	var $description = "";
 	var $created = null;
+	var $phone = null;
 	var $visitors = null;
 
 	public function __construct($data) {
@@ -41,6 +42,10 @@ class Place {
 		
 		if (isset($data->created)) {
 			$this->setCreated($data->created);
+		}
+		
+		if (isset($data->phone)) {
+			$this->setPhone($data->phone);
 		}
 	}
 	
@@ -67,7 +72,14 @@ class Place {
 	public function getCreated() {
 		return $this->created;
 	}
+
+	public function setPhone($phone) {
+		$this->phone = $phone;
+	}
 	
+	public function getPhone() {
+		return $this->phone;
+	}
 	public function setDescription($description) {
 		$this->description = $description;
 	}
