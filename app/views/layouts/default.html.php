@@ -11,12 +11,12 @@
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Apontador Jr <?php echo $this->title(); ?></title>
-	<?php echo $this->html->style(array('debug', 'lithium')); ?>
+	<?php //echo $this->html->style(array('debug', 'lithium')); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css" />
-	<script src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js"></script>
+	<script src="-http://code.jquery.com/jquery-1.4.3.min.js"></script>
+	<script src="-http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js"></script>
 </head>
 <body>
 	<div data-role="page" data-theme="d" id="jqm-home">
@@ -25,33 +25,33 @@
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>
-				<p>Estou aqui:</p>
+			<p>&nbsp;</p>
+			<p>Onde estou:</p>
+			<p>
+				<b>
+					<?php
+					if (!empty($placeName)) {
+						echo $this->html->link($placeName, '/places/show/' . $placeId);
+						echo '<br/>';
+					}
+					?>
 
-				<p><b>
-				<?php
-				if (!empty($placeName)) {
-					echo $this->html->link($placeName, '/places/show/' . $placeId);
-				}
-				?>
+					<?php if (!empty($zipcode)): ?>
+						CEP: <?= $zipcode; ?>
+					<?php endif; ?>
 
-				<?php if (!empty($zipcode)): ?>
-				CEP: <?= $zipcode; ?>
-				<?php endif; ?>
+					<?php if (!empty($cityState)): ?>
+						<?= $cityState; ?>
+					<?php endif; ?>
 
-				<?php if (!empty($cityState)): ?>
-				<?= $cityState; ?>
-				<?php endif; ?>
-
-				<?php if (!empty($geocode)) { ?>
-					<p>
-						<?php echo $geocode; ?>
-					</p>	
-				<?php } else if (!empty($lat) and !empty($lng)) { ?>
-				(<?= $lat; ?>, <?= $lng; ?>)
-				<?php } ?>
+					<?php if (!empty($geocode)) { ?>
+						<?=$geocode; ?>
+					<?php } else if (!empty($lat) and !empty($lng)) { ?>
+					(<?= $lat; ?>, <?= $lng; ?>)
+					<?php } ?>
 				</b>
-				</p>
-				<p>
+			</p>
+			<p>
 				<?php if (!isset($hideWhereAmI) || !$hideWhereAmI) { ?>
 					<a data-inline="true" href="<?php echo ROOT_URL; ?>places/checkin" data-role="button" data-theme="b">alterar</a>
 				<?php } ?>
@@ -59,8 +59,8 @@
 				<?php if (!empty($showCheckin) && $showCheckin) { ?>
 				<a data-inline="true" href="<?php echo ROOT_URL . 'places/checkin?placeId=' . $placeId ?>" data-role="button" data-theme="b">check-in</a>
 				<?php } ?>
-				
-				</p>
+
+			</p>
 			
 		</div>
 		<div data-role="footer">
