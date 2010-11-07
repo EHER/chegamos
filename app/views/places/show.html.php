@@ -39,7 +39,7 @@
 <?php } ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
-		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->getId()); ?>
+		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->getId(), array('rel'=>'external')); ?>
 	</li>
 	<li>
 		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->getId()); ?>

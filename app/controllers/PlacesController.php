@@ -236,7 +236,7 @@ class PlacesController extends \lithium\action\Controller {
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
 
-				$this->redirect('/places/show/'.$placeId);
+				$this->redirect('/places/checkins/'.$placeId);
 			} else {
 				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' .  $checkinData['placeId']);
 				$this->redirect('/oauth');
