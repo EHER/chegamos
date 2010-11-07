@@ -17,7 +17,7 @@ class OauthController extends \lithium\action\Controller{
 	public function callback() {
 		$api = new ApontadorApi();
 
-		$redir = Session::read('redir');
+		//$redir = Session::read('redir');
 		$redir = empty($redir) ? ROOT_URL : $redir;
 
 		$token = $api->apontadorProcessaAutorizacao();
