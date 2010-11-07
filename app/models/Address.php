@@ -32,6 +32,18 @@ class Address {
 		return $data;
 	}
 	
+	public function getStreetCity() {
+		$data = $this->getStreet();
+		$data .= $this->getCity() ? ' em ' . $this->getCity() . '' : '';
+		return $data;
+	}
+
+	public function getDistrictCity() {
+		$data = $this->getDistrict() ? $this->getDistrict() : '';
+		$data .= $this->getCity() ? ' em ' . $this->getCity() . '' : '';
+		return $data;
+	}
+
 	public function setStreet($street) {
 		$this->street = $street;
 	}
