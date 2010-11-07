@@ -21,7 +21,9 @@ class PlacesController extends \lithium\action\Controller {
 		extract($this->whereAmI());
 
 		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
-			$this->redirect('/places/checkin');
+			$checkinData = array('cityState' => 'São Paulo, SP');
+			$this->doCheckin($checkinData);
+			return $checkinData;
 		}
 
 		return $this->whereAmI();
@@ -72,7 +74,7 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 
-		return compact('geocode','placeList', 'searchName', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('geocode','placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function near() {
@@ -201,7 +203,6 @@ class PlacesController extends \lithium\action\Controller {
 			} else {
 				$checkinData = array();
 			}
-
 			$this->doCheckin($checkinData);
 
 			$this->redirect('/');
@@ -223,11 +224,11 @@ class PlacesController extends \lithium\action\Controller {
 			Session::write($method, $value);
 		}
 
-		$placeId = Session::read('placeId');
+		$placeId = isset($checkinData['placeId']) ? $checkinData['placeId'] : Session::read('placeId');
 		$oauthToken = Session::read('oauthToken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 
-		if ($placeId) {
+		if (!empty($placeId)) {
 			if (!empty ($oauthToken)) {
 				$response = $this->api->checkin(array(
 							'place_id' => $checkinData['placeId'],
@@ -235,8 +236,9 @@ class PlacesController extends \lithium\action\Controller {
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
 
-				$this->redirect('/show/'.$placeId);
+				$this->redirect('/places/show/'.$placeId);
 			} else {
+				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' .  $checkinData['placeId']);
 				$this->redirect('/oauth');
 			}
 		}
