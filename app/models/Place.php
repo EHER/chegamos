@@ -19,12 +19,13 @@ class Place {
 	var $created = null;
 	var $phone = null;
 	var $visitors = null;
+	var $placeInfo = null;
 
 	public function __construct($data) {
 		$this->populate($data);
 	}
 	
-	public function populate($data) {
+	public function populate($data) {	
 		$this->setId($data->id);
 		$this->setName($data->name);
 		$this->setAverageRating($data->average_rating);
@@ -46,6 +47,10 @@ class Place {
 		
 		if (isset($data->phone)) {
 			$this->setPhone($data->phone);
+		}
+		
+		if (isset($data->extended)) {
+			$this->setPlaceInfo(new PlaceInfo($data->extended));
 		}
 	}
 	
@@ -71,6 +76,14 @@ class Place {
 	
 	public function getCreated() {
 		return $this->created;
+	}
+	
+	public function setPlaceInfo($placeInfo) {
+		$this->placeInfo = $placeInfo;
+	}
+	
+	public function getPlaceInfo() {
+		return $this->placeInfo;
 	}
 
 	public function setPhone($phone) {

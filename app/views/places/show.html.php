@@ -1,3 +1,5 @@
+<?php use \app\models\GasStation; ?>
+
 <h2 style="margin:0;">
 	<?php echo $place->getName(); ?>
 	<?php if($place->getAverageRatingString()) { ?>
@@ -21,25 +23,15 @@
 	</a>
 </p>
 
-<?php 
-	$gasStationData = array(
-		'price_alcohol' => 'Álcool',
-		'price_gasoline' => 'Gasolina',
-		'price_gasoline_aditivada' => 'Gasolina Aditivada',
-		'price_gasoline_podium' => 'Gasolina Pódium',
-		'price_gasoline_premium' => 'Gasolina Premium',
-		'price_gnv' => 'Gás Natural',
-		'price_kerosene' => 'Querosene'
-	);
-?>
-
-<?php if(isset($place->place->extended->gas_station)) { ?>
+<?php if($place->getPlaceInfo() instanceof PlaceInfo && $place->getPlaceInfo()->getGasStation() instanceof GasStation) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li data-role="list-divider">Preços de combustível</li>
-	<?php foreach ($place->place->extended->gas_station as $name => $info) { ?>
-		<?php if (strstr($name, 'price_') && $info != 0) { ?>
+	<li data-role="list-divider">
+		Preços de combustível
+	</li>
+	<?php foreach ($place->getPlaceInfo()->getGasStation()->getItems() as $item) { ?>
+		<?php if ($item->getValue()) { ?>
 			<li>
-				<?php echo $gasStationData[$name] . ': R$ ' . $info; ?>
+				<?php echo $item; ?>
 			</li>
 		<?php } ?>
 	<?php } ?>
