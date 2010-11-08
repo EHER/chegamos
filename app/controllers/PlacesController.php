@@ -231,14 +231,14 @@ class PlacesController extends \lithium\action\Controller {
 		if (!empty($placeId)) {
 			if (!empty ($oauthToken)) {
 				$response = $this->api->checkin(array(
-							'place_id' => $checkinData['placeId'],
+							'place_id' => $placeId,
 							'oauth_token' => $oauthToken,
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
 
 				$this->redirect('/places/checkins/'.$placeId);
 			} else {
-				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' .  $checkinData['placeId']);
+				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' .  $placeId);
 				$this->redirect('/oauth');
 			}
 		}
@@ -284,11 +284,12 @@ class PlacesController extends \lithium\action\Controller {
 		$placeId = $thePlaceId;
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
-		
-		return compact('geocode','placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+
+		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	public function review($placeId = null, $reviewId = null) {
+	public function review($placeId = null) {
+		$placeId = $this->request->params['args'][0];
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
