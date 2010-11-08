@@ -1,4 +1,5 @@
 <?php use \app\models\GasStation; ?>
+<?php use \app\models\PlaceInfo; ?>
 
 <h2 style="margin:0;">
 	<?php echo $place->getName(); ?>
