@@ -279,17 +279,6 @@ class ApontadorApi {
 		return $curl_response;
 	}
 
-
-	private function _get($url = null) {
-		$parsedUrl = parse_url($url);
-		var_dump($parsedUrl);
-
-		$request = new Service(array('host'=>$parsedUrl['host']));
-		$response = $request->get($parsedUrl['path']);
-
-		return $response;
-	}
-
 	private function requestNative($method, $params=array()) {
 		$default = array('type' => 'json');
 
@@ -376,7 +365,7 @@ class ApontadorApi {
 		parse_str($parsed['query'], $params);
 		$acc_req = \app\models\oauth\OAuthRequest::from_consumer_and_token($consumer, NULL, "GET", $endpoint, $params);
 		$acc_req->sign_request($signature_method, $consumer, NULL);
-		parse_str(file_get_contents($acc_req), $access_token);
+		parse_str($this->send(array('url'=>$acc_req)), $access_token);
 		return $access_token;
 	}
 
