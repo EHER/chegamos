@@ -5,6 +5,7 @@ namespace app\models;
 use \app\models\oauth\OAuthConsumer;
 use \app\models\oauth\OAuthSignatureMethod_HMAC_SHA1;
 use \app\models\oauth\OAuthRequest;
+use lithium\net\http\Service;
 
 class ApontadorApi {
 
@@ -39,7 +40,7 @@ class ApontadorApi {
 					'place_id' => $param['place_id'],
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
-				), 'PUT');
+						), 'PUT');
 		return json_decode($response, false);
 	}
 
@@ -53,7 +54,7 @@ class ApontadorApi {
 					'content' => empty($param['content']) ? '' : $param['content'],
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret'],
-				), 'PUT');
+						), 'PUT');
 		return $response;
 		return json_decode($response, false);
 	}
@@ -81,7 +82,7 @@ class ApontadorApi {
 
 	public function getCategoriesTop() {
 		$response = $this->request('categories/top');
-		
+
 		$response = json_decode($response, false);
 		return new CategoryList($response);
 	}
@@ -114,7 +115,7 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
-		
+
 		$response = json_decode($response, false);
 		return new PlaceList($response->search);
 	}
@@ -153,14 +154,14 @@ class ApontadorApi {
 		$response = json_decode($response, false);
 		return new PlaceList($response->search);
 	}
-	
+
 	public function geocode($lat, $lng) {
 		if ($lat && $lng) {
 			$search = $this->searchRecursive(array(
-							'lat' => $lat,
-							'lng' => $lng,
-							'limit' => 1
-								), 'searchByPoint');
+						'lat' => $lat,
+						'lng' => $lng,
+						'limit' => 1
+							), 'searchByPoint');
 			return $search->getItem(0)->getAddress();
 		}
 		return false;
@@ -193,7 +194,7 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('places/' . $param['placeid']);
-		
+
 		$response = json_decode($response, false);
 		return new Place($response->place);
 	}
@@ -229,17 +230,14 @@ class ApontadorApi {
 
 		$url = $this->config['apiUrl'] . $method . '?' . $queryString;
 
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($curl, CURLOPT_USERPWD, $this->config['consumerKey'] . ':' . $this->config['consumerSecret']);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_PORT, $this->config['port']);
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $verb);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-		curl_setopt($curl, CURLOPT_FAILONERROR, false);
-		$curl_response = curl_exec($curl);
-		curl_close($curl);
-		
+		$response = $this->send(array(
+					'url' => $url,
+					'port' => $this->config['port'],
+					'baseAuth' => true,
+					'username' => $this->config['consumerKey'],
+					'password' => $this->config['consumerSecret'],
+				));
+
 		//echo $this->config['consumerKey'] . ':' . $this->config['consumerSecret'];
 		//echo $url . '<br />';
 		//exit;
@@ -247,7 +245,49 @@ class ApontadorApi {
 		//exit;
 		//json_decode($curl_response, false);
 		//exit;
+		return $response;
+	}
+
+	private function send(array $params = array()) {
+		$defaults = array(
+			'url' => 'localhost',
+			'port' => 80,
+			'baseAuth' => false,
+			'username' => '',
+			'password' => '',
+			'request' => '',
+			'timeout' => 10,
+		);
+
+		$config =  $params + $defaults;
+
+		$curl = curl_init($config['url']);
+		if(!empty($config['baseAuth'])) {
+			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($curl, CURLOPT_USERPWD, $config['username'] . ':' . $config['password']);
+		}
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_PORT, $config['port']);
+		if(!empty($config['request'])) {
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $config['request']);
+		}
+		curl_setopt($curl, CURLOPT_TIMEOUT, $config['timeout']);
+		curl_setopt($curl, CURLOPT_FAILONERROR, false);
+		$curl_response = curl_exec($curl);
+		curl_close($curl);
+
 		return $curl_response;
+	}
+
+
+	private function _get($url = null) {
+		$parsedUrl = parse_url($url);
+		var_dump($parsedUrl);
+
+		$request = new Service(array('host'=>$parsedUrl['host']));
+		$response = $request->get($parsedUrl['path']);
+
+		return $response;
 	}
 
 	private function requestNative($method, $params=array()) {
@@ -298,7 +338,8 @@ class ApontadorApi {
 		$endpoint = "http://api.apontador.com.br/v1/oauth/request_token";
 		$req_req = \app\models\oauth\OAuthRequest::from_consumer_and_token($consumer, NULL, "GET", $endpoint, array());
 		$req_req->sign_request($signature_method, $consumer, NULL);
-		parse_str(file_get_contents($req_req));
+		$step1 = $this->send(array('url'=>$req_req->__toString()));
+		parse_str($step1);
 
 		// Passo 2: Redirecionar o usuário para o Apontador, para que ele autorize o uso dos seus dados.
 		$endpoint = "http://api.apontador.com.br/v1/oauth/authorize";
@@ -350,11 +391,11 @@ class ApontadorApi {
 	 * @return resultado da chamada.
 	 */
 	function apontadorChamaApi($verbo="GET", $metodo, $params=array(), $oauth_token="", $oauth_token_secret="") {
-	
+
 		extract($this->config);
 
 		$params['type'] = 'json';
-		
+
 		$key = $consumerKey;
 		$secret = $consumerSecret;
 
@@ -380,7 +421,7 @@ class ApontadorApi {
 	}
 
 	function _post($url, $method, $data = null, $optional_headers = null) {
-		
+
 		$params = array('http' => array(
 				'method' => $method,
 				'ignore_errors' => true
@@ -394,7 +435,7 @@ class ApontadorApi {
 		$ctx = stream_context_create($params);
 		$fp = @fopen('http://' . $url, 'rb', false, $ctx);
 		$response = @stream_get_contents($fp);
-		
+
 		return $response;
 	}
 
