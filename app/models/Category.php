@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use lithium\util\Inflector;
 
 class Category {
 
@@ -35,7 +36,7 @@ class Category {
 	}
 
 	public function setName($name) {
-		$this->name = $name;
+		$this->name = Inflector::formatTitle($name);
 	}
 
 	public function getName() {

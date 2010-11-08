@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use lithium\util\Inflector;
 
 class Address {
 
@@ -45,7 +46,7 @@ class Address {
 	}
 
 	public function setStreet($street) {
-		$this->street = $street;
+		$this->street = Inflector::formatTitle($street);
 	}
 	
 	public function getStreet() {
@@ -61,7 +62,7 @@ class Address {
 	}
 	
 	public function setComplement($complement) {
-		$this->complement = $complement;
+		$this->complement = Inflector::formatTitle($complement);
 	}
 	
 	public function getComplement() {
@@ -69,7 +70,7 @@ class Address {
 	}
 	
 	public function setDistrict($district) {
-		$this->district = $district;
+		$this->district = Inflector::formatTitle($district);
 	}
 	
 	public function getDistrict() {

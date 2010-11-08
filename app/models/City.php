@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use lithium\util\Inflector;
 
 class City {
 
@@ -39,7 +40,7 @@ class City {
 	}
 	
 	public function setName($name) {
-		$this->name = $name;
+		$this->name = Inflector::formatTitle($name);
 	}
 	
 	public function getName() {
