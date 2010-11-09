@@ -110,6 +110,40 @@ class PlacesController extends \lithium\action\Controller {
 		
 		return compact('geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
+	
+	public function gasstations() {
+		extract($this->whereAmI());
+
+		if (!empty($placeId)) {
+			$place = $this->api->getPlace(array('placeid' => $placeId));
+			$lat = $place->getPoint()->lat;
+			$lng = $place->getPoint()->lng;
+			$placeList = $this->api->searchGasStations(array(
+						'lat' => $lat,
+						'lng' => $lng
+							), 'searchByPoint');
+		} elseif (!empty($zipcode)) {
+			$placeList = $this->api->searchGasStations(array(
+						'zipcode' => $zipcode
+							), 'searchByZipcode');
+		} elseif (!empty($cityState) and strstr($cityState, ',')) {
+			list($city, $state) = \explode(',', $cityState);
+			$placeList = $this->api->searchGasStations(array(
+						'city' => trim($city),
+						'state' => trim($state),
+						'country' => 'BR'
+							), 'searchByAddress');
+		} elseif (!empty($lat) and !empty($lng)) {
+			$placeList = $this->api->searchGasStations(array(
+						'lat' => $lat,
+						'lng' => $lng
+							), 'searchByPoint');
+		} else {
+			$this->redirect('/places/checkin');
+		}
+		
+		return compact('geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+	}
 
 	public function categories() {
 		extract($this->whereAmI());
@@ -330,7 +364,7 @@ class PlacesController extends \lithium\action\Controller {
 
 	private function doReview(Array $reviewData = array()) {
 
-		$oauthToken = Session::read('oauthToken');
+		$oauthToken = Session::read('oauthToneken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 
 		if ($reviewData['place_id']) {

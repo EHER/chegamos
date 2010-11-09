@@ -117,7 +117,11 @@ class ApontadorApi {
 				));
 
 		$response = json_decode($response, false);
-		return new PlaceList($response->search);
+		
+		if (is_object($response->search)) {
+			return new PlaceList($response->search);
+		}
+		return false;
 	}
 
 	public function searchRecursive($param, $type = 'searchByPoint') {
@@ -128,11 +132,54 @@ class ApontadorApi {
 
 		do {
 			$param['radius_mt'] . " ";
-			$localList = $this->$type($param);
-			$numFound = $localList->getNumFound() ? $localList->getNumFound() : 0;
+			$placeList = $this->$type($param);
+			$numFound = $placeList->getNumFound() ? $placeList->getNumFound() : 0;
 			$param['radius_mt'] = $param['radius_mt'] * 10;
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
-		return $localList;
+		return $placeList;
+	}
+	
+	public function searchGasStations($param, $type = 'searchByPoint') {
+		$pageLimit = 10;
+		$radiusLimit = 10000;
+		$placesLimit = 5;
+		$param['limit'] = 20;
+		$param['radius_mt'] = 500;
+		$param['category_id'] = '065';
+
+		$gasStationList = new PlaceList();
+
+		do {
+		
+			$param['page'] = 1;
+			$param['radius_mt'] = round($param['radius_mt'] * 1.5);
+
+			do {
+				$placeList = $this->$type($param);
+
+				if ($placeList instanceof PlaceList) {
+					//echo ' -- ' . $placeList->getNumFound() . ' -- <br />';
+					foreach ($placeList->getItems() as $place) {
+						if ($place->getPlaceInfo() instanceof PlaceInfo && $place->getPlaceInfo()->getGasStation() instanceof GasStation) {
+							$gasStationList->addUnique($place);
+
+						}
+					}
+				}
+
+				$param['page']++;
+			
+			} while ($gasStationList->getNumFound() < $placesLimit && $param['page'] < $pageLimit);
+		
+			
+			$param['order'] = 'descending';
+			//echo $param['radius_mt'] . ', ' . $param['page'] . ', ' . $gasStationList->getNumFound() . '<br />';
+			//if (!($gasStationList->getNumFound() < $placesLimit && $param['radius_mt'] < $radiusLimit)) {exit;}
+	
+		}  while ($gasStationList->getNumFound() < $placesLimit && $param['radius_mt'] < $radiusLimit);
+		
+		$gasStationList->setRadius($param['radius_mt']);
+		return $gasStationList;
 	}
 
 	public function searchByAddress($param=array()) {
@@ -148,11 +195,15 @@ class ApontadorApi {
 					'district' => isset($param['district']) ? $param['district'] : '',
 					'radius_mt' => isset($param['radius_mt']) ? $param['radius_mt'] : '',
 					'term' => isset($param['term']) ? $param['term'] : '',
+					'page' => isset($param['page']) ? $param['page'] : '',
 					'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
 				));
 
 		$response = json_decode($response, false);
-		return new PlaceList($response->search);
+		if (is_object($response->search)) {
+			return new PlaceList($response->search);
+		}
+		return false;
 	}
 
 	public function geocode($lat, $lng) {
@@ -186,7 +237,11 @@ class ApontadorApi {
 				));
 
 		$response = json_decode($response, false);
-		return new PlaceList($response->search);
+		
+		if (is_object($response->search)) {
+			return new PlaceList($response->search);
+		}
+		return false;
 	}
 
 	public function getPlace($param=array()) {
