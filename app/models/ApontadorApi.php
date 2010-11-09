@@ -308,7 +308,6 @@ class ApontadorApi {
 			'username' => '',
 			'password' => '',
 			'method' => 'GET',
-			'request' => '',
 			'header' => '',
 			'content' => '',
 			'fields' => '',
@@ -329,7 +328,6 @@ class ApontadorApi {
 			$fp = @fopen('http://' . $config['url'], 'rb', false, $ctx);
 			$response = stream_get_contents($fp);
 		} else {
-
 			$curl = curl_init($config['url']);
 			if (!empty($config['baseAuth'])) {
 				curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -337,10 +335,8 @@ class ApontadorApi {
 			}
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_PORT, $config['port']);
-			if (!empty($config['request'])) {
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $config['request']);
-			}
 			if (!empty($config['header'])) {
+				curl_setopt($curl, CURLOPT_HEADER, true);
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $config['header']);
 			}
 			if (!empty($config['fields'])) {
