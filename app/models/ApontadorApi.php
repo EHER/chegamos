@@ -117,7 +117,7 @@ class ApontadorApi {
 				));
 
 		$response = json_decode($response, false);
-		
+
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
 		}
@@ -138,7 +138,7 @@ class ApontadorApi {
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
 		return $placeList;
 	}
-	
+
 	public function searchGasStations($param, $type = 'searchByPoint') {
 		$pageLimit = 10;
 		$radiusLimit = 10000;
@@ -150,7 +150,7 @@ class ApontadorApi {
 		$gasStationList = new PlaceList();
 
 		do {
-		
+
 			$param['page'] = 1;
 			$param['radius_mt'] = round($param['radius_mt'] * 1.5);
 
@@ -162,22 +162,19 @@ class ApontadorApi {
 					foreach ($placeList->getItems() as $place) {
 						if ($place->getPlaceInfo() instanceof PlaceInfo && $place->getPlaceInfo()->getGasStation() instanceof GasStation) {
 							$gasStationList->addUnique($place);
-
 						}
 					}
 				}
 
 				$param['page']++;
-			
 			} while ($gasStationList->getNumFound() < $placesLimit && $param['page'] < $pageLimit);
-		
-			
+
+
 			$param['order'] = 'descending';
 			//echo $param['radius_mt'] . ', ' . $param['page'] . ', ' . $gasStationList->getNumFound() . '<br />';
 			//if (!($gasStationList->getNumFound() < $placesLimit && $param['radius_mt'] < $radiusLimit)) {exit;}
-	
-		}  while ($gasStationList->getNumFound() < $placesLimit && $param['radius_mt'] < $radiusLimit);
-		
+		} while ($gasStationList->getNumFound() < $placesLimit && $param['radius_mt'] < $radiusLimit);
+
 		$gasStationList->setRadius($param['radius_mt']);
 		return $gasStationList;
 	}
@@ -237,7 +234,7 @@ class ApontadorApi {
 				));
 
 		$response = json_decode($response, false);
-		
+
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
 		}
@@ -312,32 +309,54 @@ class ApontadorApi {
 			'password' => '',
 			'method' => 'GET',
 			'request' => '',
+			'header' => '',
+			'content' => '',
+			'fields' => '',
 			'timeout' => 10,
 		);
 
 		$config = $params + $defaults;
 
-		$curl = curl_init($config['url']);
-		if (!empty($config['baseAuth'])) {
-			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($curl, CURLOPT_USERPWD, $config['username'] . ':' . $config['password']);
-		}
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_PORT, $config['port']);
-		if (!empty($config['request'])) {
-			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $config['request']);
-		}
-		if ($config['method']== 'PUT') {
-			curl_setopt($curl, CURLOPT_PUT, true);
+		if ($config['method'] == 'PUT') {
+			$params = array('http' => array('method' => $config['method'], 'ignore_errors' => true));
+			if (!empty($config['header'])) {
+				$params['http']['header'] = $config['header'];
+			}
+			if (!empty($config['content'])) {
+				$params['http']['content'] = $config['content'];
+			}
+			$ctx = stream_context_create($params);
+			$fp = @fopen('http://' . $config['url'], 'rb', false, $ctx);
+			$response = stream_get_contents($fp);
 		} else {
-			curl_setopt ($curl, CURLOPT_CUSTOMREQUEST, \strtoupper($config['method']));
-		}
-		curl_setopt($curl, CURLOPT_TIMEOUT, $config['timeout']);
-		curl_setopt($curl, CURLOPT_FAILONERROR, false);
-		$curl_response = curl_exec($curl);
-		curl_close($curl);
 
-		return $curl_response;
+			$curl = curl_init($config['url']);
+			if (!empty($config['baseAuth'])) {
+				curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+				curl_setopt($curl, CURLOPT_USERPWD, $config['username'] . ':' . $config['password']);
+			}
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curl, CURLOPT_PORT, $config['port']);
+			if (!empty($config['request'])) {
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $config['request']);
+			}
+			if (!empty($config['header'])) {
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $config['header']);
+			}
+			if (!empty($config['fields'])) {
+				curl_setopt($curl, CURLOPT_POSTFIELDS, $config['fields']);
+			}
+			if ($config['method'] == 'PUT') {
+				curl_setopt($curl, CURLOPT_PUT, true);
+			} else {
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, \strtoupper($config['method']));
+			}
+			curl_setopt($curl, CURLOPT_TIMEOUT, $config['timeout']);
+			curl_setopt($curl, CURLOPT_FAILONERROR, false);
+			$response = curl_exec($curl);
+			curl_close($curl);
+		}
+		return $response;
 	}
 
 	private function requestNative($method, $params=array()) {
@@ -472,20 +491,12 @@ class ApontadorApi {
 
 	function _post($url, $method, $data = null, $optional_headers = null) {
 
-		$params = array('http' => array(
-				'method' => $method,
-				'ignore_errors' => true
+		$response = $this->send(array(
+					'url' => $url,
+					'method' => $method,
+					'content' => $data,
+					'header' => $optional_headers,
 				));
-		if ($optional_headers !== null) {
-			$params['http']['header'] = $optional_headers;
-		}
-		if ($data !== null) {
-			$params['http']['content'] = $data;
-		}
-		$ctx = stream_context_create($params);
-		$fp = @fopen('http://' . $url, 'rb', false, $ctx);
-		$response = @stream_get_contents($fp);
-
 		return $response;
 	}
 
