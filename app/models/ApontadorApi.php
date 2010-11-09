@@ -255,21 +255,27 @@ class ApontadorApi {
 			'baseAuth' => false,
 			'username' => '',
 			'password' => '',
+			'method' => 'GET',
 			'request' => '',
 			'timeout' => 10,
 		);
 
-		$config =  $params + $defaults;
+		$config = $params + $defaults;
 
 		$curl = curl_init($config['url']);
-		if(!empty($config['baseAuth'])) {
+		if (!empty($config['baseAuth'])) {
 			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($curl, CURLOPT_USERPWD, $config['username'] . ':' . $config['password']);
 		}
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_PORT, $config['port']);
-		if(!empty($config['request'])) {
+		if (!empty($config['request'])) {
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $config['request']);
+		}
+		if ($config['method']== 'PUT') {
+			curl_setopt($curl, CURLOPT_PUT, true);
+		} else {
+			curl_setopt ($curl, CURLOPT_CUSTOMREQUEST, \strtoupper($config['method']));
 		}
 		curl_setopt($curl, CURLOPT_TIMEOUT, $config['timeout']);
 		curl_setopt($curl, CURLOPT_FAILONERROR, false);
@@ -327,7 +333,7 @@ class ApontadorApi {
 		$endpoint = "http://api.apontador.com.br/v1/oauth/request_token";
 		$req_req = \app\models\oauth\OAuthRequest::from_consumer_and_token($consumer, NULL, "GET", $endpoint, array());
 		$req_req->sign_request($signature_method, $consumer, NULL);
-		$step1 = $this->send(array('url'=>$req_req->__toString()));
+		$step1 = $this->send(array('url' => $req_req->__toString()));
 		parse_str($step1);
 
 		// Passo 2: Redirecionar o usuário para o Apontador, para que ele autorize o uso dos seus dados.
@@ -365,7 +371,7 @@ class ApontadorApi {
 		parse_str($parsed['query'], $params);
 		$acc_req = \app\models\oauth\OAuthRequest::from_consumer_and_token($consumer, NULL, "GET", $endpoint, $params);
 		$acc_req->sign_request($signature_method, $consumer, NULL);
-		parse_str($this->send(array('url'=>$acc_req)), $access_token);
+		parse_str($this->send(array('url' => $acc_req)), $access_token);
 		return $access_token;
 	}
 
