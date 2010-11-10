@@ -285,7 +285,7 @@ class ApontadorApi {
 		$response = $this->send(array(
 					'url' => $url,
 					'port' => $this->config['port'],
-					'baseAuth' => true,
+					'basicAuth' => true,
 					'username' => $this->config['consumerKey'],
 					'password' => $this->config['consumerSecret'],
 				));
@@ -304,78 +304,37 @@ class ApontadorApi {
 		$defaults = array(
 			'url' => 'localhost',
 			'port' => 80,
-			'baseAuth' => false,
+			'basicAuth' => false,
 			'username' => '',
 			'password' => '',
 			'method' => 'GET',
 			'header' => '',
-			'content' => '',
 			'fields' => '',
 			'timeout' => 10,
 		);
 
 		$config = $params + $defaults;
 
-		if ($config['method'] == 'PUT') {
-			$params = array('http' => array('method' => $config['method'], 'ignore_errors' => true));
-			if (!empty($config['header'])) {
-				$params['http']['header'] = $config['header'];
-			}
-			if (!empty($config['content'])) {
-				$params['http']['content'] = $config['content'];
-			}
-			$ctx = stream_context_create($params);
-			$fp = @fopen('http://' . $config['url'], 'rb', false, $ctx);
-			$response = stream_get_contents($fp);
-		} else {
-			$curl = curl_init($config['url']);
-			if (!empty($config['baseAuth'])) {
-				curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-				curl_setopt($curl, CURLOPT_USERPWD, $config['username'] . ':' . $config['password']);
-			}
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_PORT, $config['port']);
-			if (!empty($config['header'])) {
-				curl_setopt($curl, CURLOPT_HEADER, true);
-				curl_setopt($curl, CURLOPT_HTTPHEADER, $config['header']);
-			}
-			if (!empty($config['fields'])) {
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $config['fields']);
-			}
-			if ($config['method'] == 'PUT') {
-				curl_setopt($curl, CURLOPT_PUT, true);
-			} else {
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, \strtoupper($config['method']));
-			}
-			curl_setopt($curl, CURLOPT_TIMEOUT, $config['timeout']);
-			curl_setopt($curl, CURLOPT_FAILONERROR, false);
-			$response = curl_exec($curl);
-			curl_close($curl);
+		$curl = curl_init($config['url']);
+		if (!empty($config['basicAuth'])) {
+			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($curl, CURLOPT_USERPWD, $config['username'] . ':' . $config['password']);
 		}
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_PORT, $config['port']);
+		if (!empty($config['header'])) {
+			curl_setopt($curl, CURLOPT_HEADER, $config['header']);
+		}
+		if (!empty($config['fields'])) {
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $config['fields']);
+		}
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, \strtoupper($config['method']));
+		curl_setopt($curl, CURLOPT_TIMEOUT, $config['timeout']);
+		curl_setopt($curl, CURLOPT_FAILONERROR, false);
+		$response = curl_exec($curl);
+		curl_close($curl);
+
 		return $response;
-	}
-
-	private function requestNative($method, $params=array()) {
-		$default = array('type' => 'json');
-
-		$queryString = \http_build_query($params + $default);
-
-		$url = $this->config['apiUrl'] . $method . '?' . $queryString;
-
-		$config = array(
-			'host' => $url,
-			'port' => $this->config['port'],
-			'auth' => 'Basic',
-			'username' => $this->config['consumerKey'],
-			'password' => $this->config['consumerSecret'],
-			'timeout' => 10,
-			'socket' => 'Curl',
-			'encoding' => 'UTF-8',
-		);
-		$request = new \lithium\net\http\Service($config);
-		$response = $request->post($method, $params);
-
-		return $curl_response;
 	}
 
 	private function removeAccents($var) {
@@ -489,8 +448,11 @@ class ApontadorApi {
 
 		$response = $this->send(array(
 					'url' => $url,
+					'basicAuth' => true,
+					'username' => $this->config['consumerKey'],
+					'password' => $this->config['consumerSecret'],
 					'method' => $method,
-					'content' => $data,
+					'fields' => $data,
 					'header' => $optional_headers,
 				));
 		return $response;
