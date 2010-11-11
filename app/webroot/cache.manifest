@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# 01
+http://www.google-analytics.com/ga.js
+http://code.jquery.com/jquery-1.4.3.min.js
+http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js
+http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css
+http://code.jquery.com/mobile/1.0a1/images/ajax-loader.png
+http://code.jquery.com/mobile/1.0a1/images/icons-18-white.png
+NETWORK:
+*

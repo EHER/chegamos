@@ -3,3 +3,4 @@
     RewriteRule ^$   webroot/   [L]
     RewriteRule (.*) webroot/$1 [L]
 </IfModule>
+AddType 'text/cache-manifest; charset=UTF-8' .manifest
