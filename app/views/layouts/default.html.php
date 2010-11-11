@@ -7,7 +7,7 @@
  */
 ?>
 <!doctype html>
-<html manifest="cache.manifest">
+<html manifest="<?php echo ROOT_URL; ?>cache.manifest">
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Apontador Jr <?php echo $this->title(); ?></title>
