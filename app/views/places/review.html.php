@@ -1,5 +1,5 @@
 <h2 style="margin:0;">
-	<?php echo $place->getName(); ?>
+	<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId()); ?>
 	<?php if($place->getAverageRatingString()) { ?>
 		<small>(<?php echo $place->getAverageRatingString() ?>)</small>
 	<?php } ?>
@@ -12,7 +12,7 @@
 	<?php if(!empty($place->getPhone()->number)) echo $place->getPhone()->number; ?>
 </p>
 
-<?php if ($reviewId != null) { ?>
+<?php if (!empty ($reviewId)) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<?php foreach ($reviews->place->reviews as $review): ?>
 		<li data-role="list-divider">Avaliação de <?php echo $review->review->created->user->name; ?></li>
@@ -36,6 +36,24 @@
 	</ul>
 <?php } ?>
 
+<?php if (empty($reviewId) and $reviews and $reviews->place->result_count) { ?>
+	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+		<li data-role="list-divider">Avaliações (<?php echo $reviews->place->result_count; ?>)</li>
+        <?php foreach ($reviews->place->reviews as $review): ?>
+            <li>
+				<div style="padding-left:-20px;">
+					<a href="<?php echo ROOT_URL . 'places/review/' . $review->review->place->id . '/' . $review->review->id; ?>">
+						<h4><?php echo $review->review->created->user->name; ?></h4>
+					</a>
+					<p><?php echo $review->review->content; ?></p>
+				</div>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+<?php } else if (empty($reviewId)) { ?>
+    <p>Esse local ainda não foi avaliado.</p>
+<?php } ?>
+
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Deixe sua avaliação</li>
 </ul>
@@ -55,21 +73,3 @@
 	</fieldset>
 	<input type="submit" value="Publicar">
 </form>
-
-<?php if ($reviewId == null and $reviews and $reviews->place->result_count) { ?>
-	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-		<li data-role="list-divider">Avaliações (<?php echo $reviews->place->result_count; ?>)</li>
-        <?php foreach ($reviews->place->reviews as $review): ?>
-            <li>
-				<div style="padding-left:-20px;">
-					<a href="<?php echo ROOT_URL . 'places/review/' . $review->review->place->id . '/' . $review->review->id; ?>">
-						<h4><?php echo $review->review->created->user->name; ?></h4>
-					</a>
-					<p><?php echo $review->review->content; ?></p>
-				</div>
-			</li>
-		<?php endforeach; ?>
-	</ul>
-<?php } else if ($reviewId == null) { ?>
-    <p>Esse local ainda não foi avaliado.</p>
-<?php } ?>

@@ -270,7 +270,7 @@ class PlacesController extends \lithium\action\Controller {
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
 
-				$this->redirect('/places/checkins/'.$placeId);
+				$this->redirect('/places/show/'.$placeId);
 			} else {
 				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' .  $placeId);
 				$this->redirect('/oauth');
@@ -322,8 +322,7 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	public function review($placeId = null) {
-		$placeId = $this->request->params['args'][0];
+	public function review($placeId = null, $reviewId = null) {
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
