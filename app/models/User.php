@@ -28,6 +28,20 @@ class User {
 		$this->setStats(new UserStats($data->stats));
 	}
 	
+	public function getUserInfo() {
+		$userInfo = array();
+		if ($this->getGender()) {
+			$userInfo[] = $this->getGender();
+		}
+		
+		if ($this->getAge()) {
+			$userInfo[] = $this->getAge();
+		}
+	
+		return implode(", ", $userInfo);
+	
+	}
+	
 	public function setId($id) {
 		$this->id = $id;
 	}
@@ -44,12 +58,31 @@ class User {
 		return $this->name;
 	}
 	
+	public function getAge() {
+		if ($this->getBirthday()) {
+			list($day, $month, $year) = explode("/", $this->getBirthday());
+			
+			$year = $year < 1900 ? $year + 1900 : $year;
+			
+			$year_diff  = date("Y") - $year;
+			$month_diff = date("m") - $month;
+			$day_diff   = date("d") - $day;
+			if ($month_diff < 0) {
+				$year_diff--;
+			} elseif (($month_diff==0) && ($day_diff < 0)) {
+				$year_diff--;
+			}
+			return $year_diff . ' anos';
+		}
+		return false;
+	}
+	
 	public function setBirthday($birthday) {
 		$this->birthday = $birthday;
 	}
 	
 	public function getBirthday() {
-		return $this->birthday;
+		return date("d/m/y", strtotime($this->birthday));
 	}
 	
 	public function setGender($gender) {
@@ -57,7 +90,14 @@ class User {
 	}
 	
 	public function getGender() {
-		return $this->gender;
+		switch ($this->gender) {
+			case 'M':
+				return 'Masculino';
+			case 'F':
+				return 'Feminino';	
+			default:
+				return false;
+		}
 	}
 
 	public function setPhotoUrl($photoUrl) {
