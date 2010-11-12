@@ -3,8 +3,6 @@
 namespace app\controllers;
 
 use app\models\ApontadorApi;
-use app\models\Place;
-use app\models\PlaceList;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -39,9 +37,7 @@ class ProfileController extends \lithium\action\Controller {
 	public function show($userId) {
 		$user = $this->api->getUser(array('userid' => $userId));
 
-		var_dump($user);
-		exit;
-		return $this->whereAmI();
+		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 }
