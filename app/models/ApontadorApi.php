@@ -31,7 +31,15 @@ class ApontadorApi {
 		}
 	}
 
-	// Não está conversando com a API :(
+	public function getUser($param=array()) {
+		if (empty($param['userid'])) {
+			return false;
+		}
+		$response = $this->request('users/' . $param['userid'], array());
+		$response = json_decode($response, false);
+		return new User($response->user);
+	}
+
 	public function checkin($param=array()) {
 		if (empty($param['place_id'])) {
 			return false;
