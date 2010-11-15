@@ -132,7 +132,10 @@ class Controller extends \lithium\core\Object {
 		$media = $this->_classes['media'];
 
 		if ($this->request && !$this->_render['type']) {
-			$this->_render['type'] = $this->request->accepts() ?: 'html';
+                        // Workaround para funcionar em navegadores Nokia
+                        // TODO: Verificar a falha no Request::accepts() que causa o bug do Nokia.
+                        //$this->_render['type'] = $this->request->accepts() ?: 'html';
+                        $this->_render['type'] = 'html';
 		}
 		$config = $this->_config['response'] + array('request' => $this->request);
 		$this->response = $this->_instance('response', $config);
