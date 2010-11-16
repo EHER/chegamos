@@ -4,21 +4,21 @@ namespace app\models;
 use lithium\util\Inflector;
 
 class Photo {
-	var $photoUrl = '';
+	var $url = '';
 
 	public function __construct($data) {
 		$this->populate($data);
 	}
 
 	public function populate($data) {
-		$this->setPhotoUrl($data);
+		$this->setUrl($data);
 	}
 
-	public function getPhotoUrl() {
-		return $this->photoUrl;
+	public function getUrl() {
+		return $this->url;
 	}
 
-	public function setPhotoUrl($photoUrl) {
-		$this->photoUrl = $photoUrl;
+	public function setUrl($url) {
+		$this->url = $url;
 	}
 }
