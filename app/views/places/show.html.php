@@ -49,6 +49,9 @@
 		<?php echo $this->html->link("Avaliações (" . $place->getReviewCount() . ")", "/places/review/" . $place->getId()); ?>
 	</li>
 	<li>
+		<?php echo $this->html->link("Fotos", "/places/photos/" . $place->getId()); ?>
+	</li>
+	<li>
 		<?php
 		echo $this->html->link(
 				"Ver no Apontador",
