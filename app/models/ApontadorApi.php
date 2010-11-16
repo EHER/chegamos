@@ -67,6 +67,16 @@ class ApontadorApi {
 		return json_decode($response, false);
 	}
 
+	public function getPhotos($param=array()) {
+		if (empty($param['placeId'])) {
+			return false;
+		}
+		$response = $this->request('places/' . $param['placeId'] . '/photos');
+		$response = json_decode($response, false);
+		return New PhotoList($response);
+	}
+
+
 	public function getReviews($param=array()) {
 		if (empty($param['place_id'])) {
 			return false;

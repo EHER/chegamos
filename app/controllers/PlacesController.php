@@ -322,6 +322,23 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
+	public function photos($placeId = null) {
+		if (empty($placeId)) {
+			$this->redirect('/');
+		}
+
+		$photos = $this->api->getPhotos(array('placeId' => $placeId));
+
+		$thePlaceId = $placeId;
+
+		extract($this->whereAmI());
+
+		$placeId = $thePlaceId;
+
+		$place = $this->api->getPlace(array('placeId' => $placeId));
+
+		return compact('placeId','photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+	}
 	public function review($placeId = null, $reviewId = null) {
 		if (empty($placeId)) {
 			$this->redirect('/');
