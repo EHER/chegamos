@@ -1,6 +1,6 @@
 <?php use app\models\PhotoList; ?>
 <h2 style="margin:0;">
-	<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId()); ?>
+	<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId(), array('rel'=>'nofollow')); ?>
 	<?php if($place->getAverageRatingString()) { ?>
 		<small>(<?php echo $place->getAverageRatingString() ?>)</small>
 	<?php } ?>
