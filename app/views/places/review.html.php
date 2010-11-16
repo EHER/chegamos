@@ -20,7 +20,7 @@
             <div class="ui-btn-text">
 				<img style="padding-top:20px;" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb" />
 				<h3 class="ui-li-heading">
-					<a href="http://www.apontador.com.br/local/review/<?php echo $review->review->place->id; ?>/<?php echo $review->review->id; ?>.html">
+					<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
 						<?php echo $review->review->created->user->name; ?>
 					</a>
 				</h3>
