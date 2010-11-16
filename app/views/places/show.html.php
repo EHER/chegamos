@@ -2,7 +2,7 @@
 <?php use \app\models\PlaceInfo; ?>
 
 <h2 style="margin:0;">
-	<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId()); ?>
+	<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId(), array('rel'=>'nofollow')); ?>
 	<?php if($place->getAverageRatingString()) { ?>
 		<small>(<?php echo $place->getAverageRatingString() ?>)</small>
 	<?php } ?>
@@ -19,7 +19,7 @@
 
 <p>
 	Cadastrado por:
-	<a href="http://www.apontador.com.br/profile/<?php echo $place->getCreated()->user->id; ?>.html" target="_blank">
+	<a href="<?php echo ROOT_URL . 'profile/show/' . $place->getCreated()->user->id; ?>">
 		<?php echo $place->getCreated()->user->name; ?>
 	</a>
 </p>
@@ -46,14 +46,14 @@
 		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->getId()); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Avaliações"/* (" . $place->place->review_count . ")"*/, "/places/review/" . $place->getId()); ?>
+		<?php echo $this->html->link("Avaliações (" . $place->getReviewCount() . ")", "/places/review/" . $place->getId()); ?>
 	</li>
 	<li>
 		<?php
 		echo $this->html->link(
 				"Ver no Apontador",
 				$place->getMainUrl(),
-				array("target" => "_blank")
+				array("target" => "_blank", "rel" => "external")
 		); ?>
 	</li>
 	<li>
@@ -61,7 +61,7 @@
 		echo $this->html->link(
 				"Como chegar",
 				"http://maplink.apontador.com.br/?placeid=@" . $place->getId(),
-				array("target" => "_blank")
+				array("target" => "_blank", "rel" => "external")
 		); ?>
 	</li>
 </ul>

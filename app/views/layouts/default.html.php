@@ -22,7 +22,7 @@
 <body>
 	<div data-role="page" data-theme="d" id="jqm-home">
 		<div data-role="header"> 
-			<h1><?php echo $this->html->link('Apontador Jr', '/'); ?></h1>
+			<h1><?php echo $this->html->link('Apontador Jr', '/', array("rel" => "nofollow")); ?></h1>
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>
@@ -65,7 +65,7 @@
 			
 		</div>
 		<div data-role="footer">
-			<h2><a href="http://api.apontador.com.br/" target="_blank">Apontador API</a></h2>
+			<h2><a href="http://api.apontador.com.br/" target="_blank" rel="external">Apontador API</a></h2>
 		</div>
 	</div>
 </body>

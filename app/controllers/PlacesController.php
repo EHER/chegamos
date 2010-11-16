@@ -145,16 +145,16 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
-	public function categories() {
+	public function categories($all = null) {
 		extract($this->whereAmI());
 
-		if (isset($_GET['all'])) {
+		if (!empty($all)) {
 			$categories = $this->api->getCategories();
 		} else {
 			$categories = $this->api->getCategoriesTop();
 		}
 		
-		return compact('geocode','categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('all', 'geocode','categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function category($categoryId) {
