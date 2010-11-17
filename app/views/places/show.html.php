@@ -64,11 +64,6 @@
 	</li>
 	<li>
 		<?php
-		/*echo $this->html->link(
-				"Como chegar",
-				"http://maplink.apontador.com.br/?placeid=@" . $place->getId(),
-				array("target" => "_blank", "rel" => "external")
-		);*/
 		echo $this->html->link(
 				"Como chegar",
 				$place->getRouteUrl($geocode, $lat, $lng),

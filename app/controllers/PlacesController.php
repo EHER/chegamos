@@ -295,7 +295,7 @@ class PlacesController extends \lithium\action\Controller {
 			$placeId = $thePlaceId;
 			
 			$visitors = $this->api->getVisitors(array('placeid' => $placeId));
-			$place->setNumVisitors(count($visitors));
+			$place->setNumVisitors($visitors->getNumFound());
 			
 			$photos = $this->api->getPhotos(array('placeId' => $placeId));
 			$place->setNumPhotos(count($photos->getItems()));

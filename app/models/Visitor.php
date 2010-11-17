@@ -4,8 +4,8 @@ namespace app\models;
 
 class Visitor extends User {
 
-	var $id = "";
-	var $name = "";
+	var $visits = "";
+	var $lastVisit = "";
 
 	public function __construct($data) {
 		$this->populate($data);
@@ -13,17 +13,23 @@ class Visitor extends User {
 
 	public function populate($data) {
 		parent::populate($data->user);
-		var_dump($data);exit;
-		$this->setId($data->id);
-		$this->setName($data->name);
-		$this->setBirthday($data->birthday);
+		$this->setVisits($data->visits);
+		$this->setLastVisit($data->last_visit);
 	}
 
-	public function setStats($stats) {
-		$this->stats = $stats;
+	public function setVisits($visits) {
+		$this->visits = $visits;
 	}
 	
-	public function getStats() {
-		return $this->stats;
+	public function getVisits() {
+		return $this->visits;
+	}
+	
+	public function setLastVisit($lastVisit) {
+		$this->lastVisit = $lastVisit;
+	}
+	
+	public function getLastVisit() {
+		return date("d/m/y H:i", strtotime($this->lastVisit));
 	}
 }
