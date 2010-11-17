@@ -314,8 +314,6 @@ class PlacesController extends \lithium\action\Controller {
 		}
 
 		$visitors = $this->api->getVisitors(array('placeid' => $placeId));
-		$visitors = array_reverse($visitors);
-
 
 		$thePlaceId = $placeId;
 
