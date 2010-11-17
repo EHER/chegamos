@@ -17,7 +17,9 @@ class User {
 		$this->populate($data);
 	}
 
-	public function populate($data) {	
+	public function populate($data) {
+		var_dump($data);
+		exit;
 		$this->setId($data->id);
 		$this->setName($data->name);
 		$this->setBirthday($data->birthday);

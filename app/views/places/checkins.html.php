@@ -14,7 +14,7 @@
 
 <ul data-role="listview" role="listbox" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Quem esteve aqui</li>
-<?php if (!empty($visitors)) { ?>		
+<?php if (!empty($visitors)) { ?>
 	<?php foreach ($visitors as $visitor) { ?>
 		<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
 			<div class="ui-btn-text">

@@ -24,4 +24,5 @@ define('APONTADOR_URL', 'api.apontador.com.br/v1/');
 define('APONTADOR_PORT', 80);
 define('APONTADOR_CONSUMER_KEY', '');
 define('APONTADOR_CONSUMER_SECRET', '');
+define('APONTADOR_TIMEOUT', 10);
 
