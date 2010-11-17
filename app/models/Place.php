@@ -21,6 +21,8 @@ class Place {
 	var $phone = null;
 	var $visitors = null;
 	var $placeInfo = null;
+	var $numVisitors = 0;
+	var $numPhotos = 0;
 
 	public function __construct($data) {
 		$this->populate($data);
@@ -61,6 +63,22 @@ class Place {
 	
 	public function getId() {
 		return $this->id;
+	}
+	
+	public function setNumVisitors($numVisitors) {
+		$this->numVisitors = $numVisitors;
+	}
+	
+	public function getNumVisitors() {
+		return $this->numVisitors;
+	}
+	
+	public function setNumPhotos($numPhotos) {
+		$this->numPhotos = $numPhotos;
+	}
+	
+	public function getNumPhotos() {
+		return $this->numPhotos;
 	}
 	
 	public function setName($name) {
@@ -182,5 +200,22 @@ class Place {
 	
 	public function getIconUrl() {
 		return $this->iconUrl;
+	}
+	
+	public function getRouteUrl($userAddress, $lat, $lng) {
+		$routeUrl = "http://wap.maplink.uol.com.br/Rota.aspx";
+		
+		$params = array();
+		$params['et'] = $this->address->getRouteAddress();
+		$params['ex'] = $this->point->lng;
+		$params['ey'] = $this->point->lat;
+		
+		if ($userAddress instanceof Address) {
+			$params['st'] = $userAddress->getRouteAddress();
+			$params['sx'] = $lng;
+			$params['sy'] = $lat;
+		}
+		
+		return $routeUrl . '?' . http_build_query($params);
 	}
 }

@@ -49,6 +49,14 @@ class Address {
 		$this->street = Inflector::formatTitle($street);
 	}
 	
+	public function getRouteAddress() {
+		$data = $this->getStreet();
+		$data .= $this->getNumber() ? ', ' . $this->getNumber() : '';
+		$data .= $this->getCity() ? ', ' . $this->getCity() : '';
+		$data .= $this->getCity()->getState() ? ' - ' . $this->getCity()->getState() : '';
+		return $data;
+	}
+	
 	public function getStreet() {
 		return $this->street;
 	}

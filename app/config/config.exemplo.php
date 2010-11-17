@@ -3,7 +3,8 @@
 /**
  * Define o nível de erro a ser exibido.
  */
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE | E_ALL);
+ini_set('display_errors', '1');
 
 /**
  * Define o timezone padrão 

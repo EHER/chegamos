@@ -136,7 +136,7 @@ class ApontadorApi {
 
 		$response = json_decode($response, false);
 
-		if (is_object($response->search)) {
+		if (!empty($response->search)) {
 			return new PlaceList($response->search);
 		}
 		return false;
@@ -151,7 +151,7 @@ class ApontadorApi {
 		do {
 			$param['radius_mt'] . " ";
 			$placeList = $this->$type($param);
-			$numFound = $placeList->getNumFound() ? $placeList->getNumFound() : 0;
+			$numFound = $placeList instanceof PlaceList ? $placeList->getNumFound() : 0;
 			$param['radius_mt'] = $param['radius_mt'] * 10;
 		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
 		return $placeList;

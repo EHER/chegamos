@@ -11,16 +11,13 @@
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Apontador Jr <?php echo $this->title(); ?></title>
-	<?php //echo $this->html->style(array('debug', 'lithium')); ?>
-	<?php echo $this->scripts(); ?>
-	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css" />
-	<script src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
+	<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
 </head>
 <body>
-	<div data-role="page" data-theme="d" id="jqm-home">
+	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header"> 
 			<h1><?php echo $this->html->link('Apontador Jr', '/', array("rel" => "nofollow")); ?></h1>
 		</div>
