@@ -294,9 +294,15 @@ class PlacesController extends \lithium\action\Controller {
 		
 			$placeId = $thePlaceId;
 			
+			$visitors = $this->api->getVisitors(array('placeid' => $placeId));
+			$place->setNumVisitors($visitors->getNumFound());
+			
+			$photos = $this->api->getPhotos(array('placeId' => $placeId));
+			$place->setNumPhotos(count($photos->getItems()));
+			
 			$showCheckin = true;
 			
-			return compact('geocode','showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			return compact('numVisitors', 'geocode','showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}
@@ -308,8 +314,6 @@ class PlacesController extends \lithium\action\Controller {
 		}
 
 		$visitors = $this->api->getVisitors(array('placeid' => $placeId));
-		$visitors = array_reverse($visitors);
-
 
 		$thePlaceId = $placeId;
 
@@ -322,7 +326,7 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('placeId','visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	public function photos($placeId = null) {
+	public function photos($placeId = null, $photoId = 0) {
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
@@ -337,7 +341,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-		return compact('placeId','photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('photoId', 'placeId','photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 	public function review($placeId = null, $reviewId = null) {
 		if (empty($placeId)) {

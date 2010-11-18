@@ -3,7 +3,8 @@
 /**
  * Define o nível de erro a ser exibido.
  */
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE | E_ALL);
+ini_set('display_errors', '1');
 
 /**
  * Define o timezone padrão 
@@ -23,4 +24,5 @@ define('APONTADOR_URL', 'api.apontador.com.br/v1/');
 define('APONTADOR_PORT', 80);
 define('APONTADOR_CONSUMER_KEY', '');
 define('APONTADOR_CONSUMER_SECRET', '');
+define('APONTADOR_TIMEOUT', 10);
 

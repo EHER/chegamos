@@ -17,15 +17,31 @@ class User {
 		$this->populate($data);
 	}
 
-	public function populate($data) {	
+	public function populate($data) {
 		$this->setId($data->id);
 		$this->setName($data->name);
-		$this->setBirthday($data->birthday);
-		$this->setGender($data->gender);
-		$this->setPhotoUrl($data->photo_url);
-		$this->setPhotoMediumUrl($data->photo_medium_url);
-		$this->setPhotoSmallUrl($data->photo_small_url);
-		$this->setStats(new UserStats($data->stats));
+		$this->setBirthday(isset($data->birthday) ? $data->birthday : '');
+		$this->setGender(isset($data->gender) ? $data->gender : '');
+		
+		if (isset($data->photo_medium_url)) {
+			$this->setPhotoMediumUrl($data->photo_medium_url);
+		} else if (isset($data->photo_medium)) {
+			$this->setPhotoMediumUrl($data->photo_medium);
+		}
+		
+		if (isset($data->photo_url)) {
+			$this->setPhotoUrl($data->photo_url);
+		} else if (isset($data->photo)) {
+			$this->setPhotoUrl($data->photo);
+		}
+		
+		if (isset($data->photo_small_url)) {
+			$this->setPhotoSmallUrl($data->photo_small_url);
+		} else if (isset($data->photo_small)) {
+			$this->setPhotoSmallUrl($data->photo_small);
+		}
+		
+		$this->setStats(isset($data->stats) ? new UserStats($data->stats) : null);
 	}
 	
 	public function getUserInfo() {
@@ -130,5 +146,12 @@ class User {
 	
 	public function getStats() {
 		return $this->stats;
+	}
+	
+	public function getProfileUrl() {
+		if ($this->getId()) {
+			return ROOT_URL . 'profile/show/' . $this->getId();
+		}
+		return false;
 	}
 }

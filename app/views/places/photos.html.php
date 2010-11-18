@@ -14,7 +14,14 @@
 </p>
 
 <?php if ($photos instanceof PhotoList && $photos->getNumFound() > 0) { ?>
-	<?php foreach ($photos->getItems() as $photo) { ?>
-		<img src="<?php echo $photo->getUrl()?>" />
+	<?php foreach ($photos->getItems() as $k => $photo) { ?>
+		<?php if ($k == $photoId) { ?>
+			<div style="text-align:center;">
+				<img src="<?php echo $photo->getUrl()?>" />
+				<br />
+				<a data-inline="true" rel="external" href="<?php echo ROOT_URL; ?>places/photos/<?php echo $place->getId() ?>/<?php echo $photoId - 1; ?>" data-role="button" data-theme="b"><<</a>
+				<a data-inline="true" rel="external" href="<?php echo ROOT_URL; ?>places/photos/<?php echo $place->getId() ?>/<?php echo $photoId + 1; ?>" data-role="button" data-theme="b">>></a>
+			</div>
+		<?php } ?>
 	<?php } ?>
 <?php } ?>

@@ -44,12 +44,15 @@
 	</li>
 	<li>
 		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->getId()); ?>
+		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getNumVisitors(); ?></span>
 	</li>
 	<li>
-		<?php echo $this->html->link("Avaliações (" . $place->getReviewCount() . ")", "/places/review/" . $place->getId()); ?>
+		<?php echo $this->html->link("Avaliações", "/places/review/" . $place->getId()); ?>
+		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getReviewCount(); ?></span>
 	</li>
 	<li>
 		<?php echo $this->html->link("Fotos", "/places/photos/" . $place->getId()); ?>
+		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getNumPhotos(); ?></span>
 	</li>
 	<li>
 		<?php
@@ -63,8 +66,9 @@
 		<?php
 		echo $this->html->link(
 				"Como chegar",
-				"http://maplink.apontador.com.br/?placeid=@" . $place->getId(),
+				$place->getRouteUrl($geocode, $lat, $lng),
 				array("target" => "_blank", "rel" => "external")
-		); ?>
+		);
+		?>
 	</li>
 </ul>

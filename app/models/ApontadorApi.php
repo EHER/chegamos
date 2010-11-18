@@ -14,6 +14,7 @@ class ApontadorApi {
 		'port' => APONTADOR_PORT,
 		'consumerKey' => APONTADOR_CONSUMER_KEY,
 		'consumerSecret' => APONTADOR_CONSUMER_SECRET,
+		'timeout' => APONTADOR_TIMEOUT,
 	);
 
 	public function __construct() {
@@ -136,7 +137,7 @@ class ApontadorApi {
 
 		$response = json_decode($response, false);
 
-		if (is_object($response->search)) {
+		if (!empty($response->search)) {
 			return new PlaceList($response->search);
 		}
 		return false;
@@ -144,16 +145,22 @@ class ApontadorApi {
 
 	public function searchRecursive($param, $type = 'searchByPoint') {
 		$numFound = 0;
+		$maxQueries = 20;
+		$numQueries = 0;
 		$radiusLimit = 10000000;
 		$param['limit'] = !empty($param['limit']) ? $param['limit'] : 20;
 		$param['radius_mt'] = !empty($param['radius_mt']) ? $param['radius_mt'] : 10;
 
 		do {
+			$numQueries++;
 			$param['radius_mt'] . " ";
 			$placeList = $this->$type($param);
-			$numFound = $placeList->getNumFound() ? $placeList->getNumFound() : 0;
+			$numFound = $placeList instanceof PlaceList ? $placeList->getNumFound() : 0;
 			$param['radius_mt'] = $param['radius_mt'] * 10;
-		} while ($numFound < $param['limit'] || $param['radius_mt'] > $radiusLimit);
+			if ($numQueries > $maxQueries) {
+				break;
+			}
+		} while ($numFound < $param['limit'] && $param['radius_mt'] > $radiusLimit);
 		return $placeList;
 	}
 
@@ -228,7 +235,9 @@ class ApontadorApi {
 						'lng' => $lng,
 						'limit' => 1
 							), 'searchByPoint');
-			return $search->getItem(0)->getAddress();
+			if ($search) {
+				return $search->getItem(0)->getAddress();
+			}
 		}
 		return false;
 	}
@@ -281,7 +290,9 @@ class ApontadorApi {
 		if (!is_object($visitors)) {
 			return false;
 		}
-		return $visitors->visitors;
+		$visitorList = new VisitorList($visitors->visitors);
+		$visitorList->setPlaceId($param['placeid']);
+		return $visitorList;
 	}
 
 	private function request($method, $params=array(), $verb='GET') {
@@ -306,6 +317,7 @@ class ApontadorApi {
 					'basicAuth' => true,
 					'username' => $this->config['consumerKey'],
 					'password' => $this->config['consumerSecret'],
+					'timeout' => $this->config['timeout'],
 				));
 
 		//echo $this->config['consumerKey'] . ':' . $this->config['consumerSecret'];
@@ -328,7 +340,7 @@ class ApontadorApi {
 			'method' => 'GET',
 			'header' => '',
 			'fields' => '',
-			'timeout' => 10,
+			'timeout' => 5,
 		);
 
 		$config = $params + $defaults;
