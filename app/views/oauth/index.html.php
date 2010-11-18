@@ -1,5 +1,6 @@
 <p>Você deve fazer login com sua conta do <a href="http://www.apontador.com.br/">Apontador</a>.</p>
 <form id="form_login" action="http://www.apontador.com.br/accounts/login.html" method="POST" >
+	<input id="callback" type="hidden" name="callback" value="<?=$oauthCallbackUrl; ?>"/>
 	<label for="user_email_login">E-mail</label>
 	<input id="user_email_login" type="text" name="user[email]"/>
 	<br/>
