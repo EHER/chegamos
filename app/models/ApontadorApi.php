@@ -387,8 +387,7 @@ class ApontadorApi {
 		$endpoint = "http://api.apontador.com.br/v1/oauth/authorize";
 		$oauth_callback = "$callbackurl?&key=" . $this->config['consumerKey'] . "&secret=" . $this->config['consumerSecret'] . "&token=$oauth_token&token_secret=$oauth_token_secret&endpoint=" . urlencode($endpoint);
 		$auth_url = $endpoint . "?oauth_token=$oauth_token&oauth_callback=" . urlencode($oauth_callback) . "";
-		header("Location: $auth_url");
-		die();
+		return $auth_url;
 	}
 
 	/**
