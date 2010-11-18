@@ -53,7 +53,6 @@ class Address {
 		$data = $this->getStreet();
 		$data .= $this->getNumber() ? ', ' . $this->getNumber() : '';
 		$data .= $this->getCity() ? ', ' . $this->getCity() : '';
-		$data .= $this->getCity()->getState() ? ' - ' . $this->getCity()->getState() : '';
 		return $data;
 	}
 	
