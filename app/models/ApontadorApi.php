@@ -145,9 +145,9 @@ class ApontadorApi {
 
 	public function searchRecursive($param, $type = 'searchByPoint') {
 		$numFound = 0;
-		$maxQueries = 20;
+		$maxQueries = 5;
 		$numQueries = 0;
-		$radiusLimit = 10000000;
+		$radiusLimit = 1000000;
 		$param['limit'] = !empty($param['limit']) ? $param['limit'] : 20;
 		$param['radius_mt'] = !empty($param['radius_mt']) ? $param['radius_mt'] : 10;
 
@@ -160,7 +160,7 @@ class ApontadorApi {
 			if ($numQueries > $maxQueries) {
 				break;
 			}
-		} while ($numFound < $param['limit'] && $param['radius_mt'] > $radiusLimit);
+		} while ($numFound < $param['limit'] && $param['radius_mt'] < $radiusLimit);
 		return $placeList;
 	}
 
