@@ -1,11 +1,11 @@
-Chegamos
-========
+Chegamos!
+=========
 
 O objetivo do projeto é criar um site, leve e fácil de acessar, que permita encontrar locais próximos.
 Este site deve ser acessível o bastante para rodar em um navegador de celular (wap) ou ainda um navegador modo texto (lynx).
 
 
-Tecnologia usada
+Tecnologia utilizada
 
 Apache 2 <http://httpd.apache.org/>
 Apache Module mod_rewrite <http://httpd.apache.org/docs/current/mod/mod_rewrite.html>
@@ -68,4 +68,3 @@ Se ficar em dúvida compare o arquivo de exemplo abaixo.
                 allow from all
         </Directory>
 </VirtualHost>
-
