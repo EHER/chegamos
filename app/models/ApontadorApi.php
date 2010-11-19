@@ -133,6 +133,7 @@ class ApontadorApi {
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
+					'page' => isset($param['page']) ? $param['page'] : '1',
 				));
 
 		$response = json_decode($response, false);
