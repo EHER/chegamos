@@ -1,5 +1,5 @@
-Apontador Jr
-============
+Chegamos
+========
 
 O objetivo do projeto é criar um site, leve e fácil de acessar, que permita encontrar locais próximos.
 Este site deve ser acessível o bastante para rodar em um navegador de celular (wap) ou ainda um navegador modo texto (lynx).
@@ -22,8 +22,7 @@ sudo aptitude install apache2 php5 php5-curl
 Setup do projeto
 
 Dentro do raiz do seu Apache, que geralmente é /var/www/, faça o pull do projeto.
-Renomeie a pasta para algo mais fácil de digitar, como "jr".
-Entre nesta pasta e verifique se existe a pasta app/resources. Se não existir, crie-o.
+Entre na pasta chegamos e verifique se existe a pasta app/resources. Se não existir, crie-o.
 Dê acesso de escrita por qualquer usuário na pasta app/resourcespor qualquer usuário.
 Copie o arquivo app/config/config.exemplo.php para /app/config/config.php e adicione seu consumer key e consumer secret do Apontador Api <http://api.apontador.com.br/>.
 
@@ -37,8 +36,8 @@ http://www.apontador.com.br/accounts/apps.html
 Sequencia de comandos para configurar o Projeto
 
 cd /var/www
-git clone git://github.com/EHER/Apontador-Jr.git jr
-cd jr
+git clone git://github.com/EHER/chegamos.git 
+cd chegamos 
 mkdir app/resources
 chmod -R 0777 app/resources
 cp -fr app/config/config.exemplo.php app/config/config.php
