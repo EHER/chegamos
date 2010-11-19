@@ -10,7 +10,7 @@
 <html>
 <head>
 	<?php echo $this->html->charset();?>
-	<title>Chegamos <?php echo $this->title(); ?></title>
+	<title>Chegamos! <?php echo $this->title(); ?></title>
 	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
 	<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
@@ -19,7 +19,7 @@
 <body>
 	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header"> 
-			<h1><?php echo $this->html->link('Chegamos', '/', array("rel" => "nofollow")); ?></h1>
+			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>
