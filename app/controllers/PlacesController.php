@@ -77,8 +77,10 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('geocode','placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
-	public function near() {
+	public function near($page = 'page1') {
 		extract($this->whereAmI());
+
+		$page = str_replace('page', '', $page);
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
@@ -86,29 +88,33 @@ class PlacesController extends \lithium\action\Controller {
 			$lng = $place->getPoint()->lng;
 			$placeList = $this->api->searchRecursive(array(
 						'lat' => $lat,
-						'lng' => $lng
+						'lng' => $lng,
+						'page' => $page
 							), 'searchByPoint');
 		} elseif (!empty($zipcode)) {
 			$placeList = $this->api->searchRecursive(array(
-						'zipcode' => $zipcode
+						'zipcode' => $zipcode,
+						'page' => $page
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
 			$placeList = $this->api->searchRecursive(array(
 						'city' => trim($city),
 						'state' => trim($state),
-						'country' => 'BR'
+						'country' => 'BR',
+						'page' => $page
 							), 'searchByAddress');
 		} elseif (!empty($lat) and !empty($lng)) {
 			$placeList = $this->api->searchRecursive(array(
 						'lat' => $lat,
-						'lng' => $lng
+						'lng' => $lng,
+						'page' => $page
 							), 'searchByPoint');
 		} else {
 			$this->redirect('/places/checkin');
 		}
 		
-		return compact('geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 	
 	public function gasstations() {
@@ -157,8 +163,10 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('all', 'geocode','categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
-	public function category($categoryId, $page=1) {
+	public function category($categoryId, $page='page1') {
 		extract($this->whereAmI());
+
+		$page = str_replace('page', '', $page);
 
 		if (empty($categoryId)) {
 			$this->redirect('/places/categories');

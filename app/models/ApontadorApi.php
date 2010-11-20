@@ -151,6 +151,7 @@ class ApontadorApi {
 		$radiusLimit = 1000000;
 		$param['limit'] = !empty($param['limit']) ? $param['limit'] : 20;
 		$param['radius_mt'] = !empty($param['radius_mt']) ? $param['radius_mt'] : 10;
+		$param['page'] = !empty($param['page']) ? $param['page'] : '1';
 
 		do {
 			$numQueries++;

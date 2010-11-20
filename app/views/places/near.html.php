@@ -14,6 +14,9 @@
 				</p>
 			</li>
 		<?php } ?>
+		<?php if ($page < 10) { ?>
+			<li><a href="<?php echo ROOT_URL;?>places/near/page<?php echo $page + 1; ?>">Mais</li>
+		<?php } ?>
 	<?php } else { ?>
 	<li>Nenhum local encontrado.</li>
 	<?php } ?>

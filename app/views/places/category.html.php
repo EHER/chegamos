@@ -15,7 +15,7 @@
 			</li>
 		<?php } ?>
 		<?php if ($page < 10) { ?>
-			<li><a href="<?php echo ROOT_URL;?>places/category/<?php echo $categoryId; ?>/<?php echo $page + 1; ?>">Mais</li>
+			<li><a href="<?php echo ROOT_URL;?>places/category/<?php echo $categoryId; ?>/page<?php echo $page + 1; ?>">Mais</li>
 		<?php } ?>
 	<?php } else { ?>
 	<li>Nenhum local encontrado.</li>
