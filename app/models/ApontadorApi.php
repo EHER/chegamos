@@ -243,6 +243,26 @@ class ApontadorApi {
 		}
 		return false;
 	}
+	
+	public function getUserPlaces($param=array()) {
+		if (empty($param['userId'])) {
+			return false;
+		}
+
+		$response = $this->request('users/' . $param['userId'] . '/places', array(
+					'page' => isset($param['page']) ? $param['page'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+
+		$response = json_decode($response, false);
+
+		//var_dump($response );exit;
+
+		if (is_object($response->user)) {
+			return new User($response->user);
+		}
+		return false;
+	}
 
 	public function searchByZipcode($param=array()) {
 		if (empty($param['zipcode'])) {

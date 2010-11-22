@@ -33,6 +33,18 @@ class ProfileController extends \lithium\action\Controller {
 
 		return compact('geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
+	
+	public function places($userId, $page='page1') {
+		if (empty($userId)) {
+			$this->redirect('/');
+		}
+		
+		$page = str_replace('page', '', $page);
+		
+		$user = $this->api->getUserPlaces(array('userId' => $userId, 'page' => $page));
+		
+		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+	}
 
 	public function show($userId) {
 		$user = $this->api->getUser(array('userid' => $userId));

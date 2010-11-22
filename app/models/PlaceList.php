@@ -5,10 +5,13 @@ namespace app\models;
 class PlaceList extends ItemsList {
 
 	private $radius;
+	private $currentPage;
 
 	public function __construct($data = null) {
 		if ($data != null) {
 			$this->setNumFound($data->result_count);
+			
+			$this->setCurrentPage($data->current_page);
 		
 			foreach ($data->places as $place) {
 				$this->add(new Place($place->place));
@@ -22,6 +25,14 @@ class PlaceList extends ItemsList {
 	
 	public function getRadius() {
 		return $this->radius;
+	}
+	
+	public function setCurrentPage($currentPage) {
+		$this->currentPage = $currentPage;
+	}
+	
+	public function getCurrentPage() {
+		return $this->currentPage;
 	}
 	
 	public function addUnique($newItem) {

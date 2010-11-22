@@ -4,14 +4,15 @@ namespace app\models;
 
 class User {
 
-	var $id = "";
-	var $name = "";
-	var $birthday = null;
-	var $gender = null;
-	var $photoUrl = null;
-	var $photoMediumUrl = null;
-	var $photoSmallUrl = null;
-	var $stats = null;
+	private $id = "";
+	private $name = "";
+	private $birthday = null;
+	private $gender = null;
+	private $photoUrl = null;
+	private $photoMediumUrl = null;
+	private $photoSmallUrl = null;
+	private $stats = null;
+	private $places = null;
 
 	public function __construct($data) {
 		$this->populate($data);
@@ -41,6 +42,10 @@ class User {
 			$this->setPhotoSmallUrl($data->photo_small);
 		}
 		
+		if (isset($data->places)) {
+			$this->setPlaces(new PlaceList($data));
+		}
+		
 		$this->setStats(isset($data->stats) ? new UserStats($data->stats) : null);
 	}
 	
@@ -55,7 +60,14 @@ class User {
 		}
 	
 		return implode(", ", $userInfo);
+	}
 	
+	public function setPlaces($places) {
+		$this->places = $places;
+	}
+	
+	public function getPlaces() {
+		return $this->places;
 	}
 	
 	public function setId($id) {
