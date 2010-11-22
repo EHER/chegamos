@@ -13,12 +13,12 @@
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
-		<?php echo $this->html->link("Avaliações (" . $user->getStats()->getReviews() . ")", "/profile/" . $user->getId() . "/reviews", array("rel" => "nofollow")); ?>
+		<?php echo $this->html->link("Avaliações (" . $user->getStats()->getReviews() . ")", "/profile/reviews/" . $user->getId(), array("rel" => "nofollow")); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Locais Cadastrados (" . $user->getStats()->getPlaces() . ")", "/profile/" . $user->getId() . "/places", array("rel" => "nofollow")); ?>
+		<?php echo $this->html->link("Locais Cadastrados (" . $user->getStats()->getPlaces() . ")", "/profile/places/" . $user->getId(), array("rel" => "nofollow")); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Fotos (" . $user->getStats()->getPhotos() . ")", "/profile/" . $user->getId() . "/photos", array("rel" => "nofollow")); ?>
+		<?php echo $this->html->link("Fotos (" . $user->getStats()->getPhotos() . ")", "/profile/photos" .$user->getId(), array("rel" => "nofollow")); ?>
 	</li>
 </ul>

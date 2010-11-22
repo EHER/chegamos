@@ -250,13 +250,11 @@ class ApontadorApi {
 		}
 
 		$response = $this->request('users/' . $param['userId'] . '/places', array(
-					'page' => isset($param['page']) ? $param['page'] : '',
+					'page' => isset($param['page']) ? 2 : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
 
 		$response = json_decode($response, false);
-
-		//var_dump($response );exit;
 
 		if (is_object($response->user)) {
 			return new User($response->user);

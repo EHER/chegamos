@@ -110,7 +110,10 @@ class User {
 	}
 	
 	public function getBirthday() {
-		return date("d/m/y", strtotime($this->birthday));
+		if ($this->birthday != null) {
+			return date("d/m/y", strtotime($this->birthday));
+		}
+		return false;
 	}
 	
 	public function setGender($gender) {

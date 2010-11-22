@@ -1,6 +1,5 @@
 <?php use \app\models\User; ?>
 <?php use app\models\PlaceList; ?>
-
 <h2 style="margin:0;">
 	<?php echo $this->html->link($user->getName(), "/profile/show/" . $user->getId(), array("rel"=>"nofollow")); ?>
 </h2>
@@ -25,8 +24,8 @@
 				</p>
 			</li>
 		<?php } ?>
-		<?php if ($user->getPlaces()->getCurrentPage() < 10) { ?>
-			<li><a href="<?php echo ROOT_URL;?>profile/places/<?php echo $user->getId(); ?>/page<?php echo $user->getPlaces()->getCurrentPage() + 1; ?>">Mais</li>
+		<?php if ($user->getPlaces()->getCurrentPage() < 10 && $user->getPlaces()->getNumFound() <= $user->getPlaces()->getCurrentPage() * 10) { ?>
+			<li><a href="<?php echo ROOT_URL;?>profile/places/<?php echo $user->getId(); ?>/page<?php echo $user->getPlaces()->getCurrentPage() + 1; ?>">Mais</a></li>
 		<?php } ?>
 	<?php } else { ?>
 	<li>Nenhum local encontrado.</li>
