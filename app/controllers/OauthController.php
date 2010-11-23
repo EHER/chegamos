@@ -22,10 +22,10 @@ class OauthController extends \lithium\action\Controller {
 		$redir = empty($redir) ? ROOT_URL : $redir;
 
 		$token = $api->apontadorProcessaAutorizacao();
+
 		Session::write('oauthToken', $token['oauth_token']);
 		Session::write('oauthTokenSecret', $token['oauth_token_secret']);
 		Session::write('userId', $token['user_id']);
-
 		$this->redirect($redir);
 	}
 
