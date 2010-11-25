@@ -203,17 +203,16 @@ class Place {
 	}
 	
 	public function getRouteUrl($userAddress, $lat, $lng) {
-		$routeUrl = "http://wap.maplink.uol.com.br/Rota.aspx";
+		$routeUrl = "http://maps.google.com.br/m/directions";
 		
 		$params = array();
-		$params['et'] = $this->address->getRouteAddress();
-		$params['ex'] = $this->point->lng;
-		$params['ey'] = $this->point->lat;
+
+		$params['dirflg'] = 'd';
 		
+		$params['daddr'] = $this->address->getRouteAddress();
+
 		if ($userAddress instanceof Address) {
-			$params['st'] = $userAddress->getRouteAddress();
-			$params['sx'] = $lng;
-			$params['sy'] = $lat;
+			$params['saddr'] = $userAddress->getRouteAddress();
 		}
 		
 		return $routeUrl . '?' . http_build_query($params);
