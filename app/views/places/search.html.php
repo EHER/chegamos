@@ -26,7 +26,7 @@
 	</ul>
 	<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		<fieldset>
-			<label for="cep">Nome:</label>
+			<label for="name">Nome:</label>
 			<input type="text" id="name" name="name" value="<?= $searchName; ?>">
 		</fieldset>
 		<input type="submit" value="Buscar">
