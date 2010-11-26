@@ -25,8 +25,9 @@ class PlacesController extends \lithium\action\Controller {
 			$this->doCheckin($checkinData);
 			return $checkinData;
 		}
+		$title = "Página principal";
+		return \array_merge(compact('title'),$this->whereAmI());
 
-		return $this->whereAmI();
 	}
 
 	public function search() {
@@ -74,7 +75,10 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 
-		return compact('geocode', 'placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$title = "Locais por nome";
+		$title = empty($searchName) ? $title : $title . ": " . $searchName ;
+
+		return compact('title', 'geocode', 'placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function near($page = 'page1') {
@@ -114,7 +118,8 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/places/checkin');
 		}
 
-		return compact('page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$title = "Locais Próximos";
+		return compact('title', 'page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function gasstations() {
@@ -148,7 +153,7 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/places/checkin');
 		}
 
-		return compact('geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function categories($all = null) {
@@ -156,11 +161,13 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($all)) {
 			$categories = $this->api->getCategories();
+			$title = "Todas as categorias";
 		} else {
 			$categories = $this->api->getCategoriesTop();
+			$title = "Principais categorias";
 		}
 
-		return compact('all', 'geocode', 'categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'all', 'geocode', 'categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function category($categoryId, $page='page1') {
@@ -214,7 +221,9 @@ class PlacesController extends \lithium\action\Controller {
 
 		extract($this->whereAmI());
 
-		return compact('page', 'categoryId', 'geocode', 'placeList', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		$title = $categoryName;
+
+		return compact('title', 'page', 'categoryId', 'geocode', 'placeList', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function whereAmI() {
@@ -256,7 +265,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		extract($this->whereAmI());
 
-		return compact('geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		$title = 'Onde estou';
+		return compact('title', 'geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doCheckin(Array $checkinData = array()) {
@@ -314,7 +324,8 @@ class PlacesController extends \lithium\action\Controller {
 
 			$showCheckin = true;
 
-			return compact('numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			$title = $place->getName();
+			return compact('title', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}
@@ -335,7 +346,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-		return compact('placeId', 'visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		$title = $place->getName() . ' - Quem esteve aqui';
+		return compact('title', 'placeId', 'visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function photos($placeId = null, $photoId = 0) {
@@ -353,7 +365,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-		return compact('photoId', 'placeId', 'photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		$title = $place->getName() . ' - Fotos';
+		return compact('title', 'photoId', 'placeId', 'photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function review($placeId = null, $reviewId = null) {
@@ -392,7 +405,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-		return compact('geocode', 'reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		$title = $place->getName() . ' - Avaliações';
+		return compact('title', 'geocode', 'reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doReview(Array $reviewData = array()) {
