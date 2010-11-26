@@ -25,7 +25,7 @@ class PlacesController extends \lithium\action\Controller {
 			$this->doCheckin($checkinData);
 			return $checkinData;
 		}
-		$title = "Página principal";
+		$title = "";
 		return \array_merge(compact('title'),$this->whereAmI());
 
 	}
