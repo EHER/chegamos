@@ -36,17 +36,17 @@
 					?>
 
 					<?php if (!empty($zipcode)): ?>
-						CEP: <?= $zipcode; ?>
+						CEP: <?php echo $zipcode; ?>
 					<?php endif; ?>
 
 					<?php if (!empty($cityState)): ?>
-						<?= $cityState; ?>
+						<?php echo $cityState; ?>
 					<?php endif; ?>
 
 					<?php if (!empty($geocode)) { ?>
-						<?=$geocode; ?>
+						<?php echo$geocode; ?>
 					<?php } else if (!empty($lat) and !empty($lng)) { ?>
-					(<?= $lat; ?>, <?= $lng; ?>)
+					(<?php echo $lat; ?>, <?php echo $lng; ?>)
 					<?php } ?>
 				</b>
 			</p>
