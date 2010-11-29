@@ -8,12 +8,19 @@ use lithium\storage\Session;
 
 class OauthController extends \lithium\action\Controller {
 
-	public function index() {
+	public function redirect() {
 		$api = new ApontadorApi();
 		$callbackurl = ROOT_URL . "oauth/callback";
 		$oauthCallbackUrl = $api->apontadorRedirectAutorizacao($callbackurl);
 		$this->redirect($oauthCallbackUrl);
-		return compact('oauthCallbackUrl');
+	}
+
+	public function index() {
+	    if(!empty($_GET['login']) && $_GET['login']==1) {
+	        $this->redirect(ROOT_URL . '/oauth/redirect');
+        }
+		$callbackUrl = ROOT_URL . 'oauth';
+		return compact('callbackUrl');
 	}
 
 	public function callback() {
