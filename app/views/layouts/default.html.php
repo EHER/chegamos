@@ -10,7 +10,7 @@
 <html>
 <head>
 	<?php echo $this->html->charset();?>
-	<title>Chegamos! <?php echo $this->title(); ?></title>
+	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
 	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
@@ -36,17 +36,17 @@
 					?>
 
 					<?php if (!empty($zipcode)): ?>
-						CEP: <?= $zipcode; ?>
+						CEP: <?php echo $zipcode; ?>
 					<?php endif; ?>
 
 					<?php if (!empty($cityState)): ?>
-						<?= $cityState; ?>
+						<?php echo $cityState; ?>
 					<?php endif; ?>
 
 					<?php if (!empty($geocode)) { ?>
-						<?=$geocode; ?>
+						<?php echo$geocode; ?>
 					<?php } else if (!empty($lat) and !empty($lng)) { ?>
-					(<?= $lat; ?>, <?= $lng; ?>)
+					(<?php echo $lat; ?>, <?php echo $lng; ?>)
 					<?php } ?>
 				</b>
 			</p>

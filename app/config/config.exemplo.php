@@ -19,7 +19,7 @@ date_default_timezone_set("America/Sao_Paulo");
  * Qualquer dúvida sobre a api do apontador, a documentação está em
  * http://api.apontador.com.br/pt/acesso.html
  */
-define('ROOT_URL', 'http://localhost/');
+define('ROOT_URL', 'http://localhost/chegamos/');
 define('APONTADOR_URL', 'api.apontador.com.br/v1/');
 define('APONTADOR_PORT', 80);
 define('APONTADOR_CONSUMER_KEY', '');

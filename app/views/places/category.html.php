@@ -1,7 +1,7 @@
 <?php use app\models\PlaceList; ?>
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li data-role="list-divider">Locais Próximos</li>
+	<li data-role="list-divider"><?php echo $categoryName; ?></li>
 	<?php if ($placeList instanceof PlaceList && $placeList->getNumFound() > 0) { ?>
 		<?php foreach ($placeList->getItems() as $place) { ?>
 			<li>
@@ -15,7 +15,7 @@
 			</li>
 		<?php } ?>
 		<?php if ($page < 10) { ?>
-			<li><a href="<?php echo ROOT_URL;?>places/category/<?php echo $categoryId; ?>/page<?php echo $page + 1; ?>">Mais</li>
+			<li><a href="<?php echo ROOT_URL;?>places/category/<?php echo $categoryId; ?>/page<?php echo $page + 1; ?>">Mais</a></li>
 		<?php } ?>
 	<?php } else { ?>
 	<li>Nenhum local encontrado.</li>

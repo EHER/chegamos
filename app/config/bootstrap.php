@@ -14,6 +14,17 @@
  */
 
 /**
+ * Define o nível de erro a ser exibido.
+ */
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE | E_ALL);
+ini_set('display_errors', '1');
+
+/**
+ * Define o timezone padrão
+ */
+date_default_timezone_set("America/Sao_Paulo");
+
+/**
  * This is the path to the class libraries used by your application, and must contain a copy of the
  * Lithium core.  By default, this directory is named `libraries`, and resides in the same
  * directory as your application.  If you use the same libraries in multiple applications, you can
@@ -39,12 +50,14 @@ if (!include LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php') {
 	throw new ErrorException($message);
 }
 
-
 /**
- * Arquivo de configuração
+ * Arquivo de configurações do projeto
  */
-require __DIR__ . '/config.php';
-
+if (!include LITHIUM_APP_PATH . '/config/config.php') {
+	$message  = "Arquivo de configurção não encontrado.";
+	$message .= "Você pode criar esse arquivo renomeando o arquivo " . LITHIUM_APP_PATH . "/app/config/config.exemplo.php";
+	throw new ErrorException($message);
+}
 
 /**
  * This file contains the loading instructions for all class libraries used in the application,
