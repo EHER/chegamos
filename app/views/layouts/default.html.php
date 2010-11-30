@@ -66,8 +66,6 @@
 			<h2><a href="http://api.apontador.com.br/" target="_blank" rel="external">Apontador API</a></h2>
 		</div>
 	</div>
-</body>
-</html>
 <script type="text/javascript">
 	getUserLocation = function() {
 		navigator.geolocation.getCurrentPosition(showpos);
@@ -93,3 +91,5 @@
   })();
 
 </script>
+</body>
+</html>
