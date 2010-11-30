@@ -24,7 +24,7 @@ class Place {
 	var $numVisitors = 0;
 	var $numPhotos = 0;
 
-	public function __construct($data) {
+	public function __construct($data=null) {
 		$this->populate($data);
 	}
 	
