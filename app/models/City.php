@@ -8,6 +8,7 @@ class City {
 	private $country = "";
 	private $state = "";
 	private $name = "";
+	private $formatter = null;
 
 	public function __construct($data=null) {
 		$this->populate($data);
@@ -26,10 +27,22 @@ class City {
 	}
 	
 	public function __toString() {
-		return $this->getName() . ($this->getState() ? ' - ' . $this->getState() : '');
+		return $this->format($this->getName()) . ($this->getState() ? ' - ' . $this->getState() : '');
 
 	}
-	
+
+	public function setFormatter($formater) {
+		$this->formatter = $formater;
+	}
+
+	public function format($string = '', $type = 'formatTitle') {
+		if(empty($this->formatter)) {
+			return $string;
+		} else {
+			return $this->formatter->$type($string);
+		}
+	}
+
 	public function setCountry($country) {
 		$this->country = $country;
 	}
@@ -47,7 +60,7 @@ class City {
 	}
 	
 	public function setName($name) {
-		$this->name = Inflector::formatTitle($name);
+		$this->name = $name;
 	}
 	
 	public function getName() {
