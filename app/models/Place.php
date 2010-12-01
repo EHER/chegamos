@@ -28,18 +28,47 @@ class Place {
 		$this->populate($data);
 	}
 	
-	public function populate($data) {	
-		$this->setId($data->id);
-		$this->setName($data->name);
-		$this->setAverageRating($data->average_rating);
-		$this->setReviewCount($data->review_count);
-		$this->setCategory(new Category($data->category));
-		$this->setAddress(new Address($data->address));
-		$this->setPoint($data->point);
-		$this->setMainUrl($data->main_url);
-		$this->setOtherUrl($data->other_url);
-		$this->setIconUrl($data->icon_url);
-		
+	public function populate($data) {
+		if (isset($data->id)) {
+			$this->setId($data->id);
+		}
+
+		if (isset($data->name)) {
+			$this->setName($data->name);
+		}
+
+		if (isset($data->average_rating)) {
+			$this->setAverageRating($data->average_rating);
+		}
+
+		if (isset($data->review_count)) {
+			$this->setReviewCount($data->review_count);
+		}
+
+		if (!empty($data->category)) {
+			$this->setCategory(new Category($data->category));
+		}
+
+		if (isset($data->address)) {
+			$this->setAddress(new Address($data->address));
+		}
+
+		if (isset($data->point)) {
+			$this->setPoint($data->point);
+		}
+
+		if (isset($data->main_url)) {
+			$this->setMainUrl($data->main_url);
+		}
+
+		if (isset($data->other_url)) {
+			$this->setOtherUrl($data->other_url);
+		}
+
+		if (isset($data->icon_url)) {
+			$this->setIconUrl($data->icon_url);
+		}
+
 		if (isset($data->description)) {
 			$this->setDescription($data->description);
 		}

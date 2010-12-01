@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+
 use lithium\util\Inflector;
 
 class Category {
@@ -9,18 +10,22 @@ class Category {
 	var $name = "";
 	var $subcategory = "";
 
-	public function __construct($data) {
+	public function __construct($data=null) {
 		$this->populate($data);
 	}
 
 	public function populate($data) {
-		$this->setId($data->id);
-		$this->setName($data->name);
+		if (isset($data->id)) {
+			$this->setId($data->id);
+		}
+		if (isset($data->name)) {
+			$this->setName($data->name);
+		}
 		if (isset($data->subcategory)) {
 			$this->setSubcategory(new Subcategory($data->subcategory));
 		}
 	}
-	
+
 	public function __toString() {
 		$category = $this->getName();
 		$category .= $this->getSubcategory() ? ' - ' . $this->getSubcategory() : '';
@@ -50,4 +55,5 @@ class Category {
 	public function getSubcategory() {
 		return $this->subcategory;
 	}
+
 }
