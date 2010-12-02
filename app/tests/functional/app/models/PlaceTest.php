@@ -3,7 +3,12 @@
 namespace app\tests\functional\app\models;
 
 use app\models\Place;
+use app\models\Subcategory;
 use app\models\Category;
+use app\models\City;
+use app\models\Address;
+use app\models\GasStation;
+use app\models\PlaceInfo;
 
 /**
  * Test class for Place.
@@ -25,30 +30,78 @@ class PlaceTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testPopulate() {
-		$data = new \stdClass();
-		$category = new Category();
 
+		$subCategory = new Subcategory();
+		$subCategory->setId(1234);
+		$subCategory->setName("Self Service");
+
+		$category = new Category();
+		$category->setId(12);
+		$category->setName("Restaurantes");
+		$category->setSubCategory($subCategory);
+
+		$city = new City();
+		$city->setCountry("Brasil");
+		$city->setState("SP");
+		$city->setName("São Paulo");
+
+		$address = new Address();
+		$address->setCity($city);
+		$address->setComplement("1 Andar");
+   		$address->setDistrict("Vila Olímpia");
+		$address->setNumber("129");
+		$address->setStreet("Rua Funchal");
+		$address->setZipcode("04551-069");
+
+		$gasStation = new GasStation(
+			array(
+				'price_gas' => 1,23,
+				'price_vodka' => 23,45
+			)
+		);
+
+		$placeInfo = new PlaceInfo();
+		$placeInfo->setGasStation($gasStation);
+
+		$data = new \stdClass();
 		$data->id = 123;
 		$data->name = "Chegamos!";
-		$data->averageRating = 4;
-		$data->reviewCount = 3;
+		$data->average_rating = 4;
+		$data->review_count = 3;
 		$data->category = $category;
-		$data->subcategory = "SubCategory";
-		$data->address = "Address";
+		$data->subcategory = $subCategory;
+		$data->address = $address;
 		$data->point = "-23.529366,-47.467117";
-		$data->mainUrl = "http://chegamos.com/";
-		$data->otherUrl = "http://chegamos.com/";
-		$data->iconUrl = "";
+		$data->main_url = "http://chegamos.com/";
+		$data->other_url = "http://chegamos.com.br/";
+		$data->icon_url = "http://chegamos.com/img/incon.png";
 		$data->description = "Description";
 		$data->created = "01/12/2010 16:19";
 		$data->phone = "11 2222-3333";
-		$data->visitors = array('user1','user2','user3');
-		$data->placeInfo = "Place Info?";
-		$data->numVisitors = 1024;
-		$data->numPhotos = 5;
+		$data->extended = $placeInfo;
+		$data->num_visitors = 1024;
+		$data->num_photos = 5;
 
 		$this->object->populate($data);
-		
+
+		$this->assertEquals(123, $this->object->getId());
+		$this->assertEquals("Chegamos!", $this->object->getName());
+		$this->assertEquals(4, $this->object->getAverageRating());
+		$this->assertEquals(3, $this->object->getReviewCount());
+		$this->assertEquals("app\models\Category", \get_class((object) $this->object->getCategory()));
+		$this->assertEquals("Restaurantes - Self Service", (string) $this->object->getCategory());
+		$this->assertEquals("app\models\Address", \get_class((object) $this->object->getAddress()));
+		$this->assertEquals("Rua Funchal, 129 - Vila Olímpia<br/>São Paulo - SP", (string) $this->object->getAddress());
+		$this->assertEquals("-23.529366,-47.467117", $this->object->getPoint());
+		$this->assertEquals("http://chegamos.com/", $this->object->getMainUrl());
+		$this->assertEquals("http://chegamos.com.br/", $this->object->getOtherUrl());
+		$this->assertEquals("http://chegamos.com/img/incon.png", $this->object->getIconUrl());
+		$this->assertEquals("Description", $this->object->getDescription());
+		$this->assertEquals("01/12/2010 16:19", $this->object->getCreated());
+		$this->assertEquals("11 2222-3333", $this->object->getPhone());
+		$this->assertEquals("app\models\PlaceInfo", \get_class((object) $this->object->getPlaceInfo()));
+		$this->assertEquals(1024, $this->object->getNumVisitors());
+		$this->assertEquals(5, $this->object->getNumPhotos());
 	}
 
 	public function testSetGetId() {

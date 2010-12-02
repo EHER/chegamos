@@ -8,13 +8,17 @@ class Subcategory {
 	var $id = "";
 	var $name = "";
 
-	public function __construct($data) {
+	public function __construct($data=null) {
 		$this->populate($data);
 	}
 
 	public function populate($data) {
-		$this->setId($data->id);
-		$this->setName($data->name);
+		if(isset($data->id)) {
+			$this->setId($data->id);
+		}
+		if(isset($data->name)) {
+			$this->setName($data->name);
+		}
 	}
 	
 	public function __toString() {

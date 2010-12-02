@@ -6,12 +6,14 @@ class PlaceInfo {
 
 	var $gasStation = "";
 
-	public function __construct($data) {
+	public function __construct($data=null) {
 		$this->populate($data);
 	}
 	
 	public function populate($data) {
-		$this->setGasStation(new GasStation($data->gas_station));
+		if(isset($data->gas_station)) {
+			$this->setGasStation(new GasStation($data->gas_station));
+		}
 	}
 	
 	public function setGasStation($gasStation) {

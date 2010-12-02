@@ -12,24 +12,36 @@ class Address {
 	var $zipcode = "";
 	var $city = null;
 
-	public function __construct($data) {
+	public function __construct($data=null) {
 		$this->populate($data);
 	}
 	
 	public function populate($data) {
-		$this->setStreet($data->street);
-		$this->setNumber($data->number);
-		$this->setComplement($data->complement);
-		$this->setDistrict($data->district);
-		$this->setZipcode($data->zipcode);
-		$this->setCity(new City($data->city));
+		if(isset($data->street)) {
+			$this->setStreet($data->street);
+		}
+		if(isset($data->number)) {
+			$this->setNumber($data->number);
+		}
+		if(isset($data->complement)) {
+			$this->setComplement($data->complement);
+		}
+		if(isset($data->district)) {
+			$this->setDistrict($data->district);
+		}
+		if(isset($data->zipcode)) {
+			$this->setZipcode($data->zipcode);
+		}
+		if(isset($data->city)) {
+			$this->setCity(new City($data->city));
+		}
 	}
 	
 	public function __toString() {
 		$data = $this->getStreet();
 		$data .= $this->getNumber() ? ', ' . $this->getNumber() : '';
 		$data .= $this->getDistrict() ? ' - ' . $this->getDistrict() : '';
-		$data .= $this->getCity() ? '<br />' . $this->getCity() : '';
+		$data .= $this->getCity() ? '<br/>' . $this->getCity() : '';
 		return $data;
 	}
 	
