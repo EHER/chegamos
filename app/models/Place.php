@@ -238,24 +238,6 @@ class Place {
 		return $this->numPhotos;
 	}
 
-	/*
-	public function setNumVisitors($numVisitors) {
-		$this->numVisitors = $numVisitors;
-	}
-
-	public function getNumVisitors() {
-		return $this->numVisitors;
-	}
-
-	public function setNumPhotos($numPhotos) {
-		$this->numPhotos = $numPhotos;
-	}
-
-	public function getNumPhotos() {
-		return $this->numPhotos;
-	}
-*/
-
 	public function getRouteUrl($userAddress, $lat, $lng) {
 		$routeUrl = "http://maps.google.com.br/m/directions";
 		

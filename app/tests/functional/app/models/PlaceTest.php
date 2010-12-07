@@ -87,6 +87,7 @@ class PlaceTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(123, $this->object->getId());
 		$this->assertEquals("Chegamos!", $this->object->getName());
 		$this->assertEquals(4, $this->object->getAverageRating());
+		$this->assertEquals("Bom", $this->object->getAverageRatingString());
 		$this->assertEquals(3, $this->object->getReviewCount());
 		$this->assertEquals("app\models\Category", \get_class((object) $this->object->getCategory()));
 		$this->assertEquals("Restaurantes - Self Service", (string) $this->object->getCategory());
