@@ -1,8 +1,7 @@
 <?php
 
-namespace app\tests\functional\app\models;
+namespace app\models;
 
-use app\models\City;
 use lithium\util\Inflector;
 
 /**
