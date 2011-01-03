@@ -55,6 +55,9 @@
 		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getNumPhotos(); ?></span>
 	</li>
 	<li>
+		<?php echo $this->html->link("Enviar fotos", "http://apontador.ricardomartins.info/upload_multiplo/?lbsid=" . $place->getId()); ?>
+	</li>
+	<li>
 		<?php
 		echo $this->html->link(
 				"Ver no Apontador",
