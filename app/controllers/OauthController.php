@@ -10,8 +10,8 @@ class OauthController extends \lithium\action\Controller {
 
 	public function index() {
 		$login = Session::read('login');
-		if(empty($login)){
-			//$this->redirect('/oauth/login');
+		if(empty($login) && APONTADOR_POST_LOGIN == true){
+			$this->redirect('/oauth/login');
 		}
 		$api = new ApontadorApi();
 		$callbackurl = ROOT_URL . "oauth/callback";

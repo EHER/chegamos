@@ -25,4 +25,5 @@ define('APONTADOR_PORT', 80);
 define('APONTADOR_CONSUMER_KEY', '');
 define('APONTADOR_CONSUMER_SECRET', '');
 define('APONTADOR_TIMEOUT', 10);
+define('APONTADOR_POST_LOGIN', false);
 
