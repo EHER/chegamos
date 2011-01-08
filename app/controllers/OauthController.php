@@ -44,10 +44,10 @@ class OauthController extends \lithium\action\Controller {
 			$access_token = $api->accessToken($code);
 			$user_info = $api->getUser();
 
-			Session::write('foursquare_accesstoken', $access_token);
-			Session::write('foursquare_name', $user_info['name']);
-			Session::write('foursquare_photo', $user_info['photo']);
-			Session::write('foursquare_email', $user_info['email']);
+			Session::write('foursquareAccessToken', $access_token);
+			Session::write('foursquareName', $user_info['name']);
+			Session::write('foursquarePhoto', $user_info['photo']);
+			Session::write('foursquareEmail', $user_info['email']);
 		} else { // Apontador
 			$api = new ApontadorApi();
 
@@ -57,7 +57,6 @@ class OauthController extends \lithium\action\Controller {
 			Session::write('oauthTokenSecret', $token['oauth_token_secret']);
 			Session::write('userId', $token['user_id']);
 		}
-		exit;
 		$this->redirect($redir);
 	}
 
