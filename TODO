@@ -27,10 +27,17 @@ PENDENTES
 	
 	USER
 	- Criar um model de user para armazenar o WhereAmI
+	- Criar listagem de quem me segue
+	- Criar listagem de quem eu sigo
 	
 	ESTRUTURA/REFACTORING
 	- Trocar o checkin para um model
 	- Trocar todos os objetos para models
+
+	REDES SOCIAIS
+	- Criar funcionalidade para linkar outras contas (Twitter, Foursquare, Facebook, etc)
+	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais.
+
 
 FINALIZADAS
 ===========
@@ -43,3 +50,6 @@ FINALIZADAS
 	- Trocar o getPlace para retornar um objeto e não JSON
 	- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados.
 	- Fazer a avaliação funcionar após o login e autorização da API
+	- Link para "Upload Multiplo" de fotos
+	- Opção de login via Post (Apontador)
+	- Habilitar login via Post via arquivo de configuração
