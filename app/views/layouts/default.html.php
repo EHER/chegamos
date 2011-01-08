@@ -16,11 +16,15 @@
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
 	<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
+	<script>
+		$.mobile.page.prototype.options.backBtnText = "Voltar";
+	</script>
 </head>
 <body>
 	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header"> 
 			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
+			<?php echo $this->html->link('Config.', '/settings', array("rel" => "nofollow","data-icon"=>"gear","class"=>"ui-btn-right", "data-transition"=>"slideup")); ?>
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>

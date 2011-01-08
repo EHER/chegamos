@@ -352,7 +352,7 @@ class FourSquareApiV2
                }
                $places[$k]['lat'] = $place->location->lat;
                $places[$k]['lng'] = $place->location->lng;
-               $places[$k]['address'] = $place->location->address;
+               $places[$k]['address'] = isset($place->location->address) ? $place->location->address : '';
                $places[$k]['city'] = $place->location->city . ' - ' . $place->location->state;
             }
         }
@@ -471,9 +471,9 @@ class FourSquareApiV2
                $checkin['mayorship_type'] = $notification->item->type;
                $checkin['mayorship_message'] = $notification->item->message;
                $checkin['mayorship_photo'] = $notification->item->image;
-               $checkin['mayorship_userid'] = $notification->item->user->id;
-               $checkin['mayorship_name'] = $notification->item->user->firstName . " " . $notification->item->user->lastName;
-               $checkin['mayorship_gender'] = $notification->item->user->gender;
+               //$checkin['mayorship_userid'] = isset($notification->item->user->id) ? $notification->item->user->id : '';
+               //$checkin['mayorship_name'] = $notification->item->user->firstName . " " . $notification->item->user->lastName;
+               //$checkin['mayorship_gender'] = isset($notification->item->user->gender) ? $notification->item->user->gender : '';
            }
            if($notification->type == "special"){
                $checkin['special_id'] = $notification->item->special->id;

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ApontadorApi;
 use app\models\Place;
 use app\models\PlaceList;
+use app\models\FourSquareApiV2;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -26,8 +27,7 @@ class PlacesController extends \lithium\action\Controller {
 			return $checkinData;
 		}
 		$title = "";
-		return \array_merge(compact('title'),$this->whereAmI());
-
+		return \array_merge(compact('title'), $this->whereAmI());
 	}
 
 	public function search() {
@@ -76,7 +76,7 @@ class PlacesController extends \lithium\action\Controller {
 		}
 
 		$title = "Locais por nome";
-		$title = empty($searchName) ? $title : $title . ": " . $searchName ;
+		$title = empty($searchName) ? $title : $title . ": " . $searchName;
 
 		return compact('title', 'geocode', 'placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
@@ -243,9 +243,11 @@ class PlacesController extends \lithium\action\Controller {
 		if (!empty($_GET)) {
 			if (!empty($_GET['placeId'])) {
 				$place = $this->api->getPlace(array('placeid' => $_GET['placeId']));
+				$placeName = $place->getName();
 				$checkinData = array(
 					'placeId' => $_GET['placeId'],
 					'placeName' => $place->getName(),
+					'term' => $place->getName(),
 					'lat' => $place->getPoint()->lat,
 					'lng' => $place->getPoint()->lng,
 				);
@@ -283,6 +285,9 @@ class PlacesController extends \lithium\action\Controller {
 		$placeId = isset($checkinData['placeId']) ? $checkinData['placeId'] : Session::read('placeId');
 		$oauthToken = Session::read('oauthToken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
+		$foursquareAccessToken = Session::read('foursquareAccessToken');
+
+		$checkedin = false;
 
 		if (!empty($placeId)) {
 			if (!empty($oauthToken)) {
@@ -291,13 +296,65 @@ class PlacesController extends \lithium\action\Controller {
 							'oauth_token' => $oauthToken,
 							'oauth_token_secret' => $oauthTokenSecret,
 						));
-
-				$this->redirect('/places/show/' . $placeId);
-			} else {
-				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
-				$this->redirect('/oauth');
+				$checkedin = true;
 			}
+			if (!empty($foursquareAccessToken)) {
+				$this->doFoursquareCheckin($foursquareAccessToken, $checkinData);
+				$checkedin = true;
+			}
+
+			if ($checkedin == false){
+				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
+				$this->redirect('/settings');
+			}
+			$this->redirect('/places/show/' . $placeId);
 		}
+	}
+
+	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {
+
+//		var_dump($checkinData);
+
+		$callbackurl = ROOT_URL . "oauth/callback/foursquare";
+		$foursquareApi = new FourSquareApiV2(\FOURSQUARE_CONSUMER_KEY, \FOURSQUARE_CONSUMER_SECRET, $callbackurl);
+		$foursquareApi->setOAuth2Token($foursquareAccessToken);
+
+		if (!empty($checkinData['radius_mt'])) {
+			$radius_mt = $checkinData['radius_mt'];
+		} else {
+			$radius_mt = 1000;
+		}
+		if (!empty($checkinData['lat'])) {
+			$lat = $checkinData['lat'];
+		} else {
+			$lat = '-23.5934';
+		}
+		if (!empty($checkinData['lng'])) {
+			$lng = $checkinData['lng'];
+		} else {
+			$lng = '-46.6876';
+		}
+		if (!empty($checkinData['term'])) {
+			$term = $checkinData['term'];
+		}
+		$limit = 5;
+		$intent = 'checkin'; // checkin ou match
+
+		$venues = $foursquareApi->searchVenues($lat, $lng, $radius_mt, $term, $limit, $intent);
+//		var_dump($venues);
+
+		if (!empty($venues)) {
+			$shout = "Eu estou em " . $venues[0]['name'] . ". #checkin via @sitechegamos";
+			//var_dump($venues);
+			$venueId = $venues[0]['id'];
+			$broadcast = "public";
+			$checkin = $foursquareApi->checkinVenue($venueId, $shout, $broadcast);
+			$resultado = "Foi com sucesso. Olha a FourSquareApiV2.php para ver o que tem neste array a mais, tem muita coisa no vetor de retorno checkin";
+			$resultado = print_r($checkin, true);
+		} else {
+			$resultado = "Nao encontrou o local no foursquare";
+		}
+//		die($resultado);
 	}
 
 	public function show($placeId = null) {
@@ -426,9 +483,9 @@ class PlacesController extends \lithium\action\Controller {
 				return $response;
 			} else {
 				Session::write('redir', ROOT_URL . 'places/review/' . $reviewData['place_id'] .
-						'?rating=' . $reviewData['rating'] .
-						'&content=' . $reviewData['content']
-						);
+								'?rating=' . $reviewData['rating'] .
+								'&content=' . $reviewData['content']
+				);
 				$this->redirect('/oauth');
 			}
 		}
