@@ -27,3 +27,9 @@ define('APONTADOR_CONSUMER_SECRET', '');
 define('APONTADOR_TIMEOUT', 10);
 define('APONTADOR_POST_LOGIN', false);
 
+define('FOURSQUARE_CONSUMER_KEY', '');
+define('FOURSQUARE_CONSUMER_SECRET', '');
+
+define('TWITTER_CONSUMER_KEY', '');
+define('TWITTER_CONSUMER_SECRET', '');
+
