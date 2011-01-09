@@ -9,13 +9,14 @@ class SettingsController extends \lithium\action\Controller {
 	public function index() {
 		$this->_render['layout'] ='dialog';
 
-		$oauthToken = Session::read('oauthToken');
-		$foursquareAccessToken = Session::read('foursquareAccessToken');
 		$name = Session::read('oauthToken');
+		$oauthToken = Session::read('oauthToken');
+		$foursquareToken = Session::read('foursquareAccessToken');
+		$twitterToken = Session::read('twitterToken');
 
 		$apontadorLogged = !empty($oauthToken);
-		$foursquareLogged = !empty($foursquareAccessToken);
-		$twitterLogged = !empty($twitterAccessToken);
+		$foursquareLogged = !empty($foursquareToken);
+		$twitterLogged = !empty($twitterToken);
 		$facebookLogged = !empty($facebookAccessToken);
 
 		$title = "";
