@@ -6,6 +6,7 @@ use app\models\ApontadorApi;
 use app\models\Place;
 use app\models\PlaceList;
 use app\models\FourSquareApiV2;
+use app\models\TwitterOAuth;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -286,7 +287,8 @@ class PlacesController extends \lithium\action\Controller {
 		$oauthToken = Session::read('oauthToken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 		$foursquareAccessToken = Session::read('foursquareAccessToken');
-
+		$twitterAccessToken = array('oauth_token' => Session::read('twitterToken'),
+									'oauth_token_secret' => Session::read('twitterTokenSecret'));
 		$checkedin = false;
 
 		if (!empty($placeId)) {
@@ -303,7 +305,12 @@ class PlacesController extends \lithium\action\Controller {
 				$checkedin = true;
 			}
 
-			if ($checkedin == false){
+			if (!empty($twitterAccessToken)) {
+				$this->doTwitterCheckin($twitterAccessToken, $checkinData);
+				$checkedin = true;
+			}
+
+			if ($checkedin == false) {
 				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
 				$this->redirect('/settings');
 			}
@@ -311,9 +318,53 @@ class PlacesController extends \lithium\action\Controller {
 		}
 	}
 
-	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {
+	private function doTwitterCheckin($twitterAccessToken = '', $checkinData = '') {
+		$servico_id = 2; //twitter
 
-//		var_dump($checkinData);
+		$oauth_token = $twitterAccessToken['oauth_token'];
+		$oauth_token_secret = $twitterAccessToken['oauth_token_secret'];
+
+		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $oauth_token, $oauth_token_secret);
+
+		$radius_mt = 1000;
+		$lat = '-23.5934';
+		$lng = '-46.6876';
+		$term = 'apontador';
+
+		$params = array();
+		if ($lat != ""
+
+			)$params['lat'] = $lat;
+		if ($lng != ""
+
+			)$params['long'] = $lng;
+		if ($term != "")
+			$params['name'] = $term;
+
+
+		$endpoint = "geo/similar_places";
+		$return = $api->get($endpoint, $params);
+
+		$places = array();
+		foreach ($return->result->places as $k => $place) {
+			$places[$k]['id'] = $place->id;
+			$places[$k]['name'] = $place->name;
+			$places[$k]['city'] = $place->attributes->locality . ' - ' . $place->attributes->region;
+			$places[$k]['address'] = $place->attributes->street_address;
+		}
+
+		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
+		$shout = "Eu estou em " . $places[0]['name'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
+		$place_id = $places[0]['id'];
+
+		$endpoint = "statuses/update";
+		$params['status'] = $shout;
+		$params['place_id'] = $place_id;
+
+		$api->post($endpoint, $params);
+	}
+
+	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {
 
 		$callbackurl = ROOT_URL . "oauth/callback/foursquare";
 		$foursquareApi = new FourSquareApiV2(\FOURSQUARE_CONSUMER_KEY, \FOURSQUARE_CONSUMER_SECRET, $callbackurl);
@@ -341,11 +392,9 @@ class PlacesController extends \lithium\action\Controller {
 		$intent = 'checkin'; // checkin ou match
 
 		$venues = $foursquareApi->searchVenues($lat, $lng, $radius_mt, $term, $limit, $intent);
-//		var_dump($venues);
 
 		if (!empty($venues)) {
 			$shout = "Eu estou em " . $venues[0]['name'] . ". #checkin via @sitechegamos";
-			//var_dump($venues);
 			$venueId = $venues[0]['id'];
 			$broadcast = "public";
 			$checkin = $foursquareApi->checkinVenue($venueId, $shout, $broadcast);
@@ -354,7 +403,6 @@ class PlacesController extends \lithium\action\Controller {
 		} else {
 			$resultado = "Nao encontrou o local no foursquare";
 		}
-//		die($resultado);
 	}
 
 	public function show($placeId = null) {
