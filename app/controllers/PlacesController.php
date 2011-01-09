@@ -354,6 +354,7 @@ class PlacesController extends \lithium\action\Controller {
 		}
 
 		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
+		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
 		$shout = "Eu estou em " . $places[0]['name'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
 		$place_id = $places[0]['id'];
 
@@ -398,10 +399,6 @@ class PlacesController extends \lithium\action\Controller {
 			$venueId = $venues[0]['id'];
 			$broadcast = "public";
 			$checkin = $foursquareApi->checkinVenue($venueId, $shout, $broadcast);
-			$resultado = "Foi com sucesso. Olha a FourSquareApiV2.php para ver o que tem neste array a mais, tem muita coisa no vetor de retorno checkin";
-			$resultado = print_r($checkin, true);
-		} else {
-			$resultado = "Nao encontrou o local no foursquare";
 		}
 	}
 

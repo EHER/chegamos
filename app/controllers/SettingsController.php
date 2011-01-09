@@ -9,7 +9,6 @@ class SettingsController extends \lithium\action\Controller {
 	public function index() {
 		$this->_render['layout'] ='dialog';
 
-		$name = Session::read('oauthToken');
 		$oauthToken = Session::read('oauthToken');
 		$foursquareToken = Session::read('foursquareAccessToken');
 		$twitterToken = Session::read('twitterToken');

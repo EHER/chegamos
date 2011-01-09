@@ -510,4 +510,11 @@ class ApontadorApi {
 		return $response;
 	}
 
+	public function encurtaUrl ($url) {
+		$urlEncurtada = file_get_contents('http://aponta.me/add?wt=text&url=' . $url);
+
+		$novaUrl = empty($urlEncurtada) ? $url : $urlEncurtada;
+
+		return $novaUrl;
+	}
 }
