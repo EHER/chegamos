@@ -13,7 +13,6 @@ PENDENTES
 	
 	POI/AVALIACOES/CHECKIN/FOTOS
 	- Trazer as fotos do local (sob demanda do usuário)
-	- Fazer o checkin usando a api.
 	- Melhorar o layout das reviews
 	- Fazer página específica de uma review
 	
@@ -31,12 +30,12 @@ PENDENTES
 	- Criar listagem de quem eu sigo
 	
 	ESTRUTURA/REFACTORING
-	- Trocar o checkin para um model
+	- Trocar checkins para model
 	- Trocar todos os objetos para models
 
 	REDES SOCIAIS
-	- Criar funcionalidade para linkar outras contas (Twitter, Foursquare, Facebook, etc)
-	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais.
+	- Adicionar a opção de checkin via Orkut
+	- Adicionar a opção de checkin via Facebook
 
 	BUSCAS
 	- Exibir uma imagem como ícone do local
@@ -56,3 +55,6 @@ FINALIZADAS
 	- Link para "Upload Multiplo" de fotos
 	- Opção de login via Post (Apontador)
 	- Habilitar login via Post via arquivo de configuração
+	- Fazer o checkin usando a api.
+	- Criar funcionalidade para linkar outras contas (Twitter, Foursquare, Facebook, etc)
+	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais.
