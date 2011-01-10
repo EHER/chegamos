@@ -1,39 +1,48 @@
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Configurações de Conta</li>
 	<li data-role="list-divider">
-		<?php if ($apontadorLogged) { ?>
-			<img src="<?php echo ROOT_URL;?>img/ok.png" alt="Apontador Conectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/logout/apontador" rel="external">Apontador</a>
+		<?php if ($apontador['logged']) { ?>
+			<img src="<?php echo ROOT_URL;?>img/ok.png" class="ui-li-icon ui-li-thumb">
+			Apontador:
+			<a href="<?php echo ROOT_URL;?>oauth/logout/apontador" rel="external">Desconectar (<?php echo $apontador['name'];?>)</a>
 		<?php } else { ?>
-			<img src="<?php echo ROOT_URL;?>img/nok.png" alt="Apontador Desconectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/authorize/apontador" rel="external">Apontador</a>
+			<img src="<?php echo ROOT_URL;?>img/nok.png" class="ui-li-icon ui-li-thumb">
+			Apontador:
+			<a href="<?php echo ROOT_URL;?>oauth/authorize/apontador" rel="external">Conectar</a>
 		<?php } ?>
 	</li>
 	<li data-role="list-divider">
-		<?php if ($foursquareLogged) { ?>
-			<img src="<?php echo ROOT_URL;?>img/ok.png" alt="Foursquare Conectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/logout/foursquare" rel="external">Foursquare</a>
+
+		<?php if ($foursquare['logged']) { ?>
+			<img src="<?php echo ROOT_URL;?>img/ok.png" class="ui-li-icon ui-li-thumb">
+			Foursquare:
+			<a href="<?php echo ROOT_URL;?>oauth/logout/foursquare" rel="external">Desconectar (<?php echo $foursquare['name'];?>)</a>
 		<?php } else { ?>
-			<img src="<?php echo ROOT_URL;?>img/nok.png" alt="Foursquare Desconectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/authorize/foursquare" rel="external">Foursquare</a>
+			<img src="<?php echo ROOT_URL;?>img/nok.png" class="ui-li-icon ui-li-thumb">
+			Foursquare:
+			<a href="<?php echo ROOT_URL;?>oauth/authorize/foursquare" rel="external">Conectar</a>
 		<?php } ?>
 	</li>
 	<li data-role="list-divider">
-		<?php if ($twitterLogged) { ?>
-			<img src="<?php echo ROOT_URL;?>img/ok.png" alt="Apontador Conectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/logout/twitter" rel="external">Twitter</a>
+		<?php if ($twitter['logged']) { ?>
+			<img src="<?php echo ROOT_URL;?>img/ok.png" class="ui-li-icon ui-li-thumb">
+			Twitter:
+			<a href="<?php echo ROOT_URL;?>oauth/logout/twitter" rel="external">Desconectar (@<?php echo $twitter['name'];?>)</a>
 		<?php } else { ?>
-			<img src="<?php echo ROOT_URL;?>img/nok.png" alt="Apontador Desconectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/authorize/twitter" rel="external">Twitter</a>
+			<img src="<?php echo ROOT_URL;?>img/nok.png" class="ui-li-icon ui-li-thumb">
+			Twitter:
+			<a href="<?php echo ROOT_URL;?>oauth/authorize/twitter" rel="external">Conectar</a>
 		<?php } ?>
 	</li>
 	<li data-role="list-divider">
-		<?php if ($facebookLogged) { ?>
-			<img src="<?php echo ROOT_URL;?>img/ok.png" alt="Apontador Conectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/logout/facebook" rel="external">Facebook</a>
+		<?php if ($facebook['logged']) { ?>
+			<img src="<?php echo ROOT_URL;?>img/ok.png" class="ui-li-icon ui-li-thumb">
+			Facebook:
+			<a href="<?php echo ROOT_URL;?>oauth/logout/facebook" rel="external">Desconectar (<?php echo $facebook['name'];?>)</a>
 		<?php } else { ?>
-			<img src="<?php echo ROOT_URL;?>img/nok.png" alt="Apontador Desconectado" class="ui-li-icon ui-li-thumb">
-			<a href="<?php echo ROOT_URL;?>oauth/authorize/facebook" rel="external">Facebook</a>
+			<img src="<?php echo ROOT_URL;?>img/nok.png" class="ui-li-icon ui-li-thumb">
+			Facebook:
+			<a href="<?php echo ROOT_URL;?>oauth/authorize/facebook" rel="external">Conectar</a>
 		<?php } ?>
 	</li>
 </ul>
