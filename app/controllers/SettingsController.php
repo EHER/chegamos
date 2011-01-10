@@ -9,16 +9,26 @@ class SettingsController extends \lithium\action\Controller {
 	public function index() {
 		$this->_render['layout'] ='dialog';
 
-		$oauthToken = Session::read('oauthToken');
-		$foursquareToken = Session::read('foursquareAccessToken');
-		$twitterToken = Session::read('twitterToken');
+		$apontador['token'] = Session::read('oauthToken');
+		$apontador['name'] = Session::read('apontadorName');
+		$apontador['email'] = Session::read('apontadorEmail');
+		$apontador['logged'] = !empty($apontador['token']);
 
-		$apontadorLogged = !empty($oauthToken);
-		$foursquareLogged = !empty($foursquareToken);
-		$twitterLogged = !empty($twitterToken);
-		$facebookLogged = !empty($facebookAccessToken);
+		$foursquare['token'] = Session::read('foursquareAccessToken');
+		$foursquare['name'] = Session::read('foursquareName');
+		$foursquare['email'] = Session::read('foursquareEmail');
+		$foursquare['logged'] = !empty($foursquare['token']);
+
+		$twitter['token'] = Session::read('twitterToken');
+		$twitter['name'] = Session::read('twitterName');
+		$twitter['logged'] = !empty($twitter['token']);
+
+		$facebook['token'] = Session::read('facebookToken');
+		$facebook['name'] = Session::read('facebookName');
+		$facebook['email'] = Session::read('facebookEmail');
+		$facebook['logged'] = !empty($facebook['token']);
 
 		$title = "";
-		return \array_merge(compact('title', 'apontadorLogged', 'foursquareLogged', 'twitterLogged', 'facebookLogged'));
+		return \array_merge(compact('title', 'apontador', 'foursquare', 'twitter', 'facebook'));
 	}
 }

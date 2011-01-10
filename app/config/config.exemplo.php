@@ -33,3 +33,5 @@ define('FOURSQUARE_CONSUMER_SECRET', '');
 define('TWITTER_CONSUMER_KEY', '');
 define('TWITTER_CONSUMER_SECRET', '');
 
+define('FACEBOOK_AP_ID', '');
+define('FACEBOOK_SECRET', '');

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ApontadorApi;
 use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
+use app\models\Facebook;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -38,14 +39,21 @@ class OauthController extends \lithium\action\Controller {
 			}
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'facebook') {
-			$this->redirect('/');
+			$api = new Facebook(array(
+						'appId' => \FACEBOOK_AP_ID,
+						'secret' => \FACEBOOK_SECRET,
+						'cookie' => true,
+					));
+			$callbackurl = ROOT_URL . "oauth/callback/facebook";
+			$oauthCallbackUrl = $api->getLoginUrl(array('next' => $callbackurl));
+			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'apontador') {
 			$login = Session::read('login');
 			if (empty($login) && APONTADOR_POST_LOGIN == true) {
 				$this->redirect('/oauth/login');
 			}
 			$api = new ApontadorApi();
-			$callbackurl = ROOT_URL . "oauth/callback";
+			$callbackurl = ROOT_URL . "oauth/callback/apontador";
 			$oauthCallbackUrl = $api->apontadorRedirectAutorizacao($callbackurl);
 			$this->redirect($oauthCallbackUrl);
 		}
@@ -76,41 +84,59 @@ class OauthController extends \lithium\action\Controller {
 			$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $twitterToken, $twitterTokenSecret);
 
 			$access_token = $api->getAccessToken($verifier);
-
-
+			Session::write('twitterUserId', $access_token['user_id']);
+			Session::write('twitterName', $access_token['screen_name']);
 			Session::write('twitterToken', $access_token['oauth_token']);
 			Session::write('twitterTokenSecret', $access_token['oauth_token_secret']);
 		} elseif ($provider == 'facebook') {
+			$api = new Facebook(array(
+						'appId' => \FACEBOOK_AP_ID,
+						'secret' => \FACEBOOK_SECRET,
+						'cookie' => true,
+					));
 
+			$session = $api->getSession();
+			$userInfo = $api->api('/me');
+			$token = $api->getAccessToken();
+
+			Session::write('facebookToken', $token);
+			Session::write('facebookId', $userInfo['id']);
+			Session::write('facebookName', $userInfo['name']);
 		} elseif ($provider == 'apontador') {
 			$api = new ApontadorApi();
 
 			$token = $api->apontadorProcessaAutorizacao();
+			$userInfo = $api->getUser(array('userid' => $token['user_id']));
 
 			Session::write('oauthToken', $token['oauth_token']);
 			Session::write('oauthTokenSecret', $token['oauth_token_secret']);
-			Session::write('userId', $token['user_id']);
+			Session::write('apontadorId', $token['user_id']);
+			Session::write('apontadorName', $userInfo->getName());
 		}
 		$this->redirect($redir);
 	}
 
 	public function logout($provider = 'apontador') {
+
 		if ($provider == 'foursquare') {
-			Session::delete('foursquareAccessToken');
+			Session::delete('foursquareToken');
 			Session::delete('foursquareName');
 			Session::delete('foursquarePhoto');
 			Session::delete('foursquareEmail');
 		} elseif ($provider == 'twitter') {
-			Session::delete('twitterToken');
-			Session::delete('twitterTokenSecret');
 			Session::delete('twitterUserId');
 			Session::delete('twitterScreenName');
+			Session::delete('twitterToken');
+			Session::delete('twitterTokenSecret');
 		} elseif ($provider == 'facebook') {
-
+			Session::delete('facebookToken');
+			Session::delete('facebookId');
+			Session::delete('facebookName');
 		} elseif ($provider == 'apontador') {
-			Session::delete('oauthToken', array());
+			Session::delete('oauthToken');
 			Session::delete('oauthTokenSecret');
-			Session::delete('userId');
+			Session::delete('apontadorId');
+			Session::delete('apontadorName');
 		}
 		$this->redirect('/');
 	}
