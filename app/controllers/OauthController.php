@@ -45,7 +45,7 @@ class OauthController extends \lithium\action\Controller {
 						'cookie' => true,
 					));
 			$callbackurl = ROOT_URL . "oauth/callback/facebook";
-			$oauthCallbackUrl = $api->getLoginUrl(array('next' => $callbackurl));
+			$oauthCallbackUrl = $api->getLoginUrl(array('next' => $callbackurl, 'req_perms' =>'publish_stream'));
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'apontador') {
 			$login = Session::read('login');
@@ -97,10 +97,10 @@ class OauthController extends \lithium\action\Controller {
 
 			$session = $api->getSession();
 			$userInfo = $api->api('/me');
-			$token = $api->getAccessToken();
 
-			Session::write('facebookToken', $token);
-			Session::write('facebookId', $userInfo['id']);
+			Session::write('facebookToken', $session['access_token']);
+			Session::write('facebookSig', $session['sig']);
+			Session::write('facebookUid', $session['uid']);
 			Session::write('facebookName', $userInfo['name']);
 		} elseif ($provider == 'apontador') {
 			$api = new ApontadorApi();

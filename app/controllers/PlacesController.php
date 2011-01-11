@@ -7,6 +7,7 @@ use app\models\Place;
 use app\models\PlaceList;
 use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
+use app\models\Facebook;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -288,7 +289,8 @@ class PlacesController extends \lithium\action\Controller {
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 		$foursquareAccessToken = Session::read('foursquareAccessToken');
 		$twitterAccessToken = array('oauth_token' => Session::read('twitterToken'),
-									'oauth_token_secret' => Session::read('twitterTokenSecret'));
+			'oauth_token_secret' => Session::read('twitterTokenSecret'));
+		$facebookAccessToken = Session::read('facebookToken');
 		$checkedin = false;
 
 		if (!empty($placeId)) {
@@ -310,11 +312,41 @@ class PlacesController extends \lithium\action\Controller {
 				$checkedin = true;
 			}
 
+			if (!empty($facebookAccessToken)) {
+				$this->doFacebookCheckin($facebookAccessToken, $checkinData);
+				$checkedin = true;
+			}
+
 			if ($checkedin == false) {
 				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
 				$this->redirect('/settings');
 			}
 			$this->redirect('/places/show/' . $placeId);
+		}
+	}
+
+	private function doFacebookCheckin($facebookAccessToken = '', $checkinData = '') {
+		$api = new Facebook(array(
+					'appId' => \FACEBOOK_AP_ID,
+					'secret' => \FACEBOOK_SECRET,
+					'cookie' => true,
+				));
+
+		$session = array(
+			'access_token' => Session::read('facebookToken'),
+			'uid' => Session::read('facebookUid'),
+			'sig' => Session::read('facebookSig'),
+		);
+		$api->setSession($session);
+
+		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
+		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
+		$shout = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin";
+
+		try {
+			$postStatus = $api->api('/me/feed', 'POST', array('message' => $shout, 'access_token' => $facebookAccessToken));
+		} catch (\Exception $e) {
+			$postStatus = $e;
 		}
 	}
 
