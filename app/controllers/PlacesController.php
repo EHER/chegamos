@@ -284,7 +284,7 @@ class PlacesController extends \lithium\action\Controller {
 			Session::write($method, $value);
 		}
 
-		$placeId = isset($checkinData['placeId']) ? $checkinData['placeId'] : Session::read('placeId');
+		$placeId = empty($checkinData['placeId']) ? null : $checkinData['placeId'];
 		$oauthToken = Session::read('oauthToken');
 		$oauthTokenSecret = Session::read('oauthTokenSecret');
 		$foursquareAccessToken = Session::read('foursquareAccessToken');
@@ -323,6 +323,7 @@ class PlacesController extends \lithium\action\Controller {
 			}
 			$this->redirect('/places/show/' . $placeId);
 		}
+		$this->redirect('/');
 	}
 
 	private function doFacebookCheckin($facebookAccessToken = '', $checkinData = '') {
@@ -351,50 +352,21 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	private function doTwitterCheckin($twitterAccessToken = '', $checkinData = '') {
-		$servico_id = 2; //twitter
+		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $twitterAccessToken['oauth_token'], $twitterAccessToken['oauth_token_secret']);
 
-		$oauth_token = $twitterAccessToken['oauth_token'];
-		$oauth_token_secret = $twitterAccessToken['oauth_token_secret'];
+		$searchParams = array();
+		$searchParams['lat'] = empty($checkinData['lat']) ? '' : $checkinData['lat'];
+		$searchParams['long'] = empty($checkinData['lng']) ? '' : $checkinData['lng'];
+		$searchParams['name'] = empty($checkinData['term']) ? '' : $checkinData['term'];
+		$searchPlaces = $api->get("geo/similar_places", $searchParams);
 
-		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $oauth_token, $oauth_token_secret);
-
-		$radius_mt = 1000;
-		$lat = '-23.5934';
-		$lng = '-46.6876';
-		$term = 'apontador';
-
-		$params = array();
-		if ($lat != ""
-
-			)$params['lat'] = $lat;
-		if ($lng != ""
-
-			)$params['long'] = $lng;
-		if ($term != "")
-			$params['name'] = $term;
-
-
-		$endpoint = "geo/similar_places";
-		$return = $api->get($endpoint, $params);
-
-		$places = array();
-		foreach ($return->result->places as $k => $place) {
-			$places[$k]['id'] = $place->id;
-			$places[$k]['name'] = $place->name;
-			$places[$k]['city'] = $place->attributes->locality . ' - ' . $place->attributes->region;
-			$places[$k]['address'] = $place->attributes->street_address;
-		}
+		$place_id = empty($searchPlaces->result->places[0]->id) ? null : $searchPlaces->result->places[0]->id;
 
 		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
 		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
-		$shout = "Eu estou em " . $places[0]['name'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
-		$place_id = $places[0]['id'];
 
-		$endpoint = "statuses/update";
-		$params['status'] = $shout;
-		$params['place_id'] = $place_id;
-
-		$api->post($endpoint, $params);
+		$status = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
+		$api->post("statuses/update", array('status'=>$status, 'place_id'=>$place_id));
 	}
 
 	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {

@@ -510,8 +510,8 @@ class ApontadorApi {
 		return $response;
 	}
 
-	public function encurtaUrl ($url) {
-		$urlEncurtada = file_get_contents('http://aponta.me/add?wt=text&url=' . $url);
+	public static function encurtaUrl ($url) {
+		$urlEncurtada = self::send(array('url'=>'http://aponta.me/add?wt=text&url=' . $url));
 
 		$novaUrl = empty($urlEncurtada) ? $url : $urlEncurtada;
 
