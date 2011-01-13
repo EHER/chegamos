@@ -7,7 +7,11 @@ use lithium\storage\Session;
 class SettingsController extends \lithium\action\Controller {
 
 	public function index() {
-		$this->_render['layout'] ='dialog';
+
+		Header('Cache-Control: no-cache');
+		Header('Pragma: no-cache');
+		
+		$this->_render['layout'] = 'dialog';
 
 		$apontador['token'] = Session::read('oauthToken');
 		$apontador['name'] = Session::read('apontadorName');
@@ -28,7 +32,13 @@ class SettingsController extends \lithium\action\Controller {
 		$facebook['email'] = Session::read('facebookEmail');
 		$facebook['logged'] = !empty($facebook['token']);
 
-		$title = "";
-		return \array_merge(compact('title', 'apontador', 'foursquare', 'twitter', 'facebook'));
+		$orkut['token'] = Session::read('facebookToken');
+		$orkut['name'] = Session::read('facebookName');
+		$orkut['email'] = Session::read('facebookEmail');
+		$orkut['logged'] = !empty($facebook['token']);
+
+		$title = "Configurações de conta";
+		return \array_merge(compact('title', 'apontador', 'foursquare', 'twitter', 'facebook', 'orkut'));
 	}
+
 }

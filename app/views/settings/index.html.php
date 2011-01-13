@@ -45,5 +45,16 @@
 			<a href="<?php echo ROOT_URL;?>oauth/authorize/facebook" rel="external">Conectar</a>
 		<?php } ?>
 	</li>
+	<li data-role="list-divider">
+		<?php if ($orkut['logged']) { ?>
+			<img src="<?php echo ROOT_URL;?>img/ok.png" class="ui-li-icon ui-li-thumb">
+			Orkut:
+			<a href="<?php echo ROOT_URL;?>oauth/logout/orkut" rel="external">Desconectar (<?php echo $orkut['name'];?>)</a>
+		<?php } else { ?>
+			<img src="<?php echo ROOT_URL;?>img/nok.png" class="ui-li-icon ui-li-thumb">
+			Orkut:
+			<a href="<?php echo ROOT_URL;?>oauth/authorize/orkut" rel="external">Conectar</a>
+		<?php } ?>
+	</li>
 </ul>
 

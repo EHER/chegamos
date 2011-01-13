@@ -35,3 +35,6 @@ define('TWITTER_CONSUMER_SECRET', '');
 
 define('FACEBOOK_AP_ID', '');
 define('FACEBOOK_SECRET', '');
+
+define('ORKUT_CONSUMER_KEY', '');
+define('ORKUT_CONSUMER_SECRET', '');

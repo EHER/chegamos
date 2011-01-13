@@ -6,6 +6,10 @@ use app\models\ApontadorApi;
 use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
 use app\models\Facebook;
+use app\models\osapiGoogleProvider;
+use app\models\osapiFileStorage;
+use app\models\osapiOAuth3Legged;
+use app\models\osapi;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -45,7 +49,16 @@ class OauthController extends \lithium\action\Controller {
 						'cookie' => true,
 					));
 			$callbackurl = ROOT_URL . "oauth/callback/facebook";
-			$oauthCallbackUrl = $api->getLoginUrl(array('next' => $callbackurl, 'req_perms' =>'publish_stream'));
+			$oauthCallbackUrl = $api->getLoginUrl(array('next' => $callbackurl, 'req_perms' => 'publish_stream'));
+			$this->redirect($oauthCallbackUrl);
+		} elseif ($provider == 'orkut') {
+			$provider = new osapiGoogleProvider();
+			$storage = new osapiFileStorage('/tmp/osapi');
+			$auth = osapiOAuth3Legged::performOAuthLogin(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $storage, $provider);
+			$osapi = new osapi($provider, $auth);
+
+			$callbackurl = ROOT_URL . "oauth/callback/orkut";
+
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'apontador') {
 			$login = Session::read('login');

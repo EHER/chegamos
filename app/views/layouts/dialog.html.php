@@ -23,11 +23,7 @@
 <body>
 	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header">
-			<?php if(empty($title)){ ?>
-				<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
-			<?php } else { ?>
-				<?php echo $title; ?>
-			<?php } ?>
+			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>
