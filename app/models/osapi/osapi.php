@@ -28,6 +28,7 @@ namespace app\models\osapi;
 use \Exception;
 use app\models\osapi\osapiException;
 use app\models\osapi\osapiAuthError;
+use app\models\osapi\osapiActivities;
 use app\models\osapi\osapiStorageException;
 use app\models\osapi\osapiLoggerException;
 

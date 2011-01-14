@@ -19,6 +19,7 @@ namespace app\models\osapi;
 
 use app\models\oauth\OAuthConsumer;
 use app\models\oauth\OAuthRequest;
+use app\models\oauth\OAuthToken;
 use app\models\oauth\OAuthSignatureMethod_HMAC_SHA1;
 
 /**
@@ -165,7 +166,7 @@ class osapiOAuth3Legged extends osapiOAuth2Legged {
       if (!is_array($matches) || count($matches) != 3) {
         throw new osapiException("Error retrieving request key ({$ret['data']})");
       }
-      return new oauth\OAuthToken(urldecode($matches[1]), urldecode($matches[2]));
+      return new OAuthToken(urldecode($matches[1]), urldecode($matches[2]));
     } else {
       throw new osapiException("Error requesting oauth request token, code " . $ret['http_code'] . ", message: " . $ret['data']);
     }
@@ -179,7 +180,7 @@ class osapiOAuth3Legged extends osapiOAuth2Legged {
    */
   protected function requestRequestToken() {
     $requestParams = (isset($this->provider->oauthRequestTokenParams)) ? $this->provider->oauthRequestTokenParams : array();
-    $requestTokenRequest = oauth\OAuthRequest::from_consumer_and_token($this->consumerToken, NULL, "GET", $this->provider->requestTokenUrl, $requestParams);
+    $requestTokenRequest = OAuthRequest::from_consumer_and_token($this->consumerToken, NULL, "GET", $this->provider->requestTokenUrl, $requestParams);
     if(is_array($this->provider->requestTokenParams)){
       foreach($this->provider->requestTokenParams as $key => $value) {
         $requestTokenRequest->set_parameter($key, $value);

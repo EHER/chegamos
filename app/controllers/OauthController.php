@@ -9,6 +9,7 @@ use app\models\Facebook;
 use app\models\osapi\osapiGoogleProvider;
 use app\models\osapi\osapiFileStorage;
 use app\models\osapi\osapiOAuth3Legged;
+use app\models\osapi\osapiActivity;
 use app\models\osapi\osapi;
 use app\models\oauth;
 use lithium\storage\Session;
@@ -53,14 +54,26 @@ class OauthController extends \lithium\action\Controller {
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'orkut') {
 			$provider = new osapiGoogleProvider();
-			$storage = new osapiFileStorage('/tmp/osapi2');
+			$storage = new osapiFileStorage('/tmp/storage');
 			$auth = osapiOAuth3Legged::performOAuthLogin(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $storage, $provider);
 			$osapi = new osapi($provider, $auth);
 
-			exit;
-			$callbackurl = ROOT_URL . "oauth/callback/orkut";
+			$batch = $osapi->newBatch();
+			$activity = new osapiActivity();
 
-			$this->redirect($oauthCallbackUrl);
+			$create_params = array(
+				'userId' => '@me',
+				'groupId' => '@self',
+				'activity' => $activity,
+				'appId' => '@app'
+			);
+			$batch->add($osapi->activities->create($create_params), 'createActivity');
+			$result = $batch->execute();
+			
+			var_dump();
+			exit;
+
+			$this->redirect('/settings');
 		} elseif ($provider == 'apontador') {
 			$login = Session::read('login');
 			if (empty($login) && APONTADOR_POST_LOGIN == true) {
