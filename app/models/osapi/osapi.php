@@ -23,26 +23,13 @@
  * both 2 legged and 3 legged OAuth.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 use \Exception;
-
-//require_once "external/OAuth.php";
-//require_once "external/XrdsSimpleParser.php";
-//require_once "providers/osapiProvider.php";
-//require_once "storage/osapiStorage.php";
-//require_once "io/osapiIO.php";
-//require_once "io/osapiHttpProvider.php";
-//require_once "service/osapiService.php";
-//require_once "auth/osapiAuth.php";
-//require_once "model/osapiModel.php";
-//require_once "logger/osapiLogger.php";
-
-/* Basic exception classes */
-class osapiException extends Exception {}
-class osapiAuthError extends Exception {}
-class osapiStorageException extends Exception {}
-class osapiLoggerException extends Exception {}
+use app\models\osapi\osapiException;
+use app\models\osapi\osapiAuthError;
+use app\models\osapi\osapiStorageException;
+use app\models\osapi\osapiLoggerException;
 
 /**
  * The osapi (OpenSocial API) class can be used to work with social

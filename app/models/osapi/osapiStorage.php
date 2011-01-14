@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 //require_once "osapiFileStorage.php";
 //require_once "osapiApcStorage.php";

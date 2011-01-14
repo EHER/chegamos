@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 // Include the http provider classes
 //require_once "osapiCurlProvider.php";

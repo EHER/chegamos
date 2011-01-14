@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 //require_once "osapiHttpBasic.php";
 //require_once "osapiOAuth2Legged.php";

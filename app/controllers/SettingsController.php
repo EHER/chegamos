@@ -32,10 +32,10 @@ class SettingsController extends \lithium\action\Controller {
 		$facebook['email'] = Session::read('facebookEmail');
 		$facebook['logged'] = !empty($facebook['token']);
 
-		$orkut['token'] = Session::read('facebookToken');
-		$orkut['name'] = Session::read('facebookName');
-		$orkut['email'] = Session::read('facebookEmail');
-		$orkut['logged'] = !empty($facebook['token']);
+		$orkut['token'] = Session::read('orkutToken');
+		$orkut['name'] = Session::read('orkutName');
+		$orkut['email'] = Session::read('orkutEmail');
+		$orkut['logged'] = !empty($orkut['token']);
 
 		$title = "Configurações de conta";
 		return \array_merge(compact('title', 'apontador', 'foursquare', 'twitter', 'facebook', 'orkut'));

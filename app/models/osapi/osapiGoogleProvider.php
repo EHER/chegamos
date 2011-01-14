@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 /**
  * Pre-defined provider class for Google

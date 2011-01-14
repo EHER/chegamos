@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 use app\models\oauth\OAuthConsumer;
 use app\models\oauth\OAuthRequest;
-
-//require_once "osapiOAuth2Legged.php";
+use app\models\oauth\OAuthSignatureMethod_HMAC_SHA1;
 
 /**
  * Authentication class that deals with 3-Legged OAuth
@@ -53,8 +52,8 @@ class osapiOAuth3Legged extends osapiOAuth2Legged {
     $this->provider = $provider;
     $this->localUserId = $localUserId;
     $this->userId = $userId;
-    $this->consumerToken = new oauth\OAuthConsumer($consumerKey, $consumerSecret, NULL);
-    $this->signatureMethod = new oauth\OAuthSignatureMethod_HMAC_SHA1();
+    $this->consumerToken = new OAuthConsumer($consumerKey, $consumerSecret, NULL);
+    $this->signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
     $this->storage = $storage;
     $this->storageKey = 'OAuth:' . $consumerKey . ':' . $userId . ':' . $localUserId; // Scope data to the local user as well, or else multiple local users will share the same OAuth credentials.
     if (($token = $storage->get($this->storageKey)) !== false) {

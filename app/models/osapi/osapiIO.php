@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 //require_once "osapiBatch.php";
 //require_once "osapiRequest.php";

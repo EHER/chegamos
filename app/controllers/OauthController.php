@@ -6,10 +6,10 @@ use app\models\ApontadorApi;
 use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
 use app\models\Facebook;
-use app\models\osapiGoogleProvider;
-use app\models\osapiFileStorage;
-use app\models\osapiOAuth3Legged;
-use app\models\osapi;
+use app\models\osapi\osapiGoogleProvider;
+use app\models\osapi\osapiFileStorage;
+use app\models\osapi\osapiOAuth3Legged;
+use app\models\osapi\osapi;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -53,10 +53,11 @@ class OauthController extends \lithium\action\Controller {
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'orkut') {
 			$provider = new osapiGoogleProvider();
-			$storage = new osapiFileStorage('/tmp/osapi');
+			$storage = new osapiFileStorage('/tmp/osapi2');
 			$auth = osapiOAuth3Legged::performOAuthLogin(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $storage, $provider);
 			$osapi = new osapi($provider, $auth);
 
+			exit;
 			$callbackurl = ROOT_URL . "oauth/callback/orkut";
 
 			$this->redirect($oauthCallbackUrl);
@@ -74,7 +75,7 @@ class OauthController extends \lithium\action\Controller {
 
 	public function callback($provider = 'apontador') {
 		$redir = Session::read('redir');
-		$redir = empty($redir) ? ROOT_URL : $redir;
+		$redir = empty($redir) ? '/settings' : $redir;
 		if ($provider == 'foursquare') {
 			$code = $_GET["code"];
 
@@ -132,7 +133,7 @@ class OauthController extends \lithium\action\Controller {
 	public function logout($provider = 'apontador') {
 
 		if ($provider == 'foursquare') {
-			Session::delete('foursquareToken');
+			Session::delete('foursquareAccessToken');
 			Session::delete('foursquareName');
 			Session::delete('foursquarePhoto');
 			Session::delete('foursquareEmail');
@@ -151,7 +152,7 @@ class OauthController extends \lithium\action\Controller {
 			Session::delete('apontadorId');
 			Session::delete('apontadorName');
 		}
-		$this->redirect('/');
+		$this->redirect('/settings');
 	}
 
 	public function login() {

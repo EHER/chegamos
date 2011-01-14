@@ -25,7 +25,7 @@
  * @author Chris Chabot
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 class osapiFileStorage extends osapiStorage {
   private $path;

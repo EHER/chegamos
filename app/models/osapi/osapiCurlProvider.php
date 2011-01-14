@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 /**
  * The osapiCurlProvider class is used to define the HTTP layer that will relay

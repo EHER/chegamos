@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace app\models;
+namespace app\models\osapi;
 
 // Include the pre-defined provider classes
 //require_once "osapiGoogleProvider.php";
