@@ -79,9 +79,6 @@ class OrkutOAuth {
       $parameters['oauth_callback'] = $oauth_callback;
     } 
     $request = $this->oAuthRequest($this->requestTokenURL(), 'GET', $parameters);
-    var_dump($request);
-    var_dump($parameters);
-	exit;
 
 	$token = OAuthUtil::parse_parameters($request);
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
