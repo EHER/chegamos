@@ -57,9 +57,6 @@ class OauthController extends \lithium\action\Controller {
 			$callbackurl = ROOT_URL . "oauth/callback/orkut";
 			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET);
 			$request_token = $api->getRequestToken($callbackurl);
-//			\var_dump($api);
-//			\var_dump($request_token);
-//			exit;
 			$token = $request_token['oauth_token'];
 			Session::write('orkutToken', $request_token['oauth_token']);
 			Session::write('orkutTokenSecret', $request_token['oauth_token_secret']);
@@ -72,29 +69,6 @@ class OauthController extends \lithium\action\Controller {
 					echo 'Could not connect to Orkut. Refresh the page or try again later.';
 			}
 			$this->redirect($oauthCallbackUrl);
-
-			exit;
-			$provider = new osapiGoogleProvider();
-			$storage = new osapiFileStorage('/tmp/storage');
-			$auth = osapiOAuth3Legged::performOAuthLogin(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $storage, $provider);
-			$osapi = new osapi($provider, $auth);
-
-			$batch = $osapi->newBatch();
-			$activity = new osapiActivity();
-
-			$create_params = array(
-				'userId' => '@me',
-				'groupId' => '@self',
-				'activity' => $activity,
-				'appId' => '@app'
-			);
-			$batch->add($osapi->activities->create($create_params), 'createActivity');
-			$result = $batch->execute();
-			
-			var_dump($result);
-			exit;
-
-			$this->redirect('/settings');
 		} elseif ($provider == 'apontador') {
 			$login = Session::read('login');
 			if (empty($login) && APONTADOR_POST_LOGIN == true) {
@@ -150,6 +124,19 @@ class OauthController extends \lithium\action\Controller {
 			Session::write('facebookSig', $session['sig']);
 			Session::write('facebookUid', $session['uid']);
 			Session::write('facebookName', $userInfo['name']);
+		} elseif ($provider == 'twitter') {
+			$verifier = $_GET['oauth_verifier'];
+
+			$orkutToken = Session::read('orkutToken');
+			$orkutTokenSecret = Session::read('orkutTokenSecret');
+
+			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $orkutToken, $orkutTokenSecret);
+
+			$access_token = $api->getAccessToken($verifier);
+			Session::write('orkutUserId', $access_token['user_id']);
+			Session::write('orkutName', $access_token['screen_name']);
+			Session::write('orkutToken', $access_token['oauth_token']);
+			Session::write('orkutTokenSecret', $access_token['oauth_token_secret']);
 		} elseif ($provider == 'apontador') {
 			$api = new ApontadorApi();
 
