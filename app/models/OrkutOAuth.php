@@ -22,7 +22,7 @@ class OrkutOAuth {
   /* Contains the last API call. */
   public $url;
   /* Set up the API root URL. */
-  public $host = "http://www-opensocial.googleusercontent.com/api/";
+  public $host = "https://orkut.gmodules.com/social/rest";
   /* Set timeout default. */
   public $timeout = 30;
   /* Set connect timeout. */
@@ -44,7 +44,6 @@ class OrkutOAuth {
    * Set API URLS
    */
   function accessTokenURL()  { return 'https://www.google.com/accounts/OAuthGetAccessToken'; }
-  function authenticateURL() { return 'https://www.google.com/accounts/OAuthAuthorizeToken'; }
   function authorizeURL()    { return 'https://www.google.com/accounts/OAuthAuthorizeToken'; }
   function requestTokenURL() { return 'https://www.google.com/accounts/OAuthGetRequestToken'; }
 
@@ -73,13 +72,15 @@ class OrkutOAuth {
    *
    * @returns a key/value array containing oauth_token and oauth_token_secret
    */
-  function getRequestToken($oauth_callback = NULL) {
+  function getRequestToken($oauth_callback = NULL, $scope = NULL) {
     $parameters = array();
     if (!empty($oauth_callback)) {
       $parameters['oauth_callback'] = $oauth_callback;
-    } 
+    }
+    if (!empty($this->host)) {
+      $parameters['scope'] = $this->host;
+    }
     $request = $this->oAuthRequest($this->requestTokenURL(), 'GET', $parameters);
-
 	$token = OAuthUtil::parse_parameters($request);
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
     return $token;
@@ -90,15 +91,11 @@ class OrkutOAuth {
    *
    * @returns a string
    */
-  function getAuthorizeURL($token, $sign_in_with_twitter = TRUE) {
+  function getAuthorizeURL($token) {
     if (is_array($token)) {
       $token = $token['oauth_token'];
     }
-    if (empty($sign_in_with_twitter)) {
-      return $this->authorizeURL() . "?oauth_token={$token}";
-    } else {
-       return $this->authenticateURL() . "?oauth_token={$token}";
-    }
+    return $this->authorizeURL() . "?oauth_token={$token}";
   }
 
   /**
@@ -110,13 +107,16 @@ class OrkutOAuth {
    *                "user_id" => "9436992",
    *                "screen_name" => "abraham")
    */
-  function getAccessToken($oauth_verifier = FALSE) {
+  function getAccessToken($oauth_verifier = FALSE, $oauth_token = FALSE) {
     $parameters = array();
     if (!empty($oauth_verifier)) {
       $parameters['oauth_verifier'] = $oauth_verifier;
     }
+    if (!empty($oauth_token)) {
+      $parameters['oauth_token'] = $oauth_token;
+    }
     $request = $this->oAuthRequest($this->accessTokenURL(), 'GET', $parameters);
-    $token = OAuthUtil::parse_parameters($request);
+	$token = OAuthUtil::parse_parameters($request);
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
     return $token;
   }
@@ -183,8 +183,9 @@ class OrkutOAuth {
     }
     //echo $url;
     //var_dump($parameters);
-    $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
-    $request->sign_request($this->sha1_method, $this->consumer, $this->token);
+	$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
+
+	$request->sign_request($this->sha1_method, $this->consumer, $this->token);
     switch ($method) {
     case 'GET':
       return $this->http($request->to_url(), 'GET');

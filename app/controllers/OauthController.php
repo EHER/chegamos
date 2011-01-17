@@ -55,8 +55,9 @@ class OauthController extends \lithium\action\Controller {
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'orkut') {
 			$callbackurl = ROOT_URL . "oauth/callback/orkut";
+			$scope = 'https://orkut.gmodules.com/social/rest';
 			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET);
-			$request_token = $api->getRequestToken($callbackurl);
+			$request_token = $api->getRequestToken($callbackurl, $scope);
 			$token = $request_token['oauth_token'];
 			Session::write('orkutToken', $request_token['oauth_token']);
 			Session::write('orkutTokenSecret', $request_token['oauth_token_secret']);
@@ -124,17 +125,18 @@ class OauthController extends \lithium\action\Controller {
 			Session::write('facebookSig', $session['sig']);
 			Session::write('facebookUid', $session['uid']);
 			Session::write('facebookName', $userInfo['name']);
-		} elseif ($provider == 'twitter') {
+		} elseif ($provider == 'orkut') {
 			$verifier = $_GET['oauth_verifier'];
+			$oauthToken = $_GET['oauth_token'];
 
 			$orkutToken = Session::read('orkutToken');
 			$orkutTokenSecret = Session::read('orkutTokenSecret');
 
 			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $orkutToken, $orkutTokenSecret);
 
-			$access_token = $api->getAccessToken($verifier);
-			Session::write('orkutUserId', $access_token['user_id']);
-			Session::write('orkutName', $access_token['screen_name']);
+			$access_token = $api->getAccessToken($verifier, $oauthToken);
+//			Session::write('orkutUserId', $access_token['user_id']);
+//			Session::write('orkutName', $access_token['screen_name']);
 			Session::write('orkutToken', $access_token['oauth_token']);
 			Session::write('orkutTokenSecret', $access_token['oauth_token_secret']);
 		} elseif ($provider == 'apontador') {
@@ -167,6 +169,11 @@ class OauthController extends \lithium\action\Controller {
 			Session::delete('facebookToken');
 			Session::delete('facebookId');
 			Session::delete('facebookName');
+		} elseif ($provider == 'orkut') {
+			Session::delete('orkutUserId');
+			Session::delete('orkutScreenName');
+			Session::delete('orkutToken');
+			Session::delete('orkutTokenSecret');
 		} elseif ($provider == 'apontador') {
 			Session::delete('oauthToken');
 			Session::delete('oauthTokenSecret');
