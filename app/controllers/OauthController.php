@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ApontadorApi;
 use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
+use app\models\OrkutOAuth;
 use app\models\Facebook;
 use app\models\osapi\osapiGoogleProvider;
 use app\models\osapi\osapiFileStorage;
@@ -53,6 +54,26 @@ class OauthController extends \lithium\action\Controller {
 			$oauthCallbackUrl = $api->getLoginUrl(array('next' => $callbackurl, 'req_perms' => 'publish_stream'));
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'orkut') {
+			$callbackurl = ROOT_URL . "oauth/callback/orkut";
+			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET);
+			$request_token = $api->getRequestToken($callbackurl);
+//			\var_dump($api);
+//			\var_dump($request_token);
+//			exit;
+			$token = $request_token['oauth_token'];
+			Session::write('orkutToken', $request_token['oauth_token']);
+			Session::write('orkutTokenSecret', $request_token['oauth_token_secret']);
+
+			switch ($api->http_code) {
+				case 200:
+					$oauthCallbackUrl = $api->getAuthorizeURL($token);
+					break;
+				default:
+					echo 'Could not connect to Orkut. Refresh the page or try again later.';
+			}
+			$this->redirect($oauthCallbackUrl);
+
+			exit;
 			$provider = new osapiGoogleProvider();
 			$storage = new osapiFileStorage('/tmp/storage');
 			$auth = osapiOAuth3Legged::performOAuthLogin(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $storage, $provider);
@@ -70,7 +91,7 @@ class OauthController extends \lithium\action\Controller {
 			$batch->add($osapi->activities->create($create_params), 'createActivity');
 			$result = $batch->execute();
 			
-			var_dump();
+			var_dump($result);
 			exit;
 
 			$this->redirect('/settings');
