@@ -7,11 +7,6 @@ use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
 use app\models\OrkutOAuth;
 use app\models\Facebook;
-use app\models\osapi\osapiGoogleProvider;
-use app\models\osapi\osapiFileStorage;
-use app\models\osapi\osapiOAuth3Legged;
-use app\models\osapi\osapiActivity;
-use app\models\osapi\osapi;
 use app\models\oauth;
 use lithium\storage\Session;
 
