@@ -8,6 +8,7 @@ use app\models\PlaceList;
 use app\models\FourSquareApiV2;
 use app\models\TwitterOAuth;
 use app\models\Facebook;
+use app\models\OrkutOAuth;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -291,6 +292,8 @@ class PlacesController extends \lithium\action\Controller {
 		$twitterAccessToken = array('oauth_token' => Session::read('twitterToken'),
 			'oauth_token_secret' => Session::read('twitterTokenSecret'));
 		$facebookAccessToken = Session::read('facebookToken');
+		$orkutAccessToken = array('oauth_token' => Session::read('orkutToken'),
+			'oauth_token_secret' => Session::read('orkutTokenSecret'));
 		$checkedin = false;
 
 		if (!empty($placeId)) {
@@ -314,6 +317,11 @@ class PlacesController extends \lithium\action\Controller {
 
 			if (!empty($facebookAccessToken)) {
 				$this->doFacebookCheckin($facebookAccessToken, $checkinData);
+				$checkedin = true;
+			}
+
+			if (!empty($twitterAccessToken)) {
+				$this->doOrkutCheckin($orkutAccessToken, $checkinData);
 				$checkedin = true;
 			}
 
@@ -366,7 +374,17 @@ class PlacesController extends \lithium\action\Controller {
 		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
 
 		$status = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
-		$api->post("statuses/update", array('status'=>$status, 'place_id'=>$place_id));
+		$api->post("statuses/update", array('status' => $status, 'place_id' => $place_id));
+	}
+
+	private function doOrkutCheckin($orkutAccessToken = '', $checkinData = '') {
+		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, $orkutAccessToken['oauth_token'], $orkutAccessToken['oauth_token_secret']);
+
+		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
+		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
+
+		$status = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
+		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $status, 'title' => $checkinData['placeName']));
 	}
 
 	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {

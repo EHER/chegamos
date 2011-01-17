@@ -130,8 +130,12 @@ class OauthController extends \lithium\action\Controller {
 			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET, $orkutToken, $orkutTokenSecret);
 
 			$access_token = $api->getAccessToken($verifier, $oauthToken);
-//			Session::write('orkutUserId', $access_token['user_id']);
-//			Session::write('orkutName', $access_token['screen_name']);
+
+			$userInfo = $api->get("http://www.orkut.com/social/rest/people/@me/@self");
+			$userName = $userInfo->entry->name->givenName . ' ' . $userInfo->entry->name->familyName;
+
+			Session::write('orkutUserId', $userInfo->entry->id);
+			Session::write('orkutName', $userName);
 			Session::write('orkutToken', $access_token['oauth_token']);
 			Session::write('orkutTokenSecret', $access_token['oauth_token_secret']);
 		} elseif ($provider == 'apontador') {
