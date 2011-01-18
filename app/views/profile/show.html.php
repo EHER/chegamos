@@ -19,6 +19,6 @@
 		<?php echo $this->html->link("Locais Cadastrados (" . $user->getStats()->getPlaces() . ")", "/profile/places/" . $user->getId(), array("rel" => "nofollow")); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Fotos (" . $user->getStats()->getPhotos() . ")", "/profile/photos" .$user->getId(), array("rel" => "nofollow")); ?>
+		<?php echo $this->html->link("Fotos (" . $user->getStats()->getPhotos() . ")", "/profile/photos/" .$user->getId(), array("rel" => "nofollow")); ?>
 	</li>
 </ul>

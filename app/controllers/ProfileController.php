@@ -46,6 +46,18 @@ class ProfileController extends \lithium\action\Controller {
 		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
+	public function following($userId=null, $page='page1') {
+		if (empty($userId)) {
+			$userId = Session::read('apontadorId');
+		}
+
+		$page = str_replace('page', '', $page);
+
+		$following = $this->api->getUserFollowing(array('userId' => $userId, 'page' => $page));
+
+		return compact('following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+	}
+
 	public function show($userId) {
 		$user = $this->api->getUser(array('userid' => $userId));
 

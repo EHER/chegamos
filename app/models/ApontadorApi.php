@@ -38,6 +38,7 @@ class ApontadorApi {
 		}
 		$response = $this->request('users/' . $param['userid'], array());
 		$response = json_decode($response, false);
+		var_dump($response);
 		return new User($response->user);
 	}
 
@@ -254,14 +255,33 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
 
-		//var_dump($response);
-		//exit;
-				
 		$response = json_decode($response, false);
 
 		if (is_object($response->user)) {
 			return new User($response->user);
 		}
+		return false;
+	}
+
+	public function getUserFollowing($param=array()) {
+		if (empty($param['userId'])) {
+			return false;
+		}
+
+		$response = $this->request('users/' . $param['userId'] . '/following', array(
+					'nearby' => isset($param['nearby']) ? $param['nearby'] : '',
+					'lat' => isset($param['lat']) ? $param['lat'] : '',
+					'lng' => isset($param['lng']) ? $param['lng'] : '',
+					'page' => isset($param['page']) ? $param['page'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+
+		$response = json_decode($response, false);
+
+		if (is_object($response->following)) {
+			return new FollowingList($response->following);
+		}
+
 		return false;
 	}
 
