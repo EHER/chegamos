@@ -284,6 +284,31 @@ class ApontadorApi {
 		return false;
 	}
 
+	public function getUserFollowers($param=array()) {
+		if (empty($param['userId'])) {
+			return false;
+		}
+
+		$response = $this->request('users/' . $param['userId'] . '/followers', array(
+					/**
+					 * Não foi feito na API
+					 * 'nearby' => isset($param['nearby']) ? $param['nearby'] : '',
+					 * 'lat' => isset($param['lat']) ? $param['lat'] : '',
+					 * 'lng' => isset($param['lng']) ? $param['lng'] : '',
+					 */
+					'page' => isset($param['page']) ? $param['page'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+
+		$response = json_decode($response, false);
+
+		if (is_object($response->followers)) {
+			return new FollowingList($response->followers);
+		}
+
+		return false;
+	}
+
 	public function searchByZipcode($param=array()) {
 		if (empty($param['zipcode'])) {
 			return false;
