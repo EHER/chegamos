@@ -8,10 +8,15 @@
 	<li data-role="list-divider">Pessoas</li>
 	<li><?php echo $this->html->link('Quem eu sigo', "/profile/following"); ?></li>
 	<li><?php echo $this->html->link('Quem me segue', "/profile/followers"); ?></li>
+	<!-- WIP
 	<li><?php echo $this->html->link('Pessoas por perto', "/profile/near"); ?></li>
+	-->
 </ul>
+	<!-- WIP
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Todo</li>
 	<li><?php echo $this->html->link('Fazer Avaliações', "/todo/reviews"); ?></li>
 	<li><?php echo $this->html->link('Enviar Fotos', "/todo/photos"); ?></li>
 </ul>
+-->
+
