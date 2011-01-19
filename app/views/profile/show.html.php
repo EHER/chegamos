@@ -10,6 +10,9 @@
 <p>
 	<?php echo $user->getUserInfo(); ?>
 </p>
+<p>
+	<?php echo $user->getLastVisitInfo(); ?>
+</p>
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>

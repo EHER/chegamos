@@ -6,13 +6,14 @@
 		<?php foreach ($following->getItems() as $user) { ?>
 		    <li>
 				<span class="placename">
-					<img width="64" height="64" src="<?php echo ($user->getPhotoMediumUrl() ? $user->getPhotoSmallUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb">
+					<img width="64" height="64" src="<?php echo ($user->getPhotoMediumUrl() ? $user->getPhotoMediumUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb">
 					<?php echo $this->html->link($user->getName(), "/profile/show/" . $user->getId() . ""); ?>
 				</span>
 				<br />
 				<p class="ui-li-desc">
-					Último check-in:
-					<?php echo $this->html->link($user->getLastVisit()->getName(), "/profile/show/" . $user->getLastVisit()->getId() . ""); ?>
+					<p>
+						<?php echo $user->getLastVisitInfo(); ?>
+					</p>
 				</p>
 			</li>
 		<?php } ?>

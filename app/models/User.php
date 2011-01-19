@@ -69,6 +69,20 @@ class User {
 		return implode(", ", $userInfo);
 	}
 
+	public function getLastVisitInfo($returnLink = false) {
+		$lastVisitInfo = '';
+		
+		if($this->getLastVisit()->getName()) {
+			$lastVisitInfo .= 'Último check-in: ';
+			$lastVisitInfo .= $returnLink ? '<a href="'.$this->getLastVisit()->getPlaceUrl().'">' : '';
+			$lastVisitInfo .= $this->getLastVisit()->getName();
+			$lastVisitInfo .= $returnLink ? '</a>' : '';
+
+			return $lastVisitInfo;
+		}
+		return false;
+	}
+
 	public function setPlaces($places) {
 		$this->places = $places;
 	}

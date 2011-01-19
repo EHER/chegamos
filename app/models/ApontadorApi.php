@@ -38,7 +38,6 @@ class ApontadorApi {
 		}
 		$response = $this->request('users/' . $param['userid'], array());
 		$response = json_decode($response, false);
-		var_dump($response);
 		return new User($response->user);
 	}
 

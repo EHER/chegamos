@@ -238,6 +238,10 @@ class Place {
 		return $this->numPhotos;
 	}
 
+	public function getPlaceUrl() {
+		return ROOT_URL.'places/show/'.$this->getId();
+	}
+
 	public function getRouteUrl($userAddress, $lat, $lng) {
 		$routeUrl = "http://maps.google.com.br/m/directions";
 		
