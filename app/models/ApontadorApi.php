@@ -7,6 +7,10 @@ use \app\models\oauth\OAuthSignatureMethod_HMAC_SHA1;
 use \app\models\oauth\OAuthRequest;
 use lithium\net\http\Service;
 
+class ApontadorException extends \Exception {
+
+}
+
 class ApontadorApi {
 
 	var $config = array(
@@ -19,16 +23,16 @@ class ApontadorApi {
 
 	public function __construct() {
 		if (empty($this->config['apiUrl'])) {
-			throw new \Exception('URL da API Apontador deve ser configurada');
+			throw new ApontadorException('URL da API Apontador deve ser configurada');
 		}
 		if (empty($this->config['port'])) {
-			throw new \Exception('Porta da API Apontador deve ser configurada');
+			throw new ApontadorException('Porta da API Apontador deve ser configurada');
 		}
 		if (empty($this->config['consumerKey'])) {
-			throw new \Exception('Consumer Key da API Apontador deve ser configurada');
+			throw new ApontadorException('Consumer Key da API Apontador deve ser configurada');
 		}
 		if (empty($this->config['consumerSecret'])) {
-			throw new \Exception('Consumer Secret da API Apontador deve ser configurada');
+			throw new ApontadorException('Consumer Secret da API Apontador deve ser configurada');
 		}
 	}
 
@@ -37,7 +41,7 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('users/' . $param['userid'], array());
-		$response = json_decode($response, false);
+
 		return new User($response->user);
 	}
 
@@ -50,7 +54,7 @@ class ApontadorApi {
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
 						), 'PUT');
-		return json_decode($response, false);
+		return $response;
 	}
 
 	public function review($param=array()) {
@@ -65,7 +69,6 @@ class ApontadorApi {
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret'],
 						), 'PUT');
 		return $response;
-		return json_decode($response, false);
 	}
 
 	public function getPhotos($param=array()) {
@@ -73,10 +76,9 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('places/' . $param['placeId'] . '/photos');
-		$response = json_decode($response, false);
+
 		return New PhotoList($response);
 	}
-
 
 	public function getReviews($param=array()) {
 		if (empty($param['place_id'])) {
@@ -87,7 +89,7 @@ class ApontadorApi {
 					'page' => empty($param['page']) ? '' : $param['page'],
 					'limit' => empty($param['limit']) ? '' : $param['limit'],
 				));
-		return json_decode($response, false);
+		return $response;
 	}
 
 	public function getCategories($param=array()) {
@@ -95,14 +97,14 @@ class ApontadorApi {
 					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 				));
 
-		$response = json_decode($response, false);
+
 		return new CategoryList($response);
 	}
 
 	public function getCategoriesTop() {
 		$response = $this->request('categories/top');
 
-		$response = json_decode($response, false);
+
 		return new CategoryList($response);
 	}
 
@@ -114,7 +116,7 @@ class ApontadorApi {
 					'categoryid' => $param['categoryid'],
 					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 				));
-		return json_decode($response, false);
+		return $response;
 	}
 
 	public function searchByPoint($param=array()) {
@@ -135,8 +137,6 @@ class ApontadorApi {
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 					'page' => isset($param['page']) ? $param['page'] : '1',
 				));
-
-		$response = json_decode($response, false);
 
 		if (!empty($response->search)) {
 			return new PlaceList($response->search);
@@ -223,7 +223,7 @@ class ApontadorApi {
 					'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
 				));
 
-		$response = json_decode($response, false);
+
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
 		}
@@ -243,7 +243,7 @@ class ApontadorApi {
 		}
 		return false;
 	}
-	
+
 	public function getUserPlaces($param=array()) {
 		if (empty($param['userId'])) {
 			return false;
@@ -254,7 +254,7 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
 
-		$response = json_decode($response, false);
+
 
 		if (is_object($response->user)) {
 			return new User($response->user);
@@ -275,7 +275,7 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
 
-		$response = json_decode($response, false);
+
 
 		if (is_object($response->following)) {
 			return new FollowingList($response->following);
@@ -300,9 +300,8 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
 
-		$response = json_decode($response, false);
 
-		if (is_object($response->followers)) {
+		if (is_object($response) && isset($response->followers)) {
 			return new FollowingList($response->followers);
 		}
 
@@ -327,7 +326,7 @@ class ApontadorApi {
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
 
-		$response = json_decode($response, false);
+
 
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
@@ -341,7 +340,7 @@ class ApontadorApi {
 		}
 		$response = $this->request('places/' . $param['placeid']);
 
-		$response = json_decode($response, false);
+
 		return new Place($response->place);
 	}
 
@@ -349,11 +348,8 @@ class ApontadorApi {
 		if (empty($param['placeid'])) {
 			return false;
 		}
-		$response = $this->request('places/' . $param['placeid'] . '/visitors');
+		$visitors = $this->request('places/' . $param['placeid'] . '/visitors');
 
-		// resolvendo bug da api que está trazendo o visitors com uma vírgula no final
-		$response = str_replace(',]}', ']}', $response);
-		$visitors = json_decode($response, false);
 		if (!is_object($visitors)) {
 			return false;
 		}
@@ -387,13 +383,12 @@ class ApontadorApi {
 					'timeout' => $this->config['timeout'],
 				));
 
-		//echo $this->config['consumerKey'] . ':' . $this->config['consumerSecret'];
-		//echo $url . '<br />';
-		//exit;
-		//$curl_response = utf8_encode($curl_response);
-		//exit;
-		//json_decode($curl_response, false);
-		//exit;
+		$response = json_decode($response, false);
+
+		if (isset($response->error)) {
+			throw new ApontadorException($response->error->httpstatus . ': ' . $response->error->message, $response->error->code);
+		}
+
 		return $response;
 	}
 
@@ -511,7 +506,7 @@ class ApontadorApi {
 	 * @param oauth_token_secret string secret do token de autorização do usuário (ignorado se oauth_token não for passado)
 	 * @return resultado da chamada.
 	 */
-	function apontadorChamaApi($verbo="GET", $metodo, $params=array(), $oauth_token="", $oauth_token_secret="") {
+	function apontadorChamaApi($verbo="GET", $metodo="", $params=array(), $oauth_token="", $oauth_token_secret="") {
 
 		extract($this->config);
 
@@ -555,11 +550,12 @@ class ApontadorApi {
 		return $response;
 	}
 
-	public static function encurtaUrl ($url) {
-		$urlEncurtada = self::send(array('url'=>'http://aponta.me/add?wt=text&url=' . $url));
+	public static function encurtaUrl($url) {
+		$urlEncurtada = self::send(array('url' => 'http://aponta.me/add?wt=text&url=' . $url));
 
 		$novaUrl = empty($urlEncurtada) ? $url : $urlEncurtada;
 
 		return $novaUrl;
 	}
+
 }
