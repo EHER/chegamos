@@ -286,8 +286,8 @@ class PlacesController extends \lithium\action\Controller {
 		}
 
 		$placeId = empty($checkinData['placeId']) ? null : $checkinData['placeId'];
-		$oauthToken = Session::read('oauthToken');
-		$oauthTokenSecret = Session::read('oauthTokenSecret');
+		$apontadorToken = Session::read('apontadorToken');
+		$apontadorTokenSecret = Session::read('apontadorTokenSecret');
 		$foursquareAccessToken = Session::read('foursquareAccessToken');
 		$twitterAccessToken = array('oauth_token' => Session::read('twitterToken'),
 			'oauth_token_secret' => Session::read('twitterTokenSecret'));
@@ -297,11 +297,11 @@ class PlacesController extends \lithium\action\Controller {
 		$checkedin = false;
 
 		if (!empty($placeId)) {
-			if (!empty($oauthToken)) {
+			if (!empty($apontadorToken)) {
 				$response = $this->api->checkin(array(
 							'place_id' => $placeId,
-							'oauth_token' => $oauthToken,
-							'oauth_token_secret' => $oauthTokenSecret,
+							'oauth_token' => $apontadorToken,
+							'oauth_token_secret' => $apontadorTokenSecret,
 						));
 				$checkedin = true;
 			}
@@ -537,17 +537,17 @@ class PlacesController extends \lithium\action\Controller {
 
 	private function doReview(Array $reviewData = array()) {
 
-		$oauthToken = Session::read('oauthToken');
-		$oauthTokenSecret = Session::read('oauthTokenSecret');
+		$apontadorToken = Session::read('apontadorToken');
+		$apontadorTokenSecret = Session::read('apontadorTokenSecret');
 
 		if ($reviewData['place_id']) {
-			if (!empty($oauthToken)) {
+			if (!empty($apontadorToken)) {
 				$response = $this->api->review(array(
 							'place_id' => $reviewData['place_id'],
 							'rating' => $reviewData['rating'],
 							'content' => $reviewData['content'],
-							'oauth_token' => $oauthToken,
-							'oauth_token_secret' => $oauthTokenSecret,
+							'oauth_token' => $apontadorToken,
+							'oauth_token_secret' => $apontadorTokenSecret,
 						));
 				return $response;
 			} else {
