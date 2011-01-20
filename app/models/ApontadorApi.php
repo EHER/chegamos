@@ -439,6 +439,7 @@ class ApontadorApi {
 
 		$var = str_replace(array("á", "à", "â", "ã", "ª"), "a", $var);
 		$var = str_replace(array("é", "è", "ê"), "e", $var);
+		$var = str_replace(array("í", "ì", "î"), "i", $var);
 		$var = str_replace(array("ó", "ò", "ô", "õ", "º"), "o", $var);
 		$var = str_replace(array("ú", "ù", "û"), "u", $var);
 		$var = str_replace("ç", "c", $var);
