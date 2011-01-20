@@ -160,6 +160,7 @@ class OauthController extends \lithium\action\Controller {
 			Session::write('apontadorId', $token['user_id']);
 			Session::write('apontadorName', $userInfo->getName());
 		}
+		Session::delete('redir');
 		$this->redirect($redir);
 	}
 
