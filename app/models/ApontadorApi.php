@@ -120,22 +120,22 @@ class ApontadorApi {
 	}
 
 	public function searchByPoint($param=array()) {
-		if (empty($param['lat']) and empty($param['lng'])) {
+		if (empty($param['lat']) && empty($param['lng'])) {
 			return false;
 		}
 		$response = $this->request('search/places/bypoint', array(
+					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 					'lat' => $param['lat'],
 					'lng' => $param['lng'],
 					'radius_mt' => isset($param['radius_mt']) ? $param['radius_mt'] : '',
-					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 					'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
-					'sort_by' => isset($param['sort_by']) ? $param['sort_by'] : '',
+					'subcategory_id' => isset($param['subcategory_id']) ? $param['subcategory_id'] : '',
+					'sort_by' => isset($param['sort_by']) ? $param['sort_by'] : 'relevance',
 					'order' => isset($param['order']) ? $param['order'] : '',
 					'rating' => isset($param['rating']) ? $param['rating'] : '',
-					'page' => isset($param['page']) ? $param['page'] : '',
+					'page' => isset($param['page']) ? $param['page'] : '1',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
-					'page' => isset($param['page']) ? $param['page'] : '1',
 				));
 
 		if (!empty($response->search)) {
@@ -211,6 +211,7 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('search/places/byaddress', array(
+					'term' => isset($param['term']) ? $param['term'] : '',
 					'country' => $param['country'],
 					'state' => $param['state'],
 					'city' => $this->removeAccents($param['city']),
@@ -218,9 +219,14 @@ class ApontadorApi {
 					'number' => isset($param['number']) ? $param['number'] : '',
 					'district' => isset($param['district']) ? $param['district'] : '',
 					'radius_mt' => isset($param['radius_mt']) ? $param['radius_mt'] : '',
-					'term' => isset($param['term']) ? $param['term'] : '',
-					'page' => isset($param['page']) ? $param['page'] : '',
 					'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
+					'subcategory_id' => isset($param['subcategory_id']) ? $param['subcategory_id'] : '',
+					'sort_by' => isset($param['sort_by']) ? $param['sort_by'] : 'relevance',
+					'order' => isset($param['order']) ? $param['order'] : '',
+					'rating' => isset($param['rating']) ? $param['rating'] : '',
+					'page' => isset($param['page']) ? $param['page'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
 
 
@@ -314,19 +320,18 @@ class ApontadorApi {
 		}
 
 		$response = $this->request('search/places/byzipcode', array(
+					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 					'zipcode' => $param['zipcode'],
 					'radius_mt' => isset($param['radius_mt']) ? $param['radius_mt'] : '',
-					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
 					'category_id' => isset($param['category_id']) ? $param['category_id'] : '',
-					'sort_by' => isset($param['sort_by']) ? $param['sort_by'] : '',
+					'subcategory_id' => isset($param['subcategory_id']) ? $param['subcategory_id'] : '',
+					'sort_by' => isset($param['sort_by']) ? $param['sort_by'] : 'relevance',
 					'order' => isset($param['order']) ? $param['order'] : '',
 					'rating' => isset($param['rating']) ? $param['rating'] : '',
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 				));
-
-
 
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
