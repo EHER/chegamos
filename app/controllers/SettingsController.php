@@ -13,7 +13,7 @@ class SettingsController extends \lithium\action\Controller {
 		
 		$this->_render['layout'] = 'dialog';
 
-		$apontador['token'] = Session::read('oauthToken');
+		$apontador['token'] = Session::read('apontadorToken');
 		$apontador['name'] = Session::read('apontadorName');
 		$apontador['email'] = Session::read('apontadorEmail');
 		$apontador['logged'] = !empty($apontador['token']);

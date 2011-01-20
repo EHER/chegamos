@@ -494,6 +494,8 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function review($placeId = null, $reviewId = null) {
+		OauthController::verifyLogged('apontador');
+
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}

@@ -16,6 +16,17 @@ class OauthController extends \lithium\action\Controller {
 		$this->authorize($provider);
 	}
 
+	public function verifyLogged($provider = 'apontador') {
+		if(!self::isLogged($provider)){
+			Session::write('redir', 'http://'.$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+			$this->redirect('/oauth/authorize/'.$provider);
+		}
+	}
+
+	public static function isLogged($provider = 'apontador') {
+		return (bool) Session::read($provider . 'Token');
+	}
+
 	public function authorize($provider = 'apontador') {
 
 		if ($provider == 'foursquare') {
@@ -144,8 +155,8 @@ class OauthController extends \lithium\action\Controller {
 			$token = $api->apontadorProcessaAutorizacao();
 			$userInfo = $api->getUser(array('userid' => $token['user_id']));
 
-			Session::write('oauthToken', $token['oauth_token']);
-			Session::write('oauthTokenSecret', $token['oauth_token_secret']);
+			Session::write('apontadorToken', $token['oauth_token']);
+			Session::write('apontadorTokenSecret', $token['oauth_token_secret']);
 			Session::write('apontadorId', $token['user_id']);
 			Session::write('apontadorName', $userInfo->getName());
 		}
@@ -174,8 +185,8 @@ class OauthController extends \lithium\action\Controller {
 			Session::delete('orkutToken');
 			Session::delete('orkutTokenSecret');
 		} elseif ($provider == 'apontador') {
-			Session::delete('oauthToken');
-			Session::delete('oauthTokenSecret');
+			Session::delete('apontadorToken');
+			Session::delete('apontadorTokenSecret');
 			Session::delete('apontadorId');
 			Session::delete('apontadorName');
 		}

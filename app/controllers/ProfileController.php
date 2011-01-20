@@ -33,39 +33,59 @@ class ProfileController extends \lithium\action\Controller {
 
 		return compact('geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
-	
+
 	public function places($userId, $page='page1') {
 		if (empty($userId)) {
 			$this->redirect('/');
 		}
-		
+
 		$page = str_replace('page', '', $page);
-		
+
 		$user = $this->api->getUserPlaces(array('userId' => $userId, 'page' => $page));
-		
+
 		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function following($userId=null, $page='page1') {
+		OauthController::verifyLogged('apontador');
+
 		if (empty($userId)) {
 			$userId = Session::read('apontadorId');
 		}
 
 		$page = str_replace('page', '', $page);
 
-		$following = $this->api->getUserFollowing(array('userId' => $userId, 'page' => $page));
+		\extract($this->whereAmI());
+
+		$following = $this->api->getUserFollowing(array(
+					'userId' => $userId,
+					'nearby' => true,
+					'lat' => $lat,
+					'lng' => $lng,
+					'page' => $page
+				));
 
 		return compact('following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function followers($userId=null, $page='page1') {
+		OauthController::verifyLogged('apontador');
+
 		if (empty($userId)) {
 			$userId = Session::read('apontadorId');
 		}
 
 		$page = str_replace('page', '', $page);
 
-		$following = $this->api->getUserFollowers(array('userId' => $userId, 'page' => $page));
+		\extract($this->whereAmI());
+
+		$following = $this->api->getUserFollowers(array(
+					'userId' => $userId,
+					'nearby' => true,
+					'lat' => $lat,
+					'lng' => $lng,
+					'page' => $page
+				));
 
 		return compact('following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
