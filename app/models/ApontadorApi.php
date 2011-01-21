@@ -207,7 +207,7 @@ class ApontadorApi {
 	}
 
 	public function searchByAddress($param=array()) {
-		if (empty($param['state']) and empty($param['city'])) {
+		if (empty($param['state']) || empty($param['city'])) {
 			return false;
 		}
 		$response = $this->request('search/places/byaddress', array(
@@ -335,6 +335,23 @@ class ApontadorApi {
 
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
+		}
+		return false;
+	}
+
+	public function searchDeals($param=array()) {
+		if (empty($param['lat']) || empty($param['lng'])) {
+			return false;
+		}
+
+		$response = $this->request('search/places/byzipcode', array(
+					'lat' => isset($param['lat']) ? $param['lat'] : '',
+					'lng' => isset($param['lng']) ? $param['lng'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+
+		if (is_object($response->search)) {
+			return new DealList($response->search);
 		}
 		return false;
 	}

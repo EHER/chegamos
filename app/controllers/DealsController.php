@@ -3,16 +3,9 @@
 namespace app\controllers;
 
 use app\models\ApontadorApi;
-use app\models\Place;
-use app\models\PlaceList;
-use app\models\FourSquareApiV2;
-use app\models\TwitterOAuth;
-use app\models\Facebook;
-use app\models\OrkutOAuth;
-use app\models\oauth;
 use lithium\storage\Session;
 
-class PlacesController extends \lithium\action\Controller {
+class DealsController extends \lithium\action\Controller {
 
 	var $api;
 
@@ -93,26 +86,26 @@ class PlacesController extends \lithium\action\Controller {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->getPoint()->lat;
 			$lng = $place->getPoint()->lng;
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchDeals(array(
 						'lat' => $lat,
 						'lng' => $lng,
 						'page' => $page
-							), 'searchByPoint');
+							));
 		} elseif (!empty($zipcode)) {
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchDeals(array(
 						'zipcode' => $zipcode,
 						'page' => $page
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchDeals(array(
 						'city' => trim($city),
 						'state' => trim($state),
 						'country' => 'BR',
 						'page' => $page
-							), 'searchByAddress');
+							));
 		} elseif (!empty($lat) and !empty($lng)) {
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchDeals(array(
 						'lat' => $lat,
 						'lng' => $lng,
 						'page' => $page
@@ -120,8 +113,7 @@ class PlacesController extends \lithium\action\Controller {
 		} else {
 			$this->redirect('/places/checkin');
 		}
-
-		$title = "Locais Próximos";
+		$title = "Ofertas por perto";
 		return compact('title', 'page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
@@ -277,8 +269,6 @@ class PlacesController extends \lithium\action\Controller {
 	private function doCheckin(Array $checkinData = array()) {
 		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
-		OauthController::verifyLogged('apontador');
-
 		foreach ($checkinVars as $method) {
 			Session::write($method);
 		}
@@ -300,18 +290,21 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			if (!empty($apontadorToken)) {
-				$this->api->checkin(array(
+				$response = $this->api->checkin(array(
 							'place_id' => $placeId,
 							'oauth_token' => $apontadorToken,
 							'oauth_token_secret' => $apontadorTokenSecret,
 						));
+				$checkedin = true;
 			}
 			if (!empty($foursquareAccessToken)) {
 				$this->doFoursquareCheckin($foursquareAccessToken, $checkinData);
+				$checkedin = true;
 			}
 
 			if (!empty($twitterAccessToken)) {
 				$this->doTwitterCheckin($twitterAccessToken, $checkinData);
+				$checkedin = true;
 			}
 
 			if (!empty($facebookAccessToken)) {
@@ -321,9 +314,14 @@ class PlacesController extends \lithium\action\Controller {
 
 			if (!empty($twitterAccessToken)) {
 				$this->doOrkutCheckin($orkutAccessToken, $checkinData);
+				$checkedin = true;
 			}
 
-			$this->redirect('/places/checkins/' . $placeId);
+			if ($checkedin == false) {
+				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
+				$this->redirect('/settings');
+			}
+			$this->redirect('/places/show/' . $placeId);
 		}
 		$this->redirect('/');
 	}
@@ -378,11 +376,7 @@ class PlacesController extends \lithium\action\Controller {
 		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
 
 		$status = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
-		//$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $status, 'title' => $checkinData['placeName']));
-		$checkResult = $api->post("https://www.googleapis.com/latitude/v1/currentLocation", array('key' => GOOGLE_APIS_KEY, 'latitude' => $checkinData['lat'], 'longitude' => $checkinData['lng']));
-		//$checkResult = $api->post("https://www.googleapis.com/latitude/v1/currentLocation?key=" . GOOGLE_APIS_KEY . '&latitude=' . $checkinData['lat'] . '&longitude=' . $checkinData['lng']);
-		var_dump($checkResult);
-		exit;
+		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $status, 'title' => $checkinData['placeName']));
 	}
 
 	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {

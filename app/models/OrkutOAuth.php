@@ -90,8 +90,8 @@ class OrkutOAuth {
 		if (!empty($oauth_callback)) {
 			$parameters['oauth_callback'] = $oauth_callback;
 		}
-		if (!empty($this->host)) {
-			$parameters['scope'] = $this->host;
+		if (!empty($scope)) {
+			$parameters['scope'] = $scope;
 		}
 		$request = $this->oAuthRequest($this->requestTokenURL(), 'GET', $parameters);
 		$token = OAuthUtil::parse_parameters($request);
@@ -194,8 +194,6 @@ class OrkutOAuth {
 		if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0) {
 			$url = "{$this->host}{$url}.{$this->format}";
 		}
-		//echo $url;
-		//var_dump($parameters);
 		$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
 		$request->sign_request($this->sha1_method, $this->consumer, $this->token);
 
@@ -220,10 +218,10 @@ class OrkutOAuth {
 		curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
 		curl_setopt($ci, CURLOPT_TIMEOUT, $this->timeout);
 		curl_setopt($ci, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ci, CURLOPT_HTTPHEADER, array('Expect:'));
+		curl_setopt($ci, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Expect:'));
 		curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
 		curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
-		curl_setopt($ci, CURLOPT_HEADER, FALSE);
+		curl_setopt($ci, CURLOPT_HEADER, false);
 
 		switch ($method) {
 			case 'POST':

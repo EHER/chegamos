@@ -61,7 +61,7 @@ class OauthController extends \lithium\action\Controller {
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'orkut') {
 			$callbackurl = ROOT_URL . "oauth/callback/orkut";
-			$scope = 'https://orkut.gmodules.com/social/rest';
+			$scope = 'https://orkut.gmodules.com/social/rest https://www.googleapis.com/auth/latitude';
 			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET);
 			$request_token = $api->getRequestToken($callbackurl, $scope);
 			$token = $request_token['oauth_token'];
