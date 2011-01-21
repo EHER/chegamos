@@ -277,6 +277,8 @@ class PlacesController extends \lithium\action\Controller {
 	private function doCheckin(Array $checkinData = array()) {
 		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
+		OauthController::verifyLogged('apontador');
+
 		foreach ($checkinVars as $method) {
 			Session::write($method);
 		}
@@ -298,21 +300,18 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			if (!empty($apontadorToken)) {
-				$response = $this->api->checkin(array(
+				$this->api->checkin(array(
 							'place_id' => $placeId,
 							'oauth_token' => $apontadorToken,
 							'oauth_token_secret' => $apontadorTokenSecret,
 						));
-				$checkedin = true;
 			}
 			if (!empty($foursquareAccessToken)) {
 				$this->doFoursquareCheckin($foursquareAccessToken, $checkinData);
-				$checkedin = true;
 			}
 
 			if (!empty($twitterAccessToken)) {
 				$this->doTwitterCheckin($twitterAccessToken, $checkinData);
-				$checkedin = true;
 			}
 
 			if (!empty($facebookAccessToken)) {
@@ -322,13 +321,8 @@ class PlacesController extends \lithium\action\Controller {
 
 			if (!empty($twitterAccessToken)) {
 				$this->doOrkutCheckin($orkutAccessToken, $checkinData);
-				$checkedin = true;
 			}
 
-			if ($checkedin == false) {
-				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
-				$this->redirect('/settings');
-			}
 			$this->redirect('/places/checkins/' . $placeId);
 		}
 		$this->redirect('/');
