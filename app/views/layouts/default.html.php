@@ -25,6 +25,10 @@
 		<div data-role="header"> 
 			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
 			<?php echo $this->html->link('Config.', '/settings', array("rel" => "nofollow","data-icon"=>"gear","class"=>"ui-btn-right", "data-transition"=>"slideup")); ?>
+			<form method="GET" action="<?php echo ROOT_URL; ?>places/search" style="text-align: center; width:100%">
+				<input type="text" id="name" name="name" value="<?php echo (isset($_GET['name']) ? $_GET['name'] : '');?>" style="display: inline; width: 70%;">
+				<input type="submit" value="Buscar" data-inline="true" style="display: inline; float: left;">
+			</form>
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>
