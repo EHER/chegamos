@@ -329,7 +329,7 @@ class PlacesController extends \lithium\action\Controller {
 				Session::Write('redir', ROOT_URL . 'places/checkin?placeId=' . $placeId);
 				$this->redirect('/settings');
 			}
-			$this->redirect('/places/show/' . $placeId);
+			$this->redirect('/places/checkins/' . $placeId);
 		}
 		$this->redirect('/');
 	}
