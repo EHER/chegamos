@@ -59,7 +59,7 @@ class ProfileController extends \lithium\action\Controller {
 
 		$following = $this->api->getUserFollowing(array(
 					'userId' => $userId,
-					'nearby' => true,
+					'nearby' => false,
 					'lat' => $lat,
 					'lng' => $lng,
 					'page' => $page
