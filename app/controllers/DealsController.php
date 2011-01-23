@@ -83,38 +83,41 @@ class DealsController extends \lithium\action\Controller {
 		$page = str_replace('page', '', $page);
 
 		if (!empty($placeId)) {
+			var_dump('place');
 			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->getPoint()->lat;
 			$lng = $place->getPoint()->lng;
-			$placeList = $this->api->searchDeals(array(
+			$dealsList = $this->api->searchDeals(array(
 						'lat' => $lat,
 						'lng' => $lng,
 						'page' => $page
 							));
 		} elseif (!empty($zipcode)) {
-			$placeList = $this->api->searchDeals(array(
+			$dealsList = $this->api->searchDeals(array(
 						'zipcode' => $zipcode,
 						'page' => $page
 							), 'searchByZipcode');
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
-			$placeList = $this->api->searchDeals(array(
+			$dealsList = $this->api->searchDeals(array(
 						'city' => trim($city),
 						'state' => trim($state),
 						'country' => 'BR',
 						'page' => $page
 							));
 		} elseif (!empty($lat) and !empty($lng)) {
-			$placeList = $this->api->searchDeals(array(
+			$dealsList = $this->api->searchDeals(array(
 						'lat' => $lat,
 						'lng' => $lng,
 						'page' => $page
-							), 'searchByPoint');
+							));
 		} else {
 			$this->redirect('/places/checkin');
 		}
+		var_dump($dealsList);
+		exit;
 		$title = "Ofertas por perto";
-		return compact('title', 'page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'page', 'geocode', 'dealsList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function gasstations() {

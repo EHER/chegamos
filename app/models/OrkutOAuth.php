@@ -50,6 +50,7 @@ class OrkutOAuth {
 
 	function authorizeURL() {
 		return 'https://www.google.com/accounts/OAuthAuthorizeToken';
+//		return 'https://www.google.com/latitude/apps/OAuthAuthorizeToken?domain=chegamos.com';
 	}
 
 	function requestTokenURL() {

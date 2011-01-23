@@ -142,6 +142,9 @@ class OauthController extends \lithium\action\Controller {
 
 			$access_token = $api->getAccessToken($verifier, $oauthToken);
 
+			$latitudeInfo = $api->get("https://www.googleapis.com/latitude/v1/currentLocation?key=".\GOOGLE_APIS_KEY);
+			var_dump($latitudeInfo);
+			exit;
 			$userInfo = $api->get("http://www.orkut.com/social/rest/people/@me/@self");
 			$userName = $userInfo->entry->name->givenName . ' ' . $userInfo->entry->name->familyName;
 

@@ -344,11 +344,14 @@ class ApontadorApi {
 			return false;
 		}
 
-		$response = $this->request('search/places/byzipcode', array(
+		var_dump($param);
+		$response = $this->request('search/deals', array(
 					'lat' => isset($param['lat']) ? $param['lat'] : '',
 					'lng' => isset($param['lng']) ? $param['lng'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
+		var_dump('resp: ' . $response);
+		exit;
 
 		if (is_object($response->search)) {
 			return new DealList($response->search);
