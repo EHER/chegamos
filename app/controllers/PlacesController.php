@@ -277,8 +277,6 @@ class PlacesController extends \lithium\action\Controller {
 	private function doCheckin(Array $checkinData = array()) {
 		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
-		OauthController::verifyLogged('apontador');
-
 		foreach ($checkinVars as $method) {
 			Session::write($method);
 		}
@@ -299,18 +297,20 @@ class PlacesController extends \lithium\action\Controller {
 		$checkedin = false;
 
 		if (!empty($placeId)) {
+			OauthController::verifyLogged('apontador');
+
 			if (!empty($apontadorToken)) {
 				$this->api->checkin(array(
-							'place_id' => $placeId,
-							'oauth_token' => $apontadorToken,
-							'oauth_token_secret' => $apontadorTokenSecret,
-						));
+					'place_id' => $placeId,
+					'oauth_token' => $apontadorToken,
+					'oauth_token_secret' => $apontadorTokenSecret,
+				));
 			}
 			if (!empty($foursquareAccessToken)) {
 				$this->doFoursquareCheckin($foursquareAccessToken, $checkinData);
 			}
 
-			if (!empty($twitterAccessToken)) {
+			if (!empty($twitterAccessToken['oauth_token'])) {
 				$this->doTwitterCheckin($twitterAccessToken, $checkinData);
 			}
 
@@ -319,7 +319,7 @@ class PlacesController extends \lithium\action\Controller {
 				$checkedin = true;
 			}
 
-			if (!empty($twitterAccessToken)) {
+			if (!empty($orkutAccessToken['oauth_token'])) {
 				$this->doOrkutCheckin($orkutAccessToken, $checkinData);
 			}
 
