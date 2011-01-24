@@ -349,9 +349,8 @@ class ApontadorApi {
 					'lng' => isset($param['lng']) ? $param['lng'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
-
-		if (is_object($response->search)) {
-			return new DealList($response->search);
+		if (is_object($response)) {
+			return new DealList($response);
 		}
 		return false;
 	}

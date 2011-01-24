@@ -50,7 +50,8 @@ class DealsController extends \lithium\action\Controller {
 		} else {
 			$this->redirect('/places/checkin');
 		}
-		var_dump($dealsList);
+//		var_dump($dealsList);
+//		exit;
 		$title = "Ofertas por perto";
 		return compact('title', 'page', 'geocode', 'dealsList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
