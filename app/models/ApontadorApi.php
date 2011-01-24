@@ -344,14 +344,11 @@ class ApontadorApi {
 			return false;
 		}
 
-		var_dump($param);
 		$response = $this->request('search/deals', array(
 					'lat' => isset($param['lat']) ? $param['lat'] : '',
 					'lng' => isset($param['lng']) ? $param['lng'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
-		var_dump('resp: ' . $response);
-		exit;
 
 		if (is_object($response->search)) {
 			return new DealList($response->search);
@@ -364,7 +361,6 @@ class ApontadorApi {
 			return false;
 		}
 		$response = $this->request('places/' . $param['placeid']);
-
 
 		return new Place($response->place);
 	}
@@ -409,6 +405,24 @@ class ApontadorApi {
 				));
 
 		$response = json_decode($response, false);
+
+		if (!is_object($response)) {
+			switch (json_last_error ()) {
+				case JSON_ERROR_DEPTH:
+					$error = ' - Maximum stack depth exceeded';
+					break;
+				case JSON_ERROR_CTRL_CHAR:
+					$error =  ' - Unexpected control character found';
+					break;
+				case JSON_ERROR_SYNTAX:
+					$error =  ' - Syntax error, malformed JSON';
+					break;
+				case JSON_ERROR_NONE:
+					$error =  ' - No errors';
+					break;
+			}
+			throw new ApontadorException('json_decode error: ' . $error);
+		}
 
 		if (isset($response->error)) {
 			throw new ApontadorException($response->error->httpstatus . ': ' . $response->error->message, $response->error->code);

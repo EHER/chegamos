@@ -3,12 +3,10 @@
 	<li><?php echo $this->html->link('Locais por Categoria', "/places/categories"); ?></li>
 	<li><?php echo $this->html->link('Locais Próximos', "/places/near"); ?></li>
 </ul>
-<!-- WIP
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Ofertas</li>
 	<li><?php echo $this->html->link('Ofertas Próximas', "/deals/near"); ?></li>
 </ul>
--->
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Pessoas</li>
 	<li><?php echo $this->html->link('Quem eu sigo', "/profile/following"); ?></li>
