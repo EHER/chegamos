@@ -61,7 +61,7 @@ class OauthController extends \lithium\action\Controller {
 			$this->redirect($oauthCallbackUrl);
 		} elseif ($provider == 'orkut') {
 			$callbackurl = ROOT_URL . "oauth/callback/orkut";
-			$scope = 'https://orkut.gmodules.com/social/rest';
+			$scope = 'https://orkut.gmodules.com/social/rest https://www.googleapis.com/auth/latitude';
 			$api = new OrkutOAuth(\ORKUT_CONSUMER_KEY, \ORKUT_CONSUMER_SECRET);
 			$request_token = $api->getRequestToken($callbackurl, $scope);
 			$token = $request_token['oauth_token'];
@@ -201,6 +201,18 @@ class OauthController extends \lithium\action\Controller {
 		}
 		$callbackUrl = ROOT_URL . 'oauth/login';
 		return compact('callbackUrl');
+	}
+
+	public function whereAmI() {
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
+		$geocode = $this->api->revgeocode($lat, $lng);
+
+		return compact('geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 }

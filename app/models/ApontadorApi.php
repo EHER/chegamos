@@ -207,12 +207,13 @@ class ApontadorApi {
 	}
 
 	public function searchByAddress($param=array()) {
-		if (empty($param['state']) and empty($param['city'])) {
+		if (empty($param['state']) || empty($param['city'])) {
 			return false;
 		}
+
 		$response = $this->request('search/places/byaddress', array(
 					'term' => isset($param['term']) ? $param['term'] : '',
-					'country' => $param['country'],
+					'country' => isset($param['country']) ? $param['country'] : 'BR',
 					'state' => $param['state'],
 					'city' => $this->removeAccents($param['city']),
 					'street' => isset($param['street']) ? $param['street'] : '',
@@ -236,7 +237,30 @@ class ApontadorApi {
 		return false;
 	}
 
-	public function geocode($lat, $lng) {
+	public function geocode($address) {
+
+		if ($address instanceof Address) {
+			if ($address->getZipcode()) {
+				$search = $this->searchRecursive(array(
+							'zipcode' => $address->getZipcode(),
+							'sort_by' => 'distance',
+							'limit' => 1
+								), 'searchByZipcode');
+			} else {
+				$search = $this->searchRecursive(array(
+							'city' => $address->getCity()->getName(),
+							'state' => $address->getCity()->getState(),
+							'limit' => 1
+								), 'searchByAddress');
+			}
+			if ($search) {
+				return $search->getItem(0)->getPoint();
+			}
+		}
+		return false;
+	}
+
+	public function revgeocode($lat, $lng) {
 		if ($lat && $lng) {
 			$search = $this->searchRecursive(array(
 						'lat' => $lat,
@@ -339,12 +363,27 @@ class ApontadorApi {
 		return false;
 	}
 
+	public function searchDeals($param=array()) {
+		if (empty($param['lat']) || empty($param['lng'])) {
+			return false;
+		}
+
+		$response = $this->request('search/deals', array(
+					'lat' => isset($param['lat']) ? $param['lat'] : '',
+					'lng' => isset($param['lng']) ? $param['lng'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+		if (is_object($response)) {
+			return new DealList($response);
+		}
+		return false;
+	}
+
 	public function getPlace($param=array()) {
 		if (empty($param['placeid'])) {
 			return false;
 		}
 		$response = $this->request('places/' . $param['placeid']);
-
 
 		return new Place($response->place);
 	}
@@ -388,7 +427,29 @@ class ApontadorApi {
 					'timeout' => $this->config['timeout'],
 				));
 
+		if (empty($response)) {
+			throw new ApontadorException('Empty response.');
+		}
+
 		$response = json_decode($response, false);
+
+		if (!is_object($response)) {
+			switch (json_last_error ()) {
+				case JSON_ERROR_DEPTH:
+					$error = ' - Maximum stack depth exceeded';
+					break;
+				case JSON_ERROR_CTRL_CHAR:
+					$error = ' - Unexpected control character found';
+					break;
+				case JSON_ERROR_SYNTAX:
+					$error = ' - Syntax error, malformed JSON';
+					break;
+				case JSON_ERROR_NONE:
+					$error = ' - No errors';
+					break;
+			}
+			throw new ApontadorException('json_decode error: ' . $error);
+		}
 
 		if (isset($response->error)) {
 			throw new ApontadorException($response->error->httpstatus . ': ' . $response->error->message, $response->error->code);

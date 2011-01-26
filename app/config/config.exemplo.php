@@ -38,3 +38,5 @@ define('FACEBOOK_SECRET', '');
 
 define('ORKUT_CONSUMER_KEY', '');
 define('ORKUT_CONSUMER_SECRET', '');
+
+define('GOOGLE_APIS_KEY', '');
