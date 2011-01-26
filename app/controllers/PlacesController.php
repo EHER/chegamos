@@ -27,7 +27,7 @@ class PlacesController extends \lithium\action\Controller {
 		extract(OauthController::whereAmI());
 
 		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
-			$checkinData = array('cityState' => 'São Paulo, SP');
+			$checkinData = array('cityState' => 'São Paulo, SP', 'lat' => '-23.48033', 'lng' => '-46.63459');
 			$this->doCheckin($checkinData);
 			return $checkinData;
 		}
