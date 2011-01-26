@@ -51,7 +51,7 @@
 						<?php echo $cityState; ?>
 					<?php endif; ?>
 
-					<?php if (!empty($geocode)) { ?>
+					<?php if (!empty($geocode) && empty($zipcode) && empty($cityState)) { ?>
 						<?php echo$geocode; ?>
 					<?php } else if (!empty($lat) and !empty($lng)) { ?>
 					(<?php echo $lat; ?>, <?php echo $lng; ?>)

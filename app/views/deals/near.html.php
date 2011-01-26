@@ -8,7 +8,7 @@
 				<br/>
 				<p class="ui-li-desc" style="white-space:normal;">
 					<img width="84" height="84" src="<?php echo ($deal->getImageUrl() ? $deal->getImageUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb">
-					<?php echo $this->html->link($deal->getTitle(), "/deals/show/" . $deal->getId() . ""); ?>
+					<?php echo $this->html->link($deal->getTitle(), $deal->getUrl(), array('rel'=>'external', 'target' => '_blank')); ?>
 				</p>
 			</li>
 		<?php } ?>

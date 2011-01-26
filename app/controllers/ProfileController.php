@@ -15,25 +15,6 @@ class ProfileController extends \lithium\action\Controller {
 		parent::__construct($config);
 	}
 
-	public function index() {
-
-		//$place = $this->api->getUser(array('userid' => $userId));
-
-		return $this->whereAmI();
-	}
-
-	public function whereAmI() {
-		$placeId = Session::read('placeId');
-		$placeName = Session::read('placeName');
-		$zipcode = Session::read('zipcode');
-		$cityState = Session::read('cityState');
-		$lat = Session::read('lat');
-		$lng = Session::read('lng');
-		$geocode = $this->api->geocode($lat, $lng);
-
-		return compact('geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
-	}
-
 	public function places($userId, $page='page1') {
 		if (empty($userId)) {
 			$this->redirect('/');
@@ -55,7 +36,7 @@ class ProfileController extends \lithium\action\Controller {
 
 		$page = str_replace('page', '', $page);
 
-		\extract($this->whereAmI());
+		\extract(OauthController::whereAmI());
 
 		$following = $this->api->getUserFollowing(array(
 					'userId' => $userId,
@@ -77,7 +58,7 @@ class ProfileController extends \lithium\action\Controller {
 
 		$page = str_replace('page', '', $page);
 
-		\extract($this->whereAmI());
+		\extract(OauthController::whereAmI());
 
 		$following = $this->api->getUserFollowers(array(
 					'userId' => $userId,
@@ -92,6 +73,8 @@ class ProfileController extends \lithium\action\Controller {
 
 	public function show($userId) {
 		$user = $this->api->getUser(array('userid' => $userId));
+
+		\extract(OauthController::whereAmI());
 
 		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}

@@ -142,9 +142,6 @@ class OauthController extends \lithium\action\Controller {
 
 			$access_token = $api->getAccessToken($verifier, $oauthToken);
 
-			$latitudeInfo = $api->get("https://www.googleapis.com/latitude/v1/currentLocation?key=".\GOOGLE_APIS_KEY);
-			var_dump($latitudeInfo);
-			exit;
 			$userInfo = $api->get("http://www.orkut.com/social/rest/people/@me/@self");
 			$userName = $userInfo->entry->name->givenName . ' ' . $userInfo->entry->name->familyName;
 
@@ -204,6 +201,18 @@ class OauthController extends \lithium\action\Controller {
 		}
 		$callbackUrl = ROOT_URL . 'oauth/login';
 		return compact('callbackUrl');
+	}
+
+	public function whereAmI() {
+		$placeId = Session::read('placeId');
+		$placeName = Session::read('placeName');
+		$zipcode = Session::read('zipcode');
+		$cityState = Session::read('cityState');
+		$lat = Session::read('lat');
+		$lng = Session::read('lng');
+		$geocode = $this->api->revgeocode($lat, $lng);
+
+		return compact('geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 }

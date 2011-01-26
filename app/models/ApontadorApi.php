@@ -210,9 +210,10 @@ class ApontadorApi {
 		if (empty($param['state']) || empty($param['city'])) {
 			return false;
 		}
+
 		$response = $this->request('search/places/byaddress', array(
 					'term' => isset($param['term']) ? $param['term'] : '',
-					'country' => $param['country'],
+					'country' => isset($param['country']) ? $param['country'] : 'BR',
 					'state' => $param['state'],
 					'city' => $this->removeAccents($param['city']),
 					'street' => isset($param['street']) ? $param['street'] : '',
@@ -236,7 +237,30 @@ class ApontadorApi {
 		return false;
 	}
 
-	public function geocode($lat, $lng) {
+	public function geocode($address) {
+
+		if ($address instanceof Address) {
+			if ($address->getZipcode()) {
+				$search = $this->searchRecursive(array(
+							'zipcode' => $address->getZipcode(),
+							'sort_by' => 'distance',
+							'limit' => 1
+								), 'searchByZipcode');
+			} else {
+				$search = $this->searchRecursive(array(
+							'city' => $address->getCity()->getName(),
+							'state' => $address->getCity()->getState(),
+							'limit' => 1
+								), 'searchByAddress');
+			}
+			if ($search) {
+				return $search->getItem(0)->getPoint();
+			}
+		}
+		return false;
+	}
+
+	public function revgeocode($lat, $lng) {
 		if ($lat && $lng) {
 			$search = $this->searchRecursive(array(
 						'lat' => $lat,
@@ -403,6 +427,10 @@ class ApontadorApi {
 					'timeout' => $this->config['timeout'],
 				));
 
+		if (empty($response)) {
+			throw new ApontadorException('Empty response.');
+		}
+
 		$response = json_decode($response, false);
 
 		if (!is_object($response)) {
@@ -411,13 +439,13 @@ class ApontadorApi {
 					$error = ' - Maximum stack depth exceeded';
 					break;
 				case JSON_ERROR_CTRL_CHAR:
-					$error =  ' - Unexpected control character found';
+					$error = ' - Unexpected control character found';
 					break;
 				case JSON_ERROR_SYNTAX:
-					$error =  ' - Syntax error, malformed JSON';
+					$error = ' - Syntax error, malformed JSON';
 					break;
 				case JSON_ERROR_NONE:
-					$error =  ' - No errors';
+					$error = ' - No errors';
 					break;
 			}
 			throw new ApontadorException('json_decode error: ' . $error);
