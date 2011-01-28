@@ -5,9 +5,10 @@
 	<?php if ($dealsList instanceof DealList) { ?>
 		<?php foreach ($dealsList->getItems() as $deal) { ?>
 		    <li class="ui-li-has-thumb ui-btn ui-btn-icon-right ui-li ui-btn-down-c ui-btn-up-c">
-				<br/>
-				<p class="ui-li-desc" style="white-space:normal;">
-					<img width="84" height="84" src="<?php echo ($deal->getImageUrl() ? $deal->getImageUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb">
+				<?php if($deal->getImageUrl()) { ?>
+					<img style="float:left; margin: 0 5px 5px 0" title="<?php echo $deal->getTitle(); ?>" alt="<?php echo $deal->getTitle(); ?>" width="84" height="84" src="<?php echo $deal->getImageUrl(); ?>">
+				<?php } ?>
+				<p style="white-space: normal; margin-top:0px;" class="ui-li-desc" style="white-space:normal;">
 					<?php echo $this->html->link($deal->getTitle(), $deal->getUrl(), array('rel'=>'external', 'target' => '_blank')); ?>
 				</p>
 			</li>

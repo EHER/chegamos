@@ -5,8 +5,8 @@
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Pessoas</li>
-	<li><?php echo $this->html->link('Quem eu sigo', "/profile/following"); ?></li>
-	<li><?php echo $this->html->link('Quem me segue', "/profile/followers"); ?></li>
+	<li><?php echo $this->html->link('Amigos', "/profile/following", array("rel"=>"external")); ?></li>
+	<li><?php echo $this->html->link('Seguidores', "/profile/followers", array("rel"=>"external")); ?></li>
 	<!-- WIP
 	<li><?php echo $this->html->link('Pessoas por perto', "/profile/near"); ?></li>
 	-->

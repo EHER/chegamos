@@ -15,23 +15,19 @@
 <?php if (!empty ($reviewId)) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<?php foreach ($reviews->place->reviews as $review): ?>
-		<li data-role="list-divider">Avaliação de <?php echo $review->review->created->user->name; ?></li>
-		<li>
-            <div class="ui-btn-text">
-				<img style="padding-top:20px;" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb" />
-				<h3 class="ui-li-heading">
-					<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
-						<?php echo $review->review->created->user->name; ?>
-					</a>
-				</h3>
-			</div>
-			<p>
-			<div class="rate">
-				<b style="width: <? echo $review->review->rating * 20;?>%;"></b>
-			</div>
-			em <?php echo date("d/m H:i", strtotime($review->review->created->timestamp)); ?></p>
-			<p style="white-space:normal;"><?php echo $review->review->content; ?></p>
-		</li>
+			<li data-role="list-divider">Avaliação de <?php echo $review->review->created->user->name; ?></li>
+			<li>
+				<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
+					<img title="<?php echo $review->review->created->user->name; ?>" alt="<?php echo $review->review->created->user->name; ?>" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>"/>
+				</a>
+				<span class="username">
+					<?php echo $review->review->created->user->name; ?>
+				</span>
+				<br />
+				<p class="ui-li-desc" style="white-space:normal;">
+					<?php echo $review->review->content; ?>
+				</p>
+			</li>
 		<?php endforeach; ?>
 	</ul>
 <?php } ?>
@@ -40,13 +36,17 @@
 	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 		<li data-role="list-divider">Avaliações (<?php echo $reviews->place->result_count; ?>)</li>
         <?php foreach ($reviews->place->reviews as $review): ?>
-            <li>
-				<div style="padding-left:-20px;">
-					<a href="<?php echo ROOT_URL . 'places/review/' . $review->review->place->id . '/' . $review->review->id; ?>">
-						<h4><?php echo $review->review->created->user->name; ?></h4>
-					</a>
-					<p><?php echo $review->review->content; ?></p>
-				</div>
+			<li>
+				<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
+					<img title="<?php echo $review->review->created->user->name; ?>" alt="<?php echo $review->review->created->user->name; ?>" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>"/>
+				</a>
+				<span class="username">
+					<?php echo $review->review->created->user->name; ?>
+				</span>
+				<br />
+				<p class="ui-li-desc" style="white-space:normal;">
+					<?php echo $review->review->content; ?>
+				</p>
 			</li>
 		<?php endforeach; ?>
 	</ul>

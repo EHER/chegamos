@@ -24,7 +24,10 @@ class ProfileController extends \lithium\action\Controller {
 
 		$user = $this->api->getUserPlaces(array('userId' => $userId, 'page' => $page));
 
-		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$user = $this->api->getUser(array('userid' => $userId));
+
+		$title = 'Locais cadastrados por ' . $user->getName();
+		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function following($userId=null, $page='page1') {
@@ -46,7 +49,10 @@ class ProfileController extends \lithium\action\Controller {
 					'page' => $page
 				));
 
-		return compact('following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$user = $this->api->getUser(array('userid' => $userId));
+
+		$title = 'Quem ' . $user->getName() . ' segue';
+		return compact('title', 'following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function followers($userId=null, $page='page1') {
@@ -67,8 +73,10 @@ class ProfileController extends \lithium\action\Controller {
 					'lng' => $lng,
 					'page' => $page
 				));
+		$user = $this->api->getUser(array('userid' => $userId));
 
-		return compact('following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$title = 'Quem segue ' . $user->getName();
+		return compact('title', 'following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function show($userId) {
@@ -76,7 +84,8 @@ class ProfileController extends \lithium\action\Controller {
 
 		\extract(OauthController::whereAmI());
 
-		return compact('user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$title = 'Perfil de ' . $user->getName();
+		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 }

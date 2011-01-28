@@ -16,12 +16,21 @@
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
+		<?php echo $this->html->link("Amigos", "/profile/following/" . $user->getId(), array("rel" => "nofollow")); ?>
+	</li>
+	<li>
+		<?php echo $this->html->link("Seguidores", "/profile/followers/" . $user->getId(), array("rel" => "nofollow")); ?>
+	</li>
+	<li>
 		<?php echo $this->html->link("Avaliações (" . $user->getStats()->getReviews() . ")", "/profile/reviews/" . $user->getId(), array("rel" => "nofollow")); ?>
 	</li>
 	<li>
-		<?php echo $this->html->link("Locais Cadastrados (" . $user->getStats()->getPlaces() . ")", "/profile/places/" . $user->getId(), array("rel" => "nofollow")); ?>
+		<?php echo $this->html->link("Locais Cadastrados (" . $user->getStats()->getPlaces() . ")", "/profile/places/" . $user->getId()); ?>
 	</li>
 	<li>
 		<?php echo $this->html->link("Fotos (" . $user->getStats()->getPhotos() . ")", "/profile/photos/" .$user->getId(), array("rel" => "nofollow")); ?>
+	</li>
+	<li>
+		<?php echo $this->html->link("Ver no Apontador", 'http://www.apontador.com.br/profile/index/'.$user->getId().'.html', array("rel" => "external", "target" => "nofollow")); ?>
 	</li>
 </ul>

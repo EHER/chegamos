@@ -491,7 +491,7 @@ class PlacesController extends \lithium\action\Controller {
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
 		$title = $place->getName() . ' - Fotos';
-		return compact('title', 'photoId', 'geocode','placeId', 'photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title', 'photoId', 'geocode', 'placeId', 'photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	public function review($placeId = null, $reviewId = null) {
@@ -516,13 +516,6 @@ class PlacesController extends \lithium\action\Controller {
 					'limit' => 100,
 				));
 
-		if ($reviewId != null) {
-			foreach ($reviews->place->reviews as $k => $review) {
-				if ($review->review->id != $reviewId) {
-					unset($reviews->place->reviews[$k]);
-				}
-			}
-		}
 
 		$thePlaceId = $placeId;
 
@@ -532,7 +525,22 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
+		if ($reviewId != null) {
+			foreach ($reviews->place->reviews as $k => $review) {
+				if ($review->review->id != $reviewId) {
+					unset($reviews->place->reviews[$k]);
+				} else {
+					$keyReview = $k;
+				}
+			}
+			$title = $place->getName() . ' - Avaliação de ' 
+					. $reviews->place->reviews[$keyReview]->review->created->user->name
+					. ' (' . $reviews->place->reviews[$keyReview]->review->id . ')';
+		} else {
+
+
 		$title = $place->getName() . ' - Avaliações';
+		}
 		return compact('title', 'geocode', 'reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
