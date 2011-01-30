@@ -47,7 +47,7 @@
 		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getNumVisitors(); ?></span>
 	</li>
 	<li>
-		<?php echo $this->html->link("Avaliações", "/places/review/" . $place->getId()); ?>
+		<?php echo $this->html->link("Avaliações", "/places/review/" . $place->getId(), array('rel', 'external')); ?>
 		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getReviewCount(); ?></span>
 	</li>
 	<li>

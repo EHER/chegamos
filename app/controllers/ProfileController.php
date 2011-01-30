@@ -31,9 +31,8 @@ class ProfileController extends \lithium\action\Controller {
 	}
 
 	public function following($userId=null, $page='page1') {
-		OauthController::verifyLogged('apontador');
-
 		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
 			$userId = Session::read('apontadorId');
 		}
 
@@ -56,9 +55,8 @@ class ProfileController extends \lithium\action\Controller {
 	}
 
 	public function followers($userId=null, $page='page1') {
-		OauthController::verifyLogged('apontador');
-
 		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
 			$userId = Session::read('apontadorId');
 		}
 
