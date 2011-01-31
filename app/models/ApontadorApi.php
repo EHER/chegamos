@@ -237,6 +237,25 @@ class ApontadorApi {
 		return false;
 	}
 
+	public function search($param=array()) {
+		if (empty($param['term'])) {
+			return false;
+		}
+
+		$response = $this->request('search/places', array(
+					'q' => isset($param['term']) ? $param['term'] : '',
+					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
+					'page' => isset($param['page']) ? $param['page'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+
+
+		if (is_object($response->search)) {
+			return new PlaceList($response->search);
+		}
+		return false;
+	}
+
 	public function geocode($address) {
 
 		if ($address instanceof Address) {
