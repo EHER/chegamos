@@ -1,60 +1,100 @@
 TODO
 ====
-Essa é a lista de coisas a fazer no projeto.
-Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida.
+Essa é a lista de coisas a fazer no projeto
+Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida
 
 PENDENTES
 =========
 
 	CATEGORIAS
-	- Melhorar a busca por categoria. Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados.
-	- Verificar porque a categoria aeroportos nao traz nada.
-	- Filtragem por nome (js) na listagem de categorias.
+	- Melhorar a busca por categoria Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados
+	- Verificar porque a categoria aeroportos nao traz nada
+	- Filtragem por nome (js) na listagem de categorias
 	
 	POI/AVALIACOES/CHECKIN/FOTOS
 	- Trazer as fotos do local (sob demanda do usuário)
 	- Melhorar o layout das reviews
-	- Fazer página específica de uma review
 	
 	GERAL
 	- Paginacao nas buscas (como twitter)
 	- Mais dados no resultado das buscas
 	- Informações de postos
+
+	LAYOUT
+	- Melhorar o layout da versão sem JS
+	- Criar home com ícones
+	- Melhorar o espaço do "onde estou" para uma linha
+
+	ONDE ESTOU
+	- Alterar a detecção de "onde estou" para um serviço do javascript
+	- Criar a opção do detectar rodar de tempos em tempos
 	
 	POSTOS
 	- Posto mais barato perto de mim
 	
 	USER
 	- Criar um model de user para armazenar o WhereAmI
-	- Criar listagem de quem me segue
-	- Criar listagem de quem eu sigo
-	
+
+	REVIEW
+	- Criar um model de user para a avaliação
+
+	PHOTO
+	- Criar um model de user para foto
+
 	ESTRUTURA/REFACTORING
 	- Trocar checkins para model
 	- Trocar todos os objetos para models
 
 	REDES SOCIAIS
-	- Adicionar a opção de checkin via Orkut
-	- Adicionar a opção de checkin via Facebook
+	- Adicionar a opção de checkin via Orkut (usando Latitude)
+	- Criar a opção de Seguir (ou não) um usuário Apontador a partir do perfil
+
+	CHECKIN
+	- Criar uma tela pré-checkin para configurar o checkin
+	- Ter a opção de selecionar a rede social em que será feito o checkin
+	- Editar o texto do checkin
+	- Permitir escolher em qual local (Foursquare) deve ser feito o checkin
+	- Criar uma tela pós-checkin para exibir o resultado do checkin
+
+	TIMELINE
+	- Habilitar a exibição de timeline do usuário
+	- Habilitar a exibição de timeline no perfil do usuário
+
+	PERFIL
+	- Mostra onde foi fetio o último checkin
+	- Mostrar qual foi a último status da timeline
+	- Criar lista de avaliações do usuário
+	- Criar lista de fotos do usuário
+
+	OFERTAS
+	- Exibir mais informações na lista de promoções por perto (preço, preço original, % de desconto, etc)
+	- Criar página de detalhes da oferta
+	- Na página de detalhes da oferta, criar link para página do local (do Chegamos!)
 
 	BUSCAS
+	- Mudar o campo de busca do layout para trabalhar com busca livre
+	- Melhorar o campo de busca para encrontar não só locais (ofertas, avaliações, usuários, etc)
 	- Exibir uma imagem como ícone do local
 	- Exibir distância até cada um dos locais/amigos
 
 FINALIZADAS
 ===========
 
+	- Fazer página específica de uma review
+	- Criar listagem de quem me segue
+	- Criar listagem de quem eu sigo
+	- Adicionar a opção de checkin via Facebook
 	- Geocode dos Pobres
 	- Reformular todo o layout
 	- Fazer o layout dos checkins (places/show/UCV34B2P)
-	- Trazer a lista de checkins feitos no local.
+	- Trazer a lista de checkins feitos no local
 	- Busca aumentando o raio de acordo com os resultados esperados
 	- Trocar o getPlace para retornar um objeto e não JSON
-	- Melhorar a busca por nome. Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados.
+	- Melhorar a busca por nome Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados
 	- Fazer a avaliação funcionar após o login e autorização da API
 	- Link para "Upload Multiplo" de fotos
 	- Opção de login via Post (Apontador)
 	- Habilitar login via Post via arquivo de configuração
-	- Fazer o checkin usando a api.
+	- Fazer o checkin usando a api
 	- Criar funcionalidade para linkar outras contas (Twitter, Foursquare, Facebook, etc)
-	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais.
+	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais
