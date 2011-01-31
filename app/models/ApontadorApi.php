@@ -357,6 +357,24 @@ class ApontadorApi {
 		return false;
 	}
 
+	public function getUserReviews($param=array()) {
+		if (empty($param['userId'])) {
+			return false;
+		}
+
+		$response = $this->request('users/' . $param['userId'] . '/reviews', array(
+					'page' => isset($param['page']) ? $param['page'] : '',
+					'limit' => isset($param['limit']) ? $param['limit'] : '',
+				));
+
+
+		if (is_object($response) && isset($response->user)) {
+			return new ReviewList($response->user);
+		}
+
+		return false;
+	}
+
 	public function searchByZipcode($param=array()) {
 		if (empty($param['zipcode'])) {
 			return false;

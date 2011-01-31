@@ -77,6 +77,29 @@ class ProfileController extends \lithium\action\Controller {
 		return compact('title', 'following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
+	public function reviews($userId=null, $page='page1') {
+		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
+			$userId = Session::read('apontadorId');
+		}
+
+		$page = str_replace('page', '', $page);
+
+		\extract(OauthController::whereAmI());
+
+		$reviews = $this->api->getUserReviews(array(
+					'userId' => $userId,
+					'nearby' => true,
+					'lat' => $lat,
+					'lng' => $lng,
+					'page' => $page
+				));
+		$user = $this->api->getUser(array('userid' => $userId));
+
+		$title = 'Avaliações de ' . $user->getName();
+		return compact('title', 'reviews', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+	}
+
 	public function show($userId) {
 		$user = $this->api->getUser(array('userid' => $userId));
 
