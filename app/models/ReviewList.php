@@ -14,6 +14,12 @@ class ReviewList extends ItemsList {
 
 	public function __construct($data = null) {
 		if ($data != null) {
+			$this->setId($data->id);
+			$this->setName($data->name);
+			$this->setPhotoLargeUrl($data->photo_large_url);
+			$this->setPhotoUrl($data->photo_url);
+			$this->setPhotoMediumUrl($data->photo_medium_url);
+			$this->setPhotoSmallUrl($data->photo_small_url);
 			$this->setNumFound($data->result_count);
 			$this->setCurrentPage($data->current_page);
 

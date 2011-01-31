@@ -94,9 +94,8 @@ class ProfileController extends \lithium\action\Controller {
 					'lng' => $lng,
 					'page' => $page
 				));
-		$user = $this->api->getUser(array('userid' => $userId));
 
-		$title = 'Avaliações de ' . $user->getName();
+		$title = 'Avaliações de ' . $reviews->getName();
 		return compact('title', 'reviews', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
