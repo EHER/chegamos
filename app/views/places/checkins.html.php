@@ -18,17 +18,14 @@
 		Quem esteve aqui
 		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $visitors instanceof VisitorList ? $visitors->getNumFound() : '' ?></span>
 	</li>
-<?php if ($visitors instanceof VisitorList) { ?>
+<?php if ($visitors instanceof VisitorList && $visitors->getNumFound() > 0) { ?>
 	<?php foreach ($visitors->getItems() as $visitor) { ?>
 		<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
-			<div class="ui-btn-text">
-				<?php // var_dump($visitor);exit;?>
-				<img width="64" height="64" src="<?php echo ($visitor->getPhotoMediumUrl() ? $visitor->getPhotoMediumUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>" class="ui-li-thumb">
+				<img width="64" height="64" src="<?php echo ($visitor->getPhotoMediumUrl() ? $visitor->getPhotoMediumUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>">
 				<h3 class="ui-li-heading"><a href="<?php echo $visitor->getProfileUrl(); ?>" class="ui-link-inherit"><?php echo $visitor->getName(); ?></a></h3>
 				<p class="ui-li-desc">(<?php echo $visitor->getVisits() . ($visitor->getVisits() == 1 ? ' visita' : ' visitas'); ?>)
 				em <?php echo $visitor->getLastVisit(); ?></p>
-			</div>
-	</li>
+		</li>
 	<?php } ?>
 <?php } else { ?>
 	<li>Ninguém registrou a presença neste local.</li>

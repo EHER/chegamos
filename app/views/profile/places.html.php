@@ -11,7 +11,7 @@
 </p>
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li data-role="list-divider">Locais Cadastrados</li>
+	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($user->getPlaces() instanceof PlaceList && $user->getPlaces()->getNumFound() > 0) { ?>
 		<?php foreach ($user->getPlaces()->getItems() as $place) { ?>
 		    <li>
@@ -24,10 +24,10 @@
 				</p>
 			</li>
 		<?php } ?>
-		<?php if ($user->getPlaces()->getCurrentPage() < 10 && $user->getPlaces()->getNumFound() <= $user->getPlaces()->getCurrentPage() * 10) { ?>
+		<?php if ($user->getPlaces()->getNumFound() >= $user->getPlaces()->getCurrentPage() * 10 ) { ?>
 			<li><a href="<?php echo ROOT_URL;?>profile/places/<?php echo $user->getId(); ?>/page<?php echo $user->getPlaces()->getCurrentPage() + 1; ?>">Mais</a></li>
 		<?php } ?>
 	<?php } else { ?>
-	<li>Nenhum local encontrado.</li>
+	<li>Nenhum local.</li>
 	<?php } ?>
 </ul>

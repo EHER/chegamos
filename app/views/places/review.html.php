@@ -16,14 +16,11 @@
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<?php foreach ($reviews->place->reviews as $review): ?>
 			<li data-role="list-divider">Avaliação de <?php echo $review->review->created->user->name; ?></li>
-			<li>
+			<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
 					<img title="<?php echo $review->review->created->user->name; ?>" alt="<?php echo $review->review->created->user->name; ?>" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>"/>
 				</a>
-				<span class="username">
-					<?php echo $review->review->created->user->name; ?>
-				</span>
-				<br />
+				<h3><?php echo $review->review->created->user->name; ?></h3>
 				<p class="ui-li-desc" style="white-space:normal;">
 					<?php echo $review->review->content; ?>
 				</p>
@@ -36,14 +33,13 @@
 	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 		<li data-role="list-divider">Avaliações (<?php echo $reviews->place->result_count; ?>)</li>
         <?php foreach ($reviews->place->reviews as $review): ?>
-			<li>
+			<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
 					<img title="<?php echo $review->review->created->user->name; ?>" alt="<?php echo $review->review->created->user->name; ?>" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>"/>
 				</a>
-				<span class="username">
+				<h3>
 					<?php echo $review->review->created->user->name; ?>
-				</span>
-				<br />
+				</h3>
 				<p class="ui-li-desc" style="white-space:normal;">
 					<?php echo $review->review->content; ?>
 				</p>

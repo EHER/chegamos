@@ -13,6 +13,8 @@ class User {
 	private $photoSmallUrl = null;
 	private $stats = null;
 	private $places = null;
+	private $reviews = null;
+	private $photos = null;
 	private $lastVisit = null;
 
 	public function __construct($data) {
@@ -47,6 +49,14 @@ class User {
 			$this->setPlaces(new PlaceList($data));
 		}
 
+		if (isset($data->reviews)) {
+			$this->setReviews(new ReviewList($data));
+		}
+		
+		if (isset($data->photos)) {
+			$this->setPhotos(new PhotoList($data));
+		}
+
 		if (isset($data->last_visit->place)) {
 			$this->setLastVisit(new Place($data->last_visit->place));
 		} else {
@@ -71,10 +81,10 @@ class User {
 
 	public function getLastVisitInfo($returnLink = false) {
 		$lastVisitInfo = '';
-		
-		if($this->getLastVisit()->getName()) {
+
+		if ($this->getLastVisit()->getName()) {
 			$lastVisitInfo .= 'Último check-in: ';
-			$lastVisitInfo .= $returnLink ? '<a href="'.$this->getLastVisit()->getPlaceUrl().'">' : '';
+			$lastVisitInfo .= $returnLink ? '<a href="' . $this->getLastVisit()->getPlaceUrl() . '">' : '';
 			$lastVisitInfo .= $this->getLastVisit()->getName();
 			$lastVisitInfo .= $returnLink ? '</a>' : '';
 
@@ -190,6 +200,22 @@ class User {
 
 	public function setLastVisit($lastVisit) {
 		$this->lastVisit = $lastVisit;
+	}
+
+	public function getReviews() {
+		return $this->reviews;
+	}
+
+	public function setReviews($reviews) {
+		$this->reviews = $reviews;
+	}
+
+	public function getPhotos() {
+		return $this->photos;
+	}
+
+	public function setPhotos($photos) {
+		$this->photos = $photos;
 	}
 
 	public function getProfileUrl() {

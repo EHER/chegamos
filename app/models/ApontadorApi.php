@@ -369,7 +369,7 @@ class ApontadorApi {
 
 
 		if (is_object($response) && isset($response->user)) {
-			return new ReviewList($response->user);
+			return new User($response->user);
 		}
 
 		return false;

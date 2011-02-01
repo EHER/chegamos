@@ -24,8 +24,6 @@ class ProfileController extends \lithium\action\Controller {
 
 		$user = $this->api->getUserPlaces(array('userId' => $userId, 'page' => $page));
 
-		$user = $this->api->getUser(array('userid' => $userId));
-
 		$title = 'Locais cadastrados por ' . $user->getName();
 		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
@@ -87,7 +85,7 @@ class ProfileController extends \lithium\action\Controller {
 
 		\extract(OauthController::whereAmI());
 
-		$reviews = $this->api->getUserReviews(array(
+		$user = $this->api->getUserReviews(array(
 					'userId' => $userId,
 					'nearby' => true,
 					'lat' => $lat,
@@ -95,8 +93,8 @@ class ProfileController extends \lithium\action\Controller {
 					'page' => $page
 				));
 
-		$title = 'Avaliações de ' . $reviews->getName();
-		return compact('title', 'reviews', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		$title = 'Avaliações de ' . $user->getName();
+		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function show($userId) {
