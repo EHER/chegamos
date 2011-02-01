@@ -495,13 +495,13 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function review($placeId = null, $reviewId = null) {
-		OauthController::verifyLogged('apontador');
 
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
 
 		if (!empty($_GET)) {
+			OauthController::verifyLogged('apontador');
 
 			$reviewData = array(
 				'place_id' => $placeId,
@@ -533,13 +533,13 @@ class PlacesController extends \lithium\action\Controller {
 					$keyReview = $k;
 				}
 			}
-			$title = $place->getName() . ' - Avaliação de ' 
+			$title = $place->getName() . ' - Avaliação de '
 					. $reviews->place->reviews[$keyReview]->review->created->user->name
 					. ' (' . $reviews->place->reviews[$keyReview]->review->id . ')';
 		} else {
 
 
-		$title = $place->getName() . ' - Avaliações';
+			$title = $place->getName() . ' - Avaliações';
 		}
 		return compact('title', 'geocode', 'reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
