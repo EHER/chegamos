@@ -16,7 +16,7 @@ use lithium\storage\Session;
 
 class PlacesController extends \lithium\action\Controller {
 
-	var $api;
+	private $api;
 
 	public function __construct(array $config = array()) {
 		$this->api = new ApontadorApi();
@@ -450,7 +450,8 @@ class PlacesController extends \lithium\action\Controller {
 			$showCheckin = true;
 
 			$title = $place->getName();
-			return compact('title', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			$meta = $place->getMeta();
+			return compact('title', 'meta', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}
