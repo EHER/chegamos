@@ -452,10 +452,6 @@ class PlacesController extends \lithium\action\Controller {
 
 			$og = new OpenGraph();
 			$og->populate($place);
-//			$og->add('title', $place->getName());
-			$og->add('type', 'restaurant');
-//			$og->add('url', $place->getPlaceUrl());
-//			$og->add('image', $place->getIconUrl());
 
 			$meta = $og->getMeta();
 			$title = $place->getName();

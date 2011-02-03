@@ -40,6 +40,26 @@ class OpenGraph {
 				$this->add('latitude', $object->getPoint()->getLat());
 				$this->add('longitude', $object->getPoint()->getLng());
 			}
+			if ($object->getCategory()) {
+				switch ($object->getCategory()->getId()){
+					case '045':
+						$type = 'bar';
+						break;
+					case '03':
+					case '063':
+						$type = 'cafe';
+						break;
+					case '022':
+						$type = 'hotel';
+						break;
+					case '067':
+						$type = 'restaurant';
+						break;
+					default:
+						$type = 'company';
+				}
+				$this->add('type', $type);
+			}
 		}
 	}
 

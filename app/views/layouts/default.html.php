@@ -10,9 +10,10 @@
 <html xmlns:og="http://ogp.me/ns#">
 <head>
 	<?php echo $this->html->charset();?>
+
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
-	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
 <?php echo (isset($meta)) ? $meta : '' ?>
+	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
 	<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
