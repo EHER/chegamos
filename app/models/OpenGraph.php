@@ -11,6 +11,12 @@ class OpenGraph {
 			if ($object->getStreet() && $object->getNumber()) {
 				$this->add('street_address', $object->getStreet() . ', ' . $object->getNumber());
 			}
+			if ($object->getCity()) {
+				$this->add('locality', $object->getCity()->getName());
+				$this->add('region', $object->getCity()->getState());
+				$this->add('country-name', $object->getCity()->getCountry());
+			}
+
 		}
 	}
 
@@ -18,7 +24,7 @@ class OpenGraph {
 		$meta = '';
 
 		foreach ($this->getArray() as $property => $content) {
-			$meta .= '<meta content="' . $property . '" property="' . $content . '"/>';
+			$meta .= "\t<meta content=\"og:" . $property . '" property="' . $content . '"/>'.PHP_EOL;
 		}
 
 		return $meta;

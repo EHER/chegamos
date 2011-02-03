@@ -12,11 +12,12 @@ use app\models\TwitterOAuth;
 use app\models\Facebook;
 use app\models\OrkutOAuth;
 use app\models\oauth;
+use app\models\OpenGraph;
 use lithium\storage\Session;
 
 class PlacesController extends \lithium\action\Controller {
 
-	private $api;
+	public $api;
 
 	public function __construct(array $config = array()) {
 		$this->api = new ApontadorApi();
@@ -450,7 +451,9 @@ class PlacesController extends \lithium\action\Controller {
 			$showCheckin = true;
 
 			$title = $place->getName();
-			$meta = $place->getMeta();
+			$og = new OpenGraph();
+			$og->populate($place->getAddress());
+			$meta = $og->getMeta();
 			return compact('title', 'meta', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
