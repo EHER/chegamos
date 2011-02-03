@@ -67,7 +67,7 @@ class OpenGraph {
 		$meta = '';
 
 		foreach ($this->getArray() as $property => $content) {
-			$meta .= "\t<meta content=\"og:" . $property . '" property="' . $content . '"/>' . PHP_EOL;
+			$meta .= "\t<meta property=\"og:" . $property . '" content="' . $content . '"/>' . PHP_EOL;
 		}
 
 		return $meta;

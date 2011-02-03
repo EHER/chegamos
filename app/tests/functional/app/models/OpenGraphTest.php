@@ -48,10 +48,10 @@ META;
 		$this->og->populate($address);
 
 		$testMeta = <<<META
-	<meta content="og:street-address" property="Rua Funchal, 129"/>
-	<meta content="og:locality" property="São Paulo"/>
-	<meta content="og:region" property="SP"/>
-	<meta content="og:country-name" property="Brasil"/>
+	<meta property="og:street-address" content="Rua Funchal, 129"/>
+	<meta property="og:locality" content="São Paulo"/>
+	<meta property="og:region" content="SP"/>
+	<meta property="og:country-name" content="Brasil"/>
 
 META;
 		$this->assertEquals($testMeta, $this->og->getMeta());
@@ -92,15 +92,19 @@ META;
 		$this->og->populate($place);
 
 		$testMeta = <<<META
-	<meta content="og:title" property="Apontador.com - São Paulo"/>
-	<meta content="og:street-address" property="Rua Funchal, 129"/>
-	<meta content="og:locality" property="São Paulo"/>
-	<meta content="og:region" property="SP"/>
-	<meta content="og:country-name" property="Brasil"/>
-	<meta content="og:latitude" property=""/>
-	<meta content="og:longitude" property=""/>
+	<meta property="og:title" content="Apontador.com - São Paulo"/>
+	<meta property="og:image" content="http://localphoto.s3.amazonaws.com/C40372534F143O1437_9896391605729015_l.jpg"/>
+	<meta property="og:url" content="http://192.168.2.103/chegamos/places/show/M25GJ288"/>
+	<meta property="og:street-address" content="Rua Funchal, 129"/>
+	<meta property="og:locality" content="São Paulo"/>
+	<meta property="og:region" content="SP"/>
+	<meta property="og:country-name" content="Brasil"/>
+	<meta property="og:latitude" content="-23.59243454"/>
+	<meta property="og:longitude" content="-46.68677054"/>
 
 META;
+		$this->assertEquals($testMeta, $this->og->getMeta());
+
 		$testArray = array(
 			'title' => 'Apontador.com - São Paulo',
 			'image' => 'http://localphoto.s3.amazonaws.com/C40372534F143O1437_9896391605729015_l.jpg',
