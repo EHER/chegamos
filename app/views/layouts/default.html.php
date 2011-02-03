@@ -12,6 +12,7 @@
 	<?php echo $this->html->charset();?>
 
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
+	<meta content="og:site_name" property="chegamos"/>
 <?php echo (isset($meta)) ? $meta : '' ?>
 	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
