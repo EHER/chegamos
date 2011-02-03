@@ -7,8 +7,8 @@
  */
 ?>
 <!doctype html>
-<html xmlns:og="http://ogp.me/ns#">
-<head>
+<html>
+<head xmlns:og="http://ogp.me/ns#">
 	<?php echo $this->html->charset();?>
 
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
