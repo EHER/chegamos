@@ -450,11 +450,16 @@ class PlacesController extends \lithium\action\Controller {
 
 			$showCheckin = true;
 
-			$title = $place->getName();
 			$og = new OpenGraph();
-			$og->populate($place->getAddress());
+			$og->populate($place);
+//			$og->add('title', $place->getName());
+			$og->add('type', 'restaurant');
+//			$og->add('url', $place->getPlaceUrl());
+//			$og->add('image', $place->getIconUrl());
+
 			$meta = $og->getMeta();
-			return compact('title', 'meta', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			$title = $place->getName();
+			return compact('meta', 'title', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}

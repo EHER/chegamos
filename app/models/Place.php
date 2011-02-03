@@ -58,7 +58,7 @@ class Place {
 		}
 
 		if (isset($data->point)) {
-			$this->setPoint($data->point);
+			$this->setPoint(new Point($data->point));
 		}
 
 		if (isset($data->main_url)) {

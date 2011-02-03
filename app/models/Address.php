@@ -5,12 +5,12 @@ use lithium\util\Inflector;
 
 class Address {
 
-	var $street = "";
-	var $number = 0;
-	var $complement = "";
-	var $district = "";
-	var $zipcode = "";
-	var $city = null;
+	private $street = "";
+	private $number = 0;
+	private $complement = "";
+	private $district = "";
+	private $zipcode = "";
+	private $city = null;
 
 	public function __construct($data=null) {
 		$this->populate($data);

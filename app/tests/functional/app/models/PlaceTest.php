@@ -1,14 +1,6 @@
 <?php
 
-namespace app\tests\functional\app\models;
-
-use app\models\Place;
-use app\models\Subcategory;
-use app\models\Category;
-use app\models\City;
-use app\models\Address;
-use app\models\GasStation;
-use app\models\PlaceInfo;
+namespace app\models;
 
 /**
  * Test class for Place.
@@ -71,10 +63,11 @@ class PlaceTest extends \PHPUnit_Framework_TestCase {
 		$data->category = $category;
 		$data->subcategory = $subCategory;
 		$data->address = $address;
-		$data->point = "-23.529366,-47.467117";
+		$data->point->lat = "-23.529366";
+		$data->point->lng = "-47.467117";
 		$data->main_url = "http://chegamos.com/";
 		$data->other_url = "http://chegamos.com.br/";
-		$data->icon_url = "http://chegamos.com/img/incon.png";
+		$data->icon_url = "http://chegamos.com/img/icon.png";
 		$data->description = "Description";
 		$data->created = "01/12/2010 16:19";
 		$data->phone = "11 2222-3333";
@@ -93,10 +86,10 @@ class PlaceTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("Restaurantes - Self Service", (string) $this->object->getCategory());
 		$this->assertEquals("app\models\Address", \get_class((object) $this->object->getAddress()));
 		$this->assertEquals("Rua Funchal, 129 - Vila Olímpia<br/>São Paulo - SP", (string) $this->object->getAddress());
-		$this->assertEquals("-23.529366,-47.467117", $this->object->getPoint());
+		$this->assertEquals("-23.529366,-47.467117", (string) $this->object->getPoint());
 		$this->assertEquals("http://chegamos.com/", $this->object->getMainUrl());
 		$this->assertEquals("http://chegamos.com.br/", $this->object->getOtherUrl());
-		$this->assertEquals("http://chegamos.com/img/incon.png", $this->object->getIconUrl());
+		$this->assertEquals("http://chegamos.com/img/icon.png", $this->object->getIconUrl());
 		$this->assertEquals("Description", $this->object->getDescription());
 		$this->assertEquals("01/12/2010 16:19", $this->object->getCreated());
 		$this->assertEquals("11 2222-3333", $this->object->getPhone());
@@ -179,8 +172,12 @@ class PlaceTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetGetPoint() {
-		$this->object->setPoint("-23.529366,-47.467117");
-		$this->assertEquals("-23.529366,-47.467117", $this->object->getPoint());
+		$point = new Point();
+		$point->setLat("-23.529366");
+		$point->setLng("-47.467117");
+
+		$this->object->setPoint($point);
+		$this->assertEquals("-23.529366,-47.467117", (string) $this->object->getPoint());
 	}
 
 	public function testSetGetMainUrl() {

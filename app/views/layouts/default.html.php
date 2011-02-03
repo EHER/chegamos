@@ -7,7 +7,7 @@
  */
 ?>
 <!doctype html>
-<html>
+<html xmlns:og="http://ogp.me/ns#">
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
