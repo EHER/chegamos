@@ -8,7 +8,7 @@
 ?>
 <!doctype html>
 <html>
-<head xmlns:og="http://ogp.me/ns#">
+<head xmlns:og="http://opengraphprotocol.org/schema/">
 	<?php echo $this->html->charset();?>
 
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
