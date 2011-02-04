@@ -495,7 +495,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-		$title = $place->getName() . ' - Fotos';
+		$title = $place->getName() . ' - Foto ' . ($photoId + 1);
 		return compact('title', 'photoId', 'geocode', 'placeId', 'photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
