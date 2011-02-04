@@ -20,10 +20,10 @@
 				<img src="<?php echo $photo->getUrl()?>" />
 				<br />
 				<?php if( !empty($photoId) ) { ?>
-					<a data-inline="true" rel="external" href="<?php echo ROOT_URL; ?>places/photos/<?php echo $place->getId() ?>/<?php echo $photoId - 1; ?>" data-role="button" data-theme="b"><<</a>
+					<a data-inline="true" rel="external" href="<?php echo ROOT_URL . 'places/photos/' . $place->getId() . (($photoId > 1) ? '/' . ($photoId - 1) : ''); ?>" data-role="button" data-theme="b"><<</a>
 				<?php } ?>
 				<?php if( $photoId < $photos->getNumFound()-1 ) { ?>
-					<a data-inline="true" rel="external" href="<?php echo ROOT_URL; ?>places/photos/<?php echo $place->getId() ?>/<?php echo $photoId + 1; ?>" data-role="button" data-theme="b">>></a>
+					<a data-inline="true" rel="external" href="<?php echo ROOT_URL . 'places/photos/' . $place->getId() . '/' . ($photoId + 1); ?>" data-role="button" data-theme="b">>></a>
 				<?php } ?>
 			</div>
 		<?php } ?>
