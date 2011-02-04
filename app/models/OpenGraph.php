@@ -22,6 +22,9 @@ class OpenGraph {
 			if ($object->getName()) {
 				$this->add('title', $object->getName());
 			}
+			if ($object->getDescription()) {
+				$this->add('description', $object->getDescription());
+			}
 			if ($object->getIconUrl()) {
 				$this->add('image', $object->getIconUrl());
 			}
