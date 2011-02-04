@@ -46,8 +46,8 @@ class PlacesController extends \lithium\action\Controller {
 
 			if (!empty($placeId)) {
 				$place = $this->api->getPlace(array('placeid' => $placeId));
-				$lat = $place->getPoint()->lat;
-				$lng = $place->getPoint()->lng;
+				$lat = $place->getPoint()->getLat();
+				$lng = $place->getPoint()->getLng();
 				$placeList = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
@@ -94,8 +94,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->getPoint()->lat;
-			$lng = $place->getPoint()->lng;
+			$lat = $place->getPoint()->getLat();
+			$lng = $place->getPoint()->getLng();
 			$placeList = $this->api->searchRecursive(array(
 						'lat' => $lat,
 						'lng' => $lng,
@@ -133,8 +133,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->getPoint()->lat;
-			$lng = $place->getPoint()->lng;
+			$lat = $place->getPoint()->getLat();
+			$lng = $place->getPoint()->getLng();
 			$placeList = $this->api->searchGasStations(array(
 						'lat' => $lat,
 						'lng' => $lng
@@ -191,8 +191,8 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (!empty($placeId)) {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->getPoint()->lat;
-			$lng = $place->getPoint()->lng;
+			$lat = $place->getPoint()->getLat();
+			$lng = $place->getPoint()->getLng();
 			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
@@ -242,8 +242,8 @@ class PlacesController extends \lithium\action\Controller {
 					'placeId' => $_GET['placeId'],
 					'placeName' => $place->getName(),
 					'term' => $place->getName(),
-					'lat' => $place->getPoint()->lat,
-					'lng' => $place->getPoint()->lng,
+					'lat' => $place->getPoint()->getLat(),
+					'lng' => $place->getPoint()->getLng(),
 				);
 			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
 				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
