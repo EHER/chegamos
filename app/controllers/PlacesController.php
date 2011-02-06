@@ -44,7 +44,9 @@ class PlacesController extends \lithium\action\Controller {
 		if (isset($_GET['name'])) {
 			$searchName = $_GET['name'];
 
+
 			if (!empty($placeId)) {
+
 				$place = $this->api->getPlace(array('placeid' => $placeId));
 				$lat = $place->getPoint()->getLat();
 				$lng = $place->getPoint()->getLng();
@@ -79,6 +81,12 @@ class PlacesController extends \lithium\action\Controller {
 			} else {
 				$this->redirect('/places/checkin');
 			}
+		}
+
+		if ($placeList->getNumFound()==0) {
+			$placeList = $this->api->search(array(
+						'term' => $searchName,
+					));
 		}
 
 		$title = "Locais por nome";

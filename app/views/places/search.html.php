@@ -3,7 +3,7 @@
 <?php if ($searchName) { ?>
 
 	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-		<li data-role="list-divider">Locais Próximos</li>
+		<li data-role="list-divider">Locais por nome</li>
 		<?php if ($placeList instanceof PlaceList && $placeList->getNumFound() > 0) { ?>
 			<?php foreach ($placeList->getItems() as $place) { ?>
 				<li>
