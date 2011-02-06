@@ -68,7 +68,7 @@
 				<?php } ?>
 				<a data-inline="true" onclick="javascript:getUserLocation()" href="#" data-role="button" data-theme="b">detectar</a>
 				<?php if (!empty($showCheckin) && $showCheckin) { ?>
-				<a data-inline="true" href="<?php echo ROOT_URL . 'places/checkin?placeId=' . $placeId ?>" data-role="button" data-theme="b" rel="external">check-in</a>
+				<a data-inline="true" href="<?php echo ROOT_URL . 'places/checkin?placeId=' . $placeId ?>" data-role="button" data-theme="b" rel="external nofollow">check-in</a>
 				<?php } ?>
 
 			</p>
