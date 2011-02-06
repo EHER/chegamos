@@ -251,7 +251,7 @@ class PlacesController extends \lithium\action\Controller {
 				$address = new Address();
 				$address->setZipcode($_GET['cep']);
 				$geocode = $this->api->geocode($address);
-				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->lat, 'lng' => $geocode->lng);
+				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
 			} elseif (!empty($_GET['cityState'])) {
 				$cityState = \explode(',', $_GET['cityState']);
 
@@ -263,7 +263,7 @@ class PlacesController extends \lithium\action\Controller {
 				$address->setCity(new City($city));
 				$geocode = $this->api->geocode($address);
 
-				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->lat, 'lng' => $geocode->lng);
+				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
 			} else {
 				$checkinData = array();
 			}
