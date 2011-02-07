@@ -97,6 +97,26 @@ class ProfileController extends \lithium\action\Controller {
 		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
+	public function visits($userId=null, $page='page1') {
+		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
+			$userId = Session::read('apontadorId');
+		}
+
+		$page = str_replace('page', '', $page);
+
+		\extract(OauthController::whereAmI());
+
+		$visits = $this->api->getUserVisits(array(
+					'userid' => $userId,
+					'page' => $page
+				));
+		$user = $this->api->getUser(array('userid' => $userId));
+
+		$title = 'Últimas visitas de ' . $user->getName();
+		return compact('title', 'visits','user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+	}
+
 	public function show($userId) {
 		$user = $this->api->getUser(array('userid' => $userId));
 

@@ -16,6 +16,9 @@
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
+		<?php echo $this->html->link("Última visitas", "/profile/visits/" . $user->getId()); ?>
+	</li>
+	<li>
 		<?php echo $this->html->link("Amigos", "/profile/following/" . $user->getId()); ?>
 	</li>
 	<li>

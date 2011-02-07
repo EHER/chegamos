@@ -439,6 +439,19 @@ class ApontadorApi {
 		return $visitorList;
 	}
 
+	public function getUserVisits($param=array()) {
+		if (empty($param['userid'])) {
+			return false;
+		}
+		$response = $this->request('users/' . $param['userid'] . '/visits');
+
+		if (!is_object($response)) {
+			return false;
+		}
+		$visitsList = new VisitList($response);
+		return $visitsList;
+	}
+
 	private function request($method, $params=array(), $verb='GET') {
 		// Workaround para funcionar o PUT
 		if ($verb == 'PUT') {
