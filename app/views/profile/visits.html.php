@@ -11,12 +11,14 @@
 </p>
 
 <?php
-$badges = array(1, 5, 10, 50, 100);
-foreach ($badges as $badge) { ?>
-	<?php if ($badge <= count($visits->getItems())) { ?>
-	<img src="/img/badges/<?php echo $badge; ?>_orange.jpg" />
-	<?php } ?>
-<?php } ?>
+$badges = array(1, 5, 10, 50, 100, 250, 500, 1000);
+foreach ($badges as $badgeCount) {
+	if ($badgeCount <= count($visits->getItems())) {
+		$badge = $badgeCount;
+	}
+}
+?>
+<img src="<?php echo ROOT_URL; ?>img/badges/<?php echo $badge; ?>_orange.jpg" />
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider"><?php echo $title; ?></li>
