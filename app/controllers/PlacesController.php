@@ -44,7 +44,9 @@ class PlacesController extends \lithium\action\Controller {
 		if (isset($_GET['name'])) {
 			$searchName = $_GET['name'];
 
+
 			if (!empty($placeId)) {
+
 				$place = $this->api->getPlace(array('placeid' => $placeId));
 				$lat = $place->getPoint()->getLat();
 				$lng = $place->getPoint()->getLng();
@@ -79,6 +81,12 @@ class PlacesController extends \lithium\action\Controller {
 			} else {
 				$this->redirect('/places/checkin');
 			}
+		}
+
+		if ($placeList->getNumFound()==0) {
+			$placeList = $this->api->search(array(
+						'term' => $searchName,
+					));
 		}
 
 		$title = "Locais por nome";
@@ -251,7 +259,7 @@ class PlacesController extends \lithium\action\Controller {
 				$address = new Address();
 				$address->setZipcode($_GET['cep']);
 				$geocode = $this->api->geocode($address);
-				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->lat, 'lng' => $geocode->lng);
+				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
 			} elseif (!empty($_GET['cityState'])) {
 				$cityState = \explode(',', $_GET['cityState']);
 
@@ -263,7 +271,7 @@ class PlacesController extends \lithium\action\Controller {
 				$address->setCity(new City($city));
 				$geocode = $this->api->geocode($address);
 
-				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->lat, 'lng' => $geocode->lng);
+				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
 			} else {
 				$checkinData = array();
 			}

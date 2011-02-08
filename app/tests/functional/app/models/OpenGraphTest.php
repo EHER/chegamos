@@ -97,11 +97,13 @@ META;
 
 		$this->og->populate($place);
 
+		$rootUrl = \ROOT_URL;
+
 		$testMeta = <<<META
 	<meta property="og:title" content="Apontador.com - São Paulo"/>
 	<meta property="og:description" content="Líder em geolocalização no Brasil e uma das 250 maiores empresas de internet do mundo, segundo o AlwaysOn, o Apontador (www.apontador.com) desenvolve e oferece serviços e ferramentas de busca e localização para facilitar o dia a dia dos usuários, além de mostrar a opinião do público para os locais cadastrados em seus sites. Com mais de 10 milhões de visitantes mensais, a empresa inclui o site líder em busca local Apontador (www.apontador.com.br) e o de mapas e rotas MapLink (www.maplink.com.br)."/>
 	<meta property="og:image" content="http://localphoto.s3.amazonaws.com/C40372534F143O1437_9896391605729015_l.jpg"/>
-	<meta property="og:url" content="http://192.168.2.103/chegamos/places/show/M25GJ288"/>
+	<meta property="og:url" content="{$rootUrl}places/show/M25GJ288"/>
 	<meta property="og:street-address" content="Rua Funchal, 129"/>
 	<meta property="og:locality" content="São Paulo"/>
 	<meta property="og:region" content="SP"/>

@@ -40,7 +40,7 @@
 <?php } ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
-		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->getId(), array('rel' => 'external')); ?>
+		<?php echo $this->html->link("Estou aqui", "/places/checkin?placeId=" . $place->getId(), array('rel' => 'external nofollow')); ?>
 	</li>
 	<li>
 		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->getId()); ?>
@@ -55,7 +55,7 @@
 		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $place->getNumPhotos(); ?></span>
 	</li>
 	<li>
-		<?php echo $this->html->link("Enviar fotos", "http://apontador.ricardomartins.info/upload_multiplo/?lbsid=" . $place->getId()); ?>
+		<?php echo $this->html->link("Enviar fotos", "http://apontador.ricardomartins.info/upload_multiplo/?lbsid=" . $place->getId(), array('rel' => 'external nofollow')); ?>
 	</li>
 	<li>
 		<?php
