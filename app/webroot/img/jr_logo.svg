@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="640"
+   height="427"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   version="1.0"
+   sodipodi:docbase="D:\program\svg\ロゴ"
+   sodipodi:docname="JR_logo_(freight).svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="470.83147"
+     inkscape:cy="204.55826"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="799"
+     inkscape:window-height="571"
+     inkscape:window-x="212"
+     inkscape:window-y="99"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#597fa5;fill-rule:evenodd;stroke:#597fa5;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="M 78.496032,185.45625 L 139.57437,185.39497 L 139.52579,261.23785 C 139.4205,275.87743 179.12177,283.66032 183.34275,283.53719 L 203.21092,283.39043 C 206.57785,283.36468 262.55371,283.04997 262.51987,256.81193 L 264.2468,80.517677 L 504.9432,80.277829 C 529.18615,80.586611 555.76649,115.87143 556.46779,151.4809 L 556.66667,169.25919 C 556.5565,205.53325 530.85111,241.82147 511.24922,241.60637 L 477.7969,242.37668 L 560.0646,337.63213 L 478.39389,337.57087 L 359.31844,186.64497 L 481.60292,186.40512 C 485.57528,186.38503 495.68565,175.79709 495.71318,165.74983 L 495.01447,152.53445 C 494.77832,146.86278 486.71368,138.28657 481.84276,138.09637 L 324.38524,136.58114 L 323.62762,269.92128 C 323.71292,319.3356 261.18902,339.28466 219.70818,339.36927 L 183.06383,339.40234 C 164.61092,339.05287 77.826597,329.45033 77.781746,270.42636 L 78.496032,185.45625 z "
+       id="path1886"
+       sodipodi:nodetypes="ccccccccccccccccccccccccc" />
+  </g>
+</svg>

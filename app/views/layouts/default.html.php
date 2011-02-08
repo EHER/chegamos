@@ -19,6 +19,7 @@
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
 	<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
+	<script src="<?php echo ROOT_URL ?>js/jquery.cookie.js"></script>
 	<script>
 		$.mobile.page.prototype.options.backBtnText = "Voltar";
 	</script>
@@ -64,13 +65,8 @@
 			</p>
 			<p>
 				<?php if (!isset($hideWhereAmI) || !$hideWhereAmI) { ?>
-					<a data-inline="true" href="<?php echo ROOT_URL; ?>places/checkin" data-role="button" data-theme="b">alterar</a>
+					<a data-inline="true" rel="external" href="<?php echo ROOT_URL; ?>places/checkin" data-role="button" data-theme="b">alterar</a>
 				<?php } ?>
-				<a data-inline="true" onclick="javascript:getUserLocation()" href="#" data-role="button" data-theme="b">detectar</a>
-				<?php if (!empty($showCheckin) && $showCheckin) { ?>
-				<a data-inline="true" href="<?php echo ROOT_URL . 'places/checkin?placeId=' . $placeId ?>" data-role="button" data-theme="b" rel="external">check-in</a>
-				<?php } ?>
-
 			</p>
 			<a rel="nofollow" style="float:right;" href="#" onclick="$.mobile.silentScroll();">topo ↑</a>
 		</div>
@@ -78,18 +74,27 @@
 			<h2><a href="http://api.apontador.com.br/" target="_blank" rel="external">Apontador API</a></h2>
 		</div>
 	</div>
+	
 <script type="text/javascript">
-	getUserLocation = function() {
-		navigator.geolocation.getCurrentPosition(showpos);
+var intervalo = window.setInterval(function() {
+	if($.cookie('disableAutoDetect') === null) {
+		console.log('foi');
+		getUserLocation();
 	}
-	showpos = function(position){
-		lat=position.coords.latitude;
-		lon=position.coords.longitude;
-		location.href = '<?php echo ROOT_URL; ?>' + 'places/checkin?lat=' + lat + '&lng='+lon;
-	}
+	console.log('tentei mas nao foi');
+}, 5000);
+
+getUserLocation = function() {
+	navigator.geolocation.getCurrentPosition(showpos);
+}
+
+showpos = function(position){
+	lat=position.coords.latitude;
+	lon=position.coords.longitude;
+	location.href = '<?php echo ROOT_URL; ?>' + 'places/checkin?lat=' + lat + '&lng='+lon;
+}
 </script>
 <script type="text/javascript">
-
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-19798490-1']);
   _gaq.push(['_setDomainName', 'none']);
@@ -101,7 +106,6 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
 </body>
 </html>

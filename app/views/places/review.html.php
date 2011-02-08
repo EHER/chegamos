@@ -19,8 +19,8 @@
 			<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
 					<img title="<?php echo $review->review->created->user->name; ?>" alt="<?php echo $review->review->created->user->name; ?>" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>"/>
+					<h3><?php echo $review->review->created->user->name; ?></h3>
 				</a>
-				<h3><?php echo $review->review->created->user->name; ?></h3>
 				<p class="ui-li-desc" style="white-space:normal;">
 					<?php echo $review->review->content; ?>
 				</p>
@@ -36,10 +36,10 @@
 			<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<a href="<?php echo ROOT_URL . 'profile/show/' . $review->review->created->user->id; ?>">
 					<img title="<?php echo $review->review->created->user->name; ?>" alt="<?php echo $review->review->created->user->name; ?>" width="64" height="64" src="<?php echo ($review->review->created->user->photo_url ? $review->review->created->user->photo_url : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>"/>
-				</a>
 				<h3>
 					<?php echo $review->review->created->user->name; ?>
 				</h3>
+				</a>
 				<p class="ui-li-desc" style="white-space:normal;">
 					<?php echo $review->review->content; ?>
 				</p>

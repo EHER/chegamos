@@ -22,15 +22,19 @@
         </fieldset>
         <input type="submit" value="Estou aqui">
     </form>
-    <?php /*
-    <form method="GET" style="width: 180px;">
-        <fieldset>
-            <label for="lat">Latitude:</label>
-            <input type="text" id="lat" name="lat" value="" style="width: 100px;">
-            <label for="lng">Longitude:</label>
-            <input type="text" id="lng" name="lng" value="" style="width: 100px;">
-        </fieldset>
-        <input type="submit" value="Estou aqui">
-    </form>
-     */?>
+    <label for="autoDetect">Detectar automaticamente:</label>
+	<select name="autoDetect" id="autoDetect" data-role="slider">
+		<option value="off"<?php echo (isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Desligado</option>
+		<option value="on"<?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Ligado</option>
+	</select>
 </span>
+
+<script type="text/javascript">
+	$('#autoDetect').change(function() {
+		if ($('#autoDetect').val() == 'off') {
+			$.cookie('disableAutoDetect', $('#autoDetect').val(), {'path' : '/'});
+		} else {
+			$.cookie('disableAutoDetect', null, {'path' : '/'});
+		}
+	});
+</script>

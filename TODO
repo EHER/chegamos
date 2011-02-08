@@ -10,15 +10,12 @@ PENDENTES
 	- Melhorar a busca por categoria Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados
 	- Verificar porque a categoria aeroportos nao traz nada
 	- Filtragem por nome (js) na listagem de categorias
-	
-	POI/AVALIACOES/CHECKIN/FOTOS
-	- Trazer as fotos do local (sob demanda do usuário)
-	- Melhorar o layout das reviews
-	
+		
 	GERAL
 	- Paginacao nas buscas (como twitter)
 	- Mais dados no resultado das buscas
 	- Informações de postos
+	- Criar página de SOBRE
 
 	LAYOUT
 	- Melhorar o layout da versão sem JS
@@ -26,8 +23,10 @@ PENDENTES
 	- Melhorar o espaço do "onde estou" para uma linha
 
 	ONDE ESTOU
-	- Alterar a detecção de "onde estou" para um serviço do javascript
-	- Criar a opção do detectar rodar de tempos em tempos
+	- Tela de configuração criar a opção do detectar rodar de tempos em tempos
+	- Gravar no cookie o tempo que fez a ultima verificacao e a opção do usuário
+	- Fazer um ajax para fazer o checkin automatico
+	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde)
 	
 	POSTOS
 	- Posto mais barato perto de mim
@@ -63,7 +62,6 @@ PENDENTES
 	PERFIL
 	- Mostra onde foi fetio o último checkin
 	- Mostrar qual foi a último status da timeline
-	- Criar lista de avaliações do usuário
 	- Criar lista de fotos do usuário
 
 	OFERTAS
@@ -105,3 +103,4 @@ FINALIZADAS
 	- Fazer o checkin usando a api
 	- Criar funcionalidade para linkar outras contas (Twitter, Foursquare, Facebook, etc)
 	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais
+	- Criar lista de avaliações do usuário
