@@ -23,10 +23,10 @@ PENDENTES
 	- Melhorar o espaço do "onde estou" para uma linha
 
 	ONDE ESTOU
-	- Tela de configuração criar a opção do detectar rodar de tempos em tempos
+	- Tela de configuração criar a opção do detectar rodar de tempos em tempos ok
+	- Fazer um ajax para fazer o checkin automatico ok
+	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde) ok
 	- Gravar no cookie o tempo que fez a ultima verificacao e a opção do usuário
-	- Fazer um ajax para fazer o checkin automatico
-	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde)
 	
 	POSTOS
 	- Posto mais barato perto de mim

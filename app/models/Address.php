@@ -45,6 +45,23 @@ class Address {
 		return $data;
 	}
 	
+	public function toOneLine() {
+		return implode(', ', $this->toArray());
+	}
+	
+	public function toArray() {
+		return array(
+			'street' => $this->getStreet(),
+			'district' => $this->getDistrict(),
+			'city' => $this->getCity()->getName(),
+			'state' => $this->getCity()->getState()
+		);
+	}
+	
+	public function toJSON() {
+		return json_encode($this->toArray());
+	}
+	
 	public function getStreetCity() {
 		$data = $this->getStreet();
 		$data .= $this->getCity() ? ' em ' . $this->getCity() . '' : '';

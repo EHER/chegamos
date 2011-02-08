@@ -276,8 +276,6 @@ class PlacesController extends \lithium\action\Controller {
 				$checkinData = array();
 			}
 			$this->doCheckin($checkinData);
-
-			$this->redirect('/');
 		}
 
 		extract(OauthController::whereAmI());
@@ -336,6 +334,18 @@ class PlacesController extends \lithium\action\Controller {
 			}
 
 			$this->redirect('/places/checkins/' . $placeId);
+		}
+		if (isset($_GET['type']) && $_GET['type'] == 'json') {
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+			header('Content-type: application/json');
+			$geocode = $this->api->revgeocode($checkinData['lat'], $checkinData['lng']);
+			if ($geocode instanceof Address) {
+				echo json_encode(array('success' => true, 'checkinData' => $geocode->toArray()));
+			} else {
+				echo json_encode(array('success' => false, 'error' => 'Desculpe! Não consegui fazer o checkin :('));
+			}
+			exit;
 		}
 		$this->redirect('/');
 	}

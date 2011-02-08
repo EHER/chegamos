@@ -22,14 +22,18 @@
         </fieldset>
         <input type="submit" value="Estou aqui">
     </form>
-    <label for="autoDetect">Detectar automaticamente:</label>
-	<select name="autoDetect" id="autoDetect" data-role="slider">
-		<option value="off"<?php echo (isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Desligado</option>
-		<option value="on"<?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Ligado</option>
-	</select>
+    <div id="autoDetectContainer" style="display:none;">
+	    <label for="autoDetect">Detectar automaticamente:</label>
+		<select name="autoDetect" id="autoDetect" data-role="slider">
+			<option value="off"<?php echo (isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Desligado</option>
+			<option value="on"<?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Ligado</option>
+		</select>
+	</div>
 </span>
 
 <script type="text/javascript">
+	$('#autoDetectContainer').show();
+
 	$('#autoDetect').change(function() {
 		if ($('#autoDetect').val() == 'off') {
 			$.cookie('disableAutoDetect', $('#autoDetect').val(), {'path' : '/'});

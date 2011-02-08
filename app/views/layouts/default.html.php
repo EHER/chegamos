@@ -27,7 +27,7 @@
 <body>
 	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header"> 
-			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
+			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "external")); ?></h1>
 			<?php echo $this->html->link('Config.', '/settings', array("rel" => "nofollow","data-icon"=>"gear","class"=>"ui-btn-right", "data-transition"=>"slideup")); ?>
 
 			<form method="GET" action="<?php echo ROOT_URL; ?>places/search" style="text-align: center; width:100%">
@@ -37,17 +37,9 @@
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>
-			<p>&nbsp;</p>
-			<p>Onde estou:</p>
-			<p>
-				<b>
-					<?php
-					if (!empty($placeName)) {
-						echo $this->html->link($placeName, '/places/show/' . $placeId);
-						echo '<br/>';
-					}
-					?>
-
+		</div>
+		<div data-role="footer" style="text-align:center">
+				<a href="<?php echo ROOT_URL; ?>places/checkin" rel="external" id="ondeEstou">
 					<?php if (!empty($zipcode)): ?>
 						CEP: <?php echo $zipcode; ?>
 					<?php endif; ?>
@@ -57,41 +49,48 @@
 					<?php endif; ?>
 
 					<?php if (!empty($geocode) && empty($zipcode) && empty($cityState)) { ?>
-						<?php echo$geocode; ?>
+						<?php echo $geocode->toOneLine(); ?>
 					<?php } else if (!empty($lat) and !empty($lng)) { ?>
 					(<?php echo $lat; ?>, <?php echo $lng; ?>)
 					<?php } ?>
-				</b>
-			</p>
-			<p>
-				<?php if (!isset($hideWhereAmI) || !$hideWhereAmI) { ?>
-					<a data-inline="true" rel="external" href="<?php echo ROOT_URL; ?>places/checkin" data-role="button" data-theme="b">alterar</a>
-				<?php } ?>
-			</p>
-			<a rel="nofollow" style="float:right;" href="#" onclick="$.mobile.silentScroll();">topo ↑</a>
-		</div>
-		<div data-role="footer">
-			<h2><a href="http://api.apontador.com.br/" target="_blank" rel="external">Apontador API</a></h2>
+				</a>
 		</div>
 	</div>
 	
 <script type="text/javascript">
 var intervalo = window.setInterval(function() {
 	if($.cookie('disableAutoDetect') === null) {
-		console.log('foi');
 		getUserLocation();
 	}
-	console.log('tentei mas nao foi');
 }, 5000);
 
-getUserLocation = function() {
-	navigator.geolocation.getCurrentPosition(showpos);
+updateLocation = function(lat, lng) {
+	$.get('places/checkin', {'lat': lat, 'lng': lng, 'type' : 'json'},
+		function(data) {
+			if (data.success === true) {
+				var addressData = [
+				   	data.checkinData.street,
+				   	data.checkinData.district,
+				   	data.checkinData.city,
+				   	data.checkinData.state 
+				];
+
+				$('#ondeEstou').fadeOut();
+				$('#ondeEstou span').html(addressData.filter(String).join(', '));
+				$('#ondeEstou').fadeIn();
+			}
+		}
+	);
 }
 
-showpos = function(position){
-	lat=position.coords.latitude;
-	lon=position.coords.longitude;
-	location.href = '<?php echo ROOT_URL; ?>' + 'places/checkin?lat=' + lat + '&lng='+lon;
+getUserLocation = function() {
+	navigator.geolocation.getCurrentPosition(
+		function(position){
+			lat=position.coords.latitude;
+			lng=position.coords.longitude;
+			updateLocation(lat,lng);
+		}
+	);
 }
 </script>
 <script type="text/javascript">
