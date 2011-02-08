@@ -2,7 +2,7 @@
 	<li data-role="list-divider">Locais</li>
 	<li><?php echo $this->html->link('Locais por Categoria', "/places/categories"); ?></li>
 	<li><?php echo $this->html->link('Locais Próximos', "/places/near"); ?></li>
-	<li><?php echo $this->html->link('Últimas visitas', "/profile/visits", array("rel"=>"external")); ?></li>
+	<li><?php echo $this->html->link('Locais Visitados', "/profile/visits", array("rel"=>"external")); ?></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Pessoas</li>

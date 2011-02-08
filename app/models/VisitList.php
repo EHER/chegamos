@@ -19,7 +19,7 @@ class VisitList extends ItemsList {
 		}
 		if (isset($data->visits)) {
 			foreach ($data->visits as $place) {
-				$this->add(new Place($place->visit->place));
+				$this->add(new Visit($place->visit));
 			}
 		}
 	}

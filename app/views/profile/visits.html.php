@@ -12,15 +12,15 @@
 
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider"><?php echo $title; ?></li>
-	<?php if ($visits instanceof VisitList) { ?>
-		<?php foreach ($visits->getItems() as $place) { ?>
+	<?php if ($visits instanceof VisitList && $visits->getItems()) { ?>
+		<?php foreach ($visits->getItems() as $visit) { ?>
 		    <li>
 				<span class="placename">
-					<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId() . ""); ?>
+					<?php echo $this->html->link($visit->getPlace()->getName(), "/places/show/" . $visit->getPlace()->getId() . ""); ?>
 				</span>
 				<br />
 				<p class="ui-li-desc">
-					<?php //echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
+					<?php echo $visit->getDate(); ?>
 				</p>
 			</li>
 		<?php } ?>
