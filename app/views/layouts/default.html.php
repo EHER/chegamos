@@ -65,7 +65,7 @@ var intervalo = window.setInterval(function() {
 }, 5000);
 
 updateLocation = function(lat, lng) {
-	$.get('places/checkin', {'lat': lat, 'lng': lng, 'type' : 'json'},
+	$.get('<?php echo ROOT_URL ?>places/checkin', {'lat': lat, 'lng': lng, 'type' : 'json'},
 		function(data) {
 			if (data.success === true) {
 				var addressData = [

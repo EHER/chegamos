@@ -22,23 +22,26 @@
         </fieldset>
         <input type="submit" value="Estou aqui">
     </form>
-    <div id="autoDetectContainer" style="display:none;">
-	    <label for="autoDetect">Detectar automaticamente:</label>
-		<select name="autoDetect" id="autoDetect" data-role="slider">
-			<option value="off"<?php echo (isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Desligado</option>
-			<option value="on"<?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?>>Ligado</option>
-		</select>
+    <div data-role="fieldcontain" id="autoDetectContainer" style="display:none;">
+	    <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
+	    <label>Detectar localização automaticamente:</label>
+		<label for="autoDetect_on">&nbsp;&nbsp;Ligado</label>
+		<input class='autoDetect' type="radio" name="autoDetect" id="autoDetect_on" value="on" <?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' checked="checked"' : '');?>>
+		<label for="autoDetect_off">&nbsp;&nbsp;Desligado</label>
+		<input class='autoDetect' type="radio" name="autoDetect" id="autoDetect_off" value="off" <?php echo (isset($_COOKIE['disableAutoDetect']) ? ' checked="checked"' : '');?>>
+		</fieldset>
 	</div>
 </span>
 
 <script type="text/javascript">
 	$('#autoDetectContainer').show();
 
-	$('#autoDetect').change(function() {
-		if ($('#autoDetect').val() == 'off') {
+	$('.autoDetect').change(function() {
+		if ($("input[name='autoDetect']:checked").val() == 'off') {
 			$.cookie('disableAutoDetect', $('#autoDetect').val(), {'path' : '/'});
 		} else {
 			$.cookie('disableAutoDetect', null, {'path' : '/'});
+			getUserLocation();
 		}
 	});
 </script>
