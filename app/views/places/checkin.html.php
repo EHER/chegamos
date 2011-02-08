@@ -38,7 +38,7 @@
 
 	$('.autoDetect').change(function() {
 		if ($("input[name='autoDetect']:checked").val() == 'off') {
-			$.cookie('disableAutoDetect', $('#autoDetect').val(), {'path' : '/'});
+			$.cookie('disableAutoDetect', true, {'path' : '/'});
 		} else {
 			$.cookie('disableAutoDetect', null, {'path' : '/'});
 			getUserLocation();
