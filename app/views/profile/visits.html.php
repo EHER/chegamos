@@ -10,6 +10,14 @@
 	<?php echo $user->getUserInfo(); ?>
 </p>
 
+<?php
+$badges = array(1, 5, 10, 50, 100);
+foreach ($badges as $badge) { ?>
+	<?php if ($badge <= count($visits->getItems())) { ?>
+	<img src="/img/badges/<?php echo $badge; ?>_orange.jpg" />
+	<?php } ?>
+<?php } ?>
+
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($visits instanceof VisitList && $visits->getItems()) { ?>
