@@ -117,7 +117,12 @@ class ProfileController extends \lithium\action\Controller {
 		return compact('title', 'visits','user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
-	public function show($userId) {
+	public function show($userId = null) {
+		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
+			$userId = Session::read('apontadorId');
+		}
+		
 		$user = $this->api->getUser(array('userid' => $userId));
 
 		\extract(OauthController::whereAmI());
