@@ -24,6 +24,8 @@
 	</a>
 </p>
 
+<iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo ROOT_URL . "/places/show/" . $place->getId();?>" scrolling="no" frameborder="0" style="height: 62px; width: 100%" allowTransparency="true"></iframe>
+
 <?php if($place->getPlaceInfo() instanceof PlaceInfo && $place->getPlaceInfo()->getGasStation() instanceof GasStation) { ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">
