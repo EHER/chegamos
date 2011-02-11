@@ -37,7 +37,9 @@ try{
 	echo lithium\action\Dispatcher::run(new lithium\action\Request());
 } catch (Exception $e) {
 ?>
-	<img src="<?php echo ROOT_URL;?>img/a_casa_caiu.jpg" alt="A casa caiu"/>
+	<a href="http://api.apontador.com.br/pt/status.html" rel="external nofollow">
+		<img src="<?php echo ROOT_URL;?>img/a_casa_caiu.jpg" alt="A casa caiu" border="0"/>
+	</a>
 	<h2>
 		A casa caiu...
 		<?php echo $e->getMessage();?>
