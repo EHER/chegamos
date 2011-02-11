@@ -256,6 +256,21 @@ class Place {
 		return ROOT_URL . 'places/show/' . $this->getId();
 	}
 
+	public function getMapUrl() {
+		if ($this->getPoint()->getLat() && $this->getPoint()->getLng()) {
+			$mapUrl = "http://maplink.apontador.com.br/widget?v=4.1";
+
+			$params = array();
+
+			$params['v'] = '4.1';
+			$params['lat'] = $this->getPoint()->getLat();
+			$params['lng'] = $this->getPoint()->getLng();
+
+			return $mapUrl . '?' . http_build_query($params);
+		}
+		return false;
+	}
+
 	public function getRouteUrl($userAddress, $lat, $lng) {
 		$routeUrl = "http://maps.google.com.br/m/directions";
 

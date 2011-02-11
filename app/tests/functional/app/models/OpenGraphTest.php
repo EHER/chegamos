@@ -102,7 +102,7 @@ META;
 		$testMeta = <<<META
 	<meta property="og:title" content="Apontador.com - São Paulo"/>
 	<meta property="og:description" content="Líder em geolocalização no Brasil e uma das 250 maiores empresas de internet do mundo, segundo o AlwaysOn, o Apontador (www.apontador.com) desenvolve e oferece serviços e ferramentas de busca e localização para facilitar o dia a dia dos usuários, além de mostrar a opinião do público para os locais cadastrados em seus sites. Com mais de 10 milhões de visitantes mensais, a empresa inclui o site líder em busca local Apontador (www.apontador.com.br) e o de mapas e rotas MapLink (www.maplink.com.br)."/>
-	<meta property="og:image" content="http://localphoto.s3.amazonaws.com/C40372534F143O1437_9896391605729015_l.jpg"/>
+	<meta property="og:image" content="http://maplink.apontador.com.br/widget?v=4.1?v=4.1&lat=-23.59243454&lng=-46.68677054"/>
 	<meta property="og:url" content="{$rootUrl}places/show/M25GJ288"/>
 	<meta property="og:street-address" content="Rua Funchal, 129"/>
 	<meta property="og:locality" content="São Paulo"/>
@@ -118,7 +118,7 @@ META;
 		$testArray = array(
 			'title' => 'Apontador.com - São Paulo',
 			'description' => 'Líder em geolocalização no Brasil e uma das 250 maiores empresas de internet do mundo, segundo o AlwaysOn, o Apontador (www.apontador.com) desenvolve e oferece serviços e ferramentas de busca e localização para facilitar o dia a dia dos usuários, além de mostrar a opinião do público para os locais cadastrados em seus sites. Com mais de 10 milhões de visitantes mensais, a empresa inclui o site líder em busca local Apontador (www.apontador.com.br) e o de mapas e rotas MapLink (www.maplink.com.br).',
-			'image' => 'http://localphoto.s3.amazonaws.com/C40372534F143O1437_9896391605729015_l.jpg',
+			'image' => 'http://maplink.apontador.com.br/widget?v=4.1?v=4.1&lat=-23.59243454&lng=-46.68677054',
 			'url' => ROOT_URL . 'places/show/M25GJ288',
 			'street-address' => 'Rua Funchal, 129',
 			'locality' => 'São Paulo',
