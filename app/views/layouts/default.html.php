@@ -10,6 +10,7 @@
 <html>
 <head xmlns:og="http://opengraphprotocol.org/schema/">
 	<meta content="og:site_name" property="chegamos"/>
+	<meta content="fb:app_id" property="<?php echo FACEBOOK_AP_ID; ?>"/>
 <?php echo (isset($meta)) ? $meta : '' ?>
 	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
 	<?php echo $this->html->charset();?>
