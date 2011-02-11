@@ -7,8 +7,8 @@
  */
 ?>
 <!doctype html>
-<html>
-<head xmlns:og="http://opengraphprotocol.org/schema/">
+<html xmlns:og="http://ogp.me/ns#">
+<head>
 	<meta property="og:site_name" content="chegamos"/>
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 <?php echo (isset($meta)) ? $meta : '' ?>
