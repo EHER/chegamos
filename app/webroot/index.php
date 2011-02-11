@@ -33,6 +33,17 @@ require dirname(__DIR__) . '/config/bootstrap.php';
  * @see lithium\action\Dispatcher
  * @see lithium\net\http\Router
  */
-echo lithium\action\Dispatcher::run(new lithium\action\Request());
-
+try{
+	echo lithium\action\Dispatcher::run(new lithium\action\Request());
+} catch (Exception $e) {
 ?>
+	<img src="<?php echo ROOT_URL;?>img/a_casa_caiu.jpg" alt="A casa caiu"/>
+	<h2>
+		A casa caiu...
+		<?php echo $e->getMessage();?>
+	</h2>
+	<h3>
+		Mas n&atilde;o desista! Daqui a pouco estamos de volta.
+	</h3>
+<?}?>
+
