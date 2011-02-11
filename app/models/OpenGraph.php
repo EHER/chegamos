@@ -27,6 +27,8 @@ class OpenGraph {
 			}
 			if ($object->getIconUrl()) {
 				$this->add('image', $object->getIconUrl());
+			} else {
+				$this->add('image', \ROOT_URL . 'img/chegamos.png');
 			}
 			if ($object->getPlaceUrl()) {
 				$this->add('url', $object->getPlaceUrl());
