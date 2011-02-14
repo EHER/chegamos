@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\ApontadorApi;
+use app\models\Address;
+use app\models\City;
 use app\models\oauth;
 use lithium\storage\Session;
 
@@ -130,5 +132,64 @@ class ProfileController extends \lithium\action\Controller {
 		$title = 'Perfil de ' . $user->getName();
 		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
+	public function location() {
+		$hideWhereAmI = true;
+		if (!empty($_GET)) {
+			if (!empty($_GET['lat']) and !empty($_GET['lng'])) {
+				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
+			} elseif (!empty($_GET['cep'])) {
+				$address = new Address();
+				$address->setZipcode($_GET['cep']);
+				$geocode = $this->api->geocode($address);
+				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
+			} elseif (!empty($_GET['cityState'])) {
+				$cityState = \explode(',', $_GET['cityState']);
 
+				$city = new City();
+				$city->setName(trim($cityState[0]));
+				$city->setState(trim($cityState[1]));
+
+				$address = new Address();
+				$address->setCity(new City($city));
+				$geocode = $this->api->geocode($address);
+
+				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
+			} else {
+				$checkinData = array();
+			}
+
+			$this->updateLocation($checkinData);
+		}
+
+		extract(OauthController::whereAmI());
+
+		$title = 'Onde estou';
+		return compact('title', 'geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+	}
+
+	private function updateLocation(Array $checkinData = array()) {
+		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+
+		foreach ($checkinVars as $method) {
+			Session::write($method);
+		}
+
+		foreach ($checkinData as $method => $value) {
+			Session::write($method, $value);
+		}
+
+		if (isset($_GET['type']) && $_GET['type'] == 'json') {
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+			header('Content-type: application/json');
+			$geocode = $this->api->revgeocode($checkinData['lat'], $checkinData['lng']);
+			if ($geocode instanceof Address) {
+				echo json_encode(array('success' => true, 'checkinData' => $geocode->toArray()));
+			} else {
+				echo json_encode(array('success' => false, 'error' => 'Desculpe! Não consegui fazer o checkin :('));
+			}
+			exit;
+		}
+		$this->redirect('/');
+	}
 }

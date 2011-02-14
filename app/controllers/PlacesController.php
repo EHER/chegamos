@@ -29,7 +29,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
 			$checkinData = array('cityState' => 'São Paulo, SP', 'lat' => '-23.48033', 'lng' => '-46.63459');
-			$this->doCheckin($checkinData);
+			$this->updateLocation($checkinData);
 			return $checkinData;
 		}
 		$title = "";
@@ -240,7 +240,7 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('title', 'page', 'categoryId', 'geocode', 'placeList', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	public function placeCheckin($placeId = null) {
+	public function checkin($placeId = null) {
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
@@ -265,71 +265,47 @@ class PlacesController extends \lithium\action\Controller {
 			} else {
 				$checkinData['status'] = $_POST['status'];
 			}
-			$checkinData['status'] .= $checkinData['url'] . " #checkin via @sitechegamos";
+			$checkinData['status'] .= ' ' . $checkinData['url'] . " #checkin via @sitechegamos";
 
-			$this->doCheckin($checkinData);
-		}
-	}
+			$checkinData['providers'] = isset($_POST['providers']) ? $_POST['providers'] : array();
 
-	public function checkin() {
-		$hideWhereAmI = true;
-		if (!empty($_GET)) {
-			if (!empty($_GET['lat']) and !empty($_GET['lng'])) {
-				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
-			} elseif (!empty($_GET['cep'])) {
-				$address = new Address();
-				$address->setZipcode($_GET['cep']);
-				$geocode = $this->api->geocode($address);
-				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
-			} elseif (!empty($_GET['cityState'])) {
-				$cityState = \explode(',', $_GET['cityState']);
+			$checkedin = $this->doCheckin($checkinData);
 
-				$city = new City();
-				$city->setName(trim($cityState[0]));
-				$city->setState(trim($cityState[1]));
-
-				$address = new Address();
-				$address->setCity(new City($city));
-				$geocode = $this->api->geocode($address);
-
-				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
+			if ($checkedin) {
+				$this->redirect('/places/checkins/' . $placeId);
 			} else {
-				$checkinData = array();
+				$this->redirect('/places/show/' . $placeId);
 			}
-
-			$this->updateLocation($checkinData);
 		}
+
+		$providers = array();
+
+		if (OauthController::isLogged('apontador')) {
+			$providers['apontador'] = "Apontador";
+		}
+		if (OauthController::isLogged('foursquare')) {
+			$providers['foursquare'] = "Foursquare";
+		}
+		if (OauthController::isLogged('twitter')) {
+			$providers['twitter'] = "Twitter";
+		}
+		if (OauthController::isLogged('facebook')) {
+			$providers['facebook'] = "Facebook";
+		}
+		if (OauthController::isLogged('orkut')) {
+			$providers['orkut'] = "Orkut";
+		}
+
+		if (count($providers) == 0) {
+			OauthController::verifyLogged('apontador');
+		}
+
+		$status = "Eu estou em " . $placeName . ". ";
 
 		extract(OauthController::whereAmI());
 
-		$title = 'Onde estou';
-		return compact('title', 'geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
-	}
-
-	private function updateLocation(Array $checkinData = array()) {
-		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
-
-		foreach ($checkinVars as $method) {
-			Session::write($method);
-		}
-
-		foreach ($checkinData as $method => $value) {
-			Session::write($method, $value);
-		}
-
-		if (isset($_GET['type']) && $_GET['type'] == 'json') {
-			header('Cache-Control: no-cache, must-revalidate');
-			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-			header('Content-type: application/json');
-			$geocode = $this->api->revgeocode($checkinData['lat'], $checkinData['lng']);
-			if ($geocode instanceof Address) {
-				echo json_encode(array('success' => true, 'checkinData' => $geocode->toArray()));
-			} else {
-				echo json_encode(array('success' => false, 'error' => 'Desculpe! Não consegui fazer o checkin :('));
-			}
-			exit;
-		}
-		$this->redirect('/');
+		$title = 'Check-in em ' . $placeName;
+		return compact('title', 'providers', 'status', 'geocode', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doCheckin(Array $checkinData = array()) {
@@ -337,35 +313,32 @@ class PlacesController extends \lithium\action\Controller {
 		if (!empty($checkinData['placeId'])) {
 			$checkedin = false;
 
-			if (OauthController::isLogged('apontador')) {
+			if (isset($checkinData['providers']['apontador'])) {
 				$this->doApontadorCheckin($checkinData);
 				$checkedin = true;
 			}
 
-			if (OauthController::isLogged('foursquare')) {
+			if (isset($checkinData['providers']['foursquare'])) {
 				$this->doFoursquareCheckin($checkinData);
 				$checkedin = true;
 			}
 
-			if (OauthController::isLogged('twitter')) {
+			if (isset($checkinData['providers']['twitter'])) {
 				$this->doTwitterCheckin($checkinData);
 				$checkedin = true;
 			}
 
-			if (OauthController::isLogged('facebook')) {
+			if (isset($checkinData['providers']['facebook'])) {
 				$this->doFacebookCheckin($checkinData);
 				$checkedin = true;
 			}
 
-			if (!empty($orkutAccessToken['oauth_token'])) {
+			if (isset($checkinData['providers']['orkut'])) {
 				$this->doOrkutCheckin($checkinData);
+				$checkedin = true;
 			}
 
-			if ($checkedin) {
-				$this->redirect('/places/checkins/' . $placeId);
-			} else {
-				OauthController::verifyLogged('apontador');
-			}
+			return $checkedin;
 		}
 	}
 
@@ -393,14 +366,14 @@ class PlacesController extends \lithium\action\Controller {
 		$api->setSession($session);
 
 		try {
-			$postStatus = $api->api('/me/feed', 'POST', array('message' => $status, 'access_token' => $facebookAccessToken));
+			$postStatus = $api->api('/me/feed', 'POST', array('message' => $checkinData['status'], 'access_token' => $facebookAccessToken));
 		} catch (\Exception $e) {
 			$postStatus = $e;
 		}
 	}
 
-	private function doTwitterCheckin($twitterAccessToken = '', $checkinData = '') {
-		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $twitterAccessToken['oauth_token'], $twitterAccessToken['oauth_token_secret']);
+	private function doTwitterCheckin($checkinData = '') {
+		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, Session::read('twitterToken'), Session::read('twitterTokenSecret'));
 
 		$searchParams = array();
 		$searchParams['lat'] = empty($checkinData['lat']) ? '' : $checkinData['lat'];
@@ -420,7 +393,7 @@ class PlacesController extends \lithium\action\Controller {
 		$api->post("statuses/update", array('status' => $status, 'place_id' => $place_id));
 	}
 
-	private function doOrkutCheckin($orkutAccessToken = '', $checkinData = '') {
+	private function doOrkutCheckin($checkinData = '') {
 		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, $orkutAccessToken['oauth_token'], $orkutAccessToken['oauth_token_secret']);
 
 		if (empty($checkinData['status'])) {
@@ -437,7 +410,7 @@ class PlacesController extends \lithium\action\Controller {
 //		exit;
 	}
 
-	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {
+	private function doFoursquareCheckin($checkinData = '') {
 		$callbackurl = ROOT_URL . "oauth/callback/foursquare";
 		$foursquareApi = new FourSquareApiV2(\FOURSQUARE_CONSUMER_KEY, \FOURSQUARE_CONSUMER_SECRET, $callbackurl);
 		$foursquareApi->setOAuth2Token($foursquareAccessToken);

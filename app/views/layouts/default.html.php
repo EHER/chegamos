@@ -39,7 +39,7 @@
 			<?php echo $this->content(); ?>
 		</div>
 		<div data-role="footer" style="text-align:center">
-				<a href="<?php echo ROOT_URL; ?>places/checkin" rel="external" id="ondeEstou">
+				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
 					<?php if (!empty($zipcode)): ?>
 						CEP: <?php echo $zipcode; ?>
 					<?php endif; ?>
@@ -65,7 +65,7 @@ var intervalo = window.setInterval(function() {
 }, 5000);
 
 updateLocation = function(lat, lng) {
-	$.get('<?php echo ROOT_URL ?>places/checkin', {'lat': lat, 'lng': lng, 'type' : 'json'},
+	$.get('<?php echo ROOT_URL ?>profile/location', {'lat': lat, 'lng': lng, 'type' : 'json'},
 		function(data) {
 			if (data.success === true) {
 				var addressData = [

@@ -40,7 +40,7 @@
 <?php } ?>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li>
-		<?php echo $this->html->link("Estou aqui (check-in)", "/places/checkin?placeId=" . $place->getId(), array('rel' => 'external nofollow')); ?>
+		<?php echo $this->html->link("Estou aqui (check-in)", "/places/checkin/" . $place->getId(), array('rel' => 'external nofollow')); ?>
 	</li>
 	<li>
 		<?php echo $this->html->link("Quem esteve aqui", "/places/checkins/" . $place->getId()); ?>
