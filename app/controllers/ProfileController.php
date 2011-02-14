@@ -167,7 +167,7 @@ class ProfileController extends \lithium\action\Controller {
 		return compact('title', 'geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	private function updateLocation(Array $checkinData = array()) {
+	public function updateLocation(Array $checkinData = array()) {
 		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
 		foreach ($checkinVars as $method) {
