@@ -423,19 +423,7 @@ class PlacesController extends \lithium\action\Controller {
 			$checkinData['placeId'] = $venues[0]['id'];
 			$checkinData['placeName'] = $venues[0]['name'];
 
-//			$shout = "Eu estou em " . $venues[0]['name'] . ". #checkin via @sitechegamos";
-//			$venueId = $venues[0]['id'];
-
-			if (empty($checkinData['status'])) {
-				$status = "Eu estou em " . $checkinData['placeName'] . ". ";
-			} else {
-				$status = $checkinData['status'];
-			}
-			$status = $checkinData['url'] . " #checkin via @sitechegamos";
-
-//			$venueId = $venues[0]['id'];
-//			$broadcast = "public";
-			$checkin = $foursquareApi->checkinVenue($checkinData['placeId'], $status, 'public');
+			$checkin = $foursquareApi->checkinVenue($checkinData['placeId'], $checkinData['status'], 'public');
 		}
 	}
 
