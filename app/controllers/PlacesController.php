@@ -29,7 +29,7 @@ class PlacesController extends \lithium\action\Controller {
 
 		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
 			$checkinData = array('cityState' => 'São Paulo, SP', 'lat' => '-23.48033', 'lng' => '-46.63459');
-			$this->doCheckin($checkinData);
+			ProfileController::updateLocation($checkinData);
 			return $checkinData;
 		}
 		$title = "";
@@ -83,7 +83,7 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 
-		if ($placeList->getNumFound()==0) {
+		if ($placeList->getNumFound() == 0) {
 			$placeList = $this->api->search(array(
 						'term' => $searchName,
 					));
@@ -240,117 +240,111 @@ class PlacesController extends \lithium\action\Controller {
 		return compact('title', 'page', 'categoryId', 'geocode', 'placeList', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
-	public function checkin() {
-		$hideWhereAmI = true;
-		if (!empty($_GET)) {
-			if (!empty($_GET['placeId'])) {
-				$place = $this->api->getPlace(array('placeid' => $_GET['placeId']));
-				$placeName = $place->getName();
-				$checkinData = array(
-					'placeId' => $_GET['placeId'],
-					'placeName' => $place->getName(),
-					'term' => $place->getName(),
-					'lat' => $place->getPoint()->getLat(),
-					'lng' => $place->getPoint()->getLng(),
-				);
-			} elseif (!empty($_GET['lat']) and !empty($_GET['lng'])) {
-				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
-			} elseif (!empty($_GET['cep'])) {
-				$address = new Address();
-				$address->setZipcode($_GET['cep']);
-				$geocode = $this->api->geocode($address);
-				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
-			} elseif (!empty($_GET['cityState'])) {
-				$cityState = \explode(',', $_GET['cityState']);
+	public function checkin($placeId = null) {
+		if (empty($placeId)) {
+			$this->redirect('/');
+		}
 
-				$city = new City();
-				$city->setName(trim($cityState[0]));
-				$city->setState(trim($cityState[1]));
+		$place = $this->api->getPlace(array('placeid' => $placeId));
+		$placeName = $place->getName();
 
-				$address = new Address();
-				$address->setCity(new City($city));
-				$geocode = $this->api->geocode($address);
+		$url = ApontadorApi::encurtaUrl(ROOT_URL . "places/show/" . $place->getId());
+		$status = "Eu estou em " . $place->getName() . ". " . $url . " #checkin via @sitechegamos";
 
-				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
+		if (!empty($_POST) && $place instanceof Place) {
+			$checkinData = array(
+				'placeId' => $place->getId(),
+				'placeName' => $place->getName(),
+				'term' => $place->getName(),
+				'lat' => $place->getPoint()->getLat(),
+				'lng' => $place->getPoint()->getLng(),
+			);
+
+			$checkinData['url'] = isset($_POST['url']) ? $_POST['url'] : $url;
+			$checkinData['status'] = isset($_POST['status']) ? str_replace("\n", " ", $_POST['status']) : $status;
+			$checkinData['providers'] = isset($_POST['providers']) ? $_POST['providers'] : array();
+
+			$checkedin = $this->doCheckin($checkinData);
+
+			if ($checkedin) {
+				$this->redirect('/places/checkins/' . $placeId);
 			} else {
-				$checkinData = array();
+				$this->redirect('/places/show/' . $placeId);
 			}
-			$this->doCheckin($checkinData);
+		}
+
+		$providers = array();
+
+		if (OauthController::isLogged('apontador')) {
+			$providers['apontador'] = "Apontador";
+		}
+		if (OauthController::isLogged('foursquare')) {
+			$providers['foursquare'] = "Foursquare";
+		}
+		if (OauthController::isLogged('twitter')) {
+			$providers['twitter'] = "Twitter";
+		}
+		if (OauthController::isLogged('facebook')) {
+			$providers['facebook'] = "Facebook";
+		}
+		if (OauthController::isLogged('orkut')) {
+			$providers['orkut'] = "Orkut";
+		}
+
+		if (count($providers) == 0) {
+			OauthController::verifyLogged('apontador');
 		}
 
 		extract(OauthController::whereAmI());
 
-		$title = 'Onde estou';
-		return compact('title', 'geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		$title = 'Check-in em ' . $placeName;
+		return compact('title', 'providers', 'status', 'geocode', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 	}
 
 	private function doCheckin(Array $checkinData = array()) {
-		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 
-		foreach ($checkinVars as $method) {
-			Session::write($method);
-		}
+		if (!empty($checkinData['placeId'])) {
+			$checkedin = false;
 
-		foreach ($checkinData as $method => $value) {
-			Session::write($method, $value);
-		}
-
-		$placeId = empty($checkinData['placeId']) ? null : $checkinData['placeId'];
-		$apontadorToken = Session::read('apontadorToken');
-		$apontadorTokenSecret = Session::read('apontadorTokenSecret');
-		$foursquareAccessToken = Session::read('foursquareAccessToken');
-		$twitterAccessToken = array('oauth_token' => Session::read('twitterToken'),
-			'oauth_token_secret' => Session::read('twitterTokenSecret'));
-		$facebookAccessToken = Session::read('facebookToken');
-		$orkutAccessToken = array('oauth_token' => Session::read('orkutToken'),
-			'oauth_token_secret' => Session::read('orkutTokenSecret'));
-		$checkedin = false;
-
-		if (!empty($placeId)) {
-			OauthController::verifyLogged('apontador');
-
-			if (!empty($apontadorToken)) {
-				$this->api->checkin(array(
-					'place_id' => $placeId,
-					'oauth_token' => $apontadorToken,
-					'oauth_token_secret' => $apontadorTokenSecret,
-				));
-			}
-			if (!empty($foursquareAccessToken)) {
-				$this->doFoursquareCheckin($foursquareAccessToken, $checkinData);
-			}
-
-			if (!empty($twitterAccessToken['oauth_token'])) {
-				$this->doTwitterCheckin($twitterAccessToken, $checkinData);
-			}
-
-			if (!empty($facebookAccessToken)) {
-				$this->doFacebookCheckin($facebookAccessToken, $checkinData);
+			if (isset($checkinData['providers']['apontador'])) {
+				$this->doApontadorCheckin($checkinData);
 				$checkedin = true;
 			}
 
-			if (!empty($orkutAccessToken['oauth_token'])) {
-				$this->doOrkutCheckin($orkutAccessToken, $checkinData);
+			if (isset($checkinData['providers']['foursquare'])) {
+				$this->doFoursquareCheckin($checkinData);
+				$checkedin = true;
 			}
 
-			$this->redirect('/places/checkins/' . $placeId);
-		}
-		if (isset($_GET['type']) && $_GET['type'] == 'json') {
-			header('Cache-Control: no-cache, must-revalidate');
-			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-			header('Content-type: application/json');
-			$geocode = $this->api->revgeocode($checkinData['lat'], $checkinData['lng']);
-			if ($geocode instanceof Address) {
-				echo json_encode(array('success' => true, 'checkinData' => $geocode->toArray()));
-			} else {
-				echo json_encode(array('success' => false, 'error' => 'Desculpe! Não consegui fazer o checkin :('));
+			if (isset($checkinData['providers']['twitter'])) {
+				$this->doTwitterCheckin($checkinData);
+				$checkedin = true;
 			}
-			exit;
+
+			if (isset($checkinData['providers']['facebook'])) {
+				$this->doFacebookCheckin($checkinData);
+				$checkedin = true;
+			}
+
+			if (isset($checkinData['providers']['orkut'])) {
+				$this->doOrkutCheckin($checkinData);
+				$checkedin = true;
+			}
+
+			return $checkedin;
 		}
-		$this->redirect('/');
 	}
 
-	private function doFacebookCheckin($facebookAccessToken = '', $checkinData = '') {
+	private function doApontadorCheckin($checkinData = '') {
+		$api = new ApontadorApi();
+		$api->checkin(array(
+			'place_id' => $checkinData['placeId'],
+			'oauth_token' => Session::read('apontadorToken'),
+			'oauth_token_secret' => Session::read('apontadorTokenSecret'),
+		));
+	}
+
+	private function doFacebookCheckin($checkinData = '') {
 		$api = new Facebook(array(
 					'appId' => \FACEBOOK_AP_ID,
 					'secret' => \FACEBOOK_SECRET,
@@ -364,19 +358,15 @@ class PlacesController extends \lithium\action\Controller {
 		);
 		$api->setSession($session);
 
-		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
-		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
-		$shout = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin";
-
 		try {
-			$postStatus = $api->api('/me/feed', 'POST', array('message' => $shout, 'access_token' => $facebookAccessToken));
+			$postStatus = $api->api('/me/feed', 'POST', array('message' => $checkinData['status'], 'access_token' => $facebookAccessToken));
 		} catch (\Exception $e) {
 			$postStatus = $e;
 		}
 	}
 
-	private function doTwitterCheckin($twitterAccessToken = '', $checkinData = '') {
-		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $twitterAccessToken['oauth_token'], $twitterAccessToken['oauth_token_secret']);
+	private function doTwitterCheckin($checkinData = '') {
+		$api = new TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, Session::read('twitterToken'), Session::read('twitterTokenSecret'));
 
 		$searchParams = array();
 		$searchParams['lat'] = empty($checkinData['lat']) ? '' : $checkinData['lat'];
@@ -386,29 +376,20 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place_id = empty($searchPlaces->result->places[0]->id) ? null : $searchPlaces->result->places[0]->id;
 
-		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
-		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
-
-		$status = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
-		$api->post("statuses/update", array('status' => $status, 'place_id' => $place_id));
+		$api->post("statuses/update", array('status' => $checkinData['status'], 'place_id' => $place_id));
 	}
 
-	private function doOrkutCheckin($orkutAccessToken = '', $checkinData = '') {
+	private function doOrkutCheckin($checkinData = '') {
 		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, $orkutAccessToken['oauth_token'], $orkutAccessToken['oauth_token_secret']);
 
-		$urlChegamos = ROOT_URL . "places/show/" . $checkinData['placeId'];
-		$urlChegamos = ApontadorApi::encurtaUrl($urlChegamos);
-
-		$status = "Eu estou em " . $checkinData['placeName'] . ". " . $urlChegamos . " #checkin via @sitechegamos";
-		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $status, 'title' => $checkinData['placeName']));
+		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $checkinData['status'], 'title' => $checkinData['placeName']));
 //		$checkResult = $api->get("https://www.googleapis.com/latitude/v1/currentLocation", array('key' => GOOGLE_APIS_KEY, 'latitude' => $checkinData['lat'], 'longitude' => $checkinData['lng']));
 //		$checkResult = $api->post("https://www.googleapis.com/latitude/v1/currentLocation?key=" . GOOGLE_APIS_KEY . '&latitude=' . $checkinData['lat'] . '&longitude=' . $checkinData['lng']);
 //		var_dump($checkResult);
 //		exit;
 	}
 
-	private function doFoursquareCheckin($foursquareAccessToken = '', $checkinData = '') {
-
+	private function doFoursquareCheckin($checkinData = '') {
 		$callbackurl = ROOT_URL . "oauth/callback/foursquare";
 		$foursquareApi = new FourSquareApiV2(\FOURSQUARE_CONSUMER_KEY, \FOURSQUARE_CONSUMER_SECRET, $callbackurl);
 		$foursquareApi->setOAuth2Token($foursquareAccessToken);
@@ -428,8 +409,10 @@ class PlacesController extends \lithium\action\Controller {
 		} else {
 			$lng = '-46.6876';
 		}
-		if (!empty($checkinData['term'])) {
-			$term = $checkinData['term'];
+		if (!empty($checkinData['placeName'])) {
+			$term = $checkinData['placeName'];
+		} else {
+			$term = '';
 		}
 		$limit = 5;
 		$intent = 'checkin'; // checkin ou match
@@ -437,10 +420,10 @@ class PlacesController extends \lithium\action\Controller {
 		$venues = $foursquareApi->searchVenues($lat, $lng, $radius_mt, $term, $limit, $intent);
 
 		if (!empty($venues)) {
-			$shout = "Eu estou em " . $venues[0]['name'] . ". #checkin via @sitechegamos";
-			$venueId = $venues[0]['id'];
-			$broadcast = "public";
-			$checkin = $foursquareApi->checkinVenue($venueId, $shout, $broadcast);
+			$checkinData['placeId'] = $venues[0]['id'];
+			$checkinData['placeName'] = $venues[0]['name'];
+
+			$checkin = $foursquareApi->checkinVenue($checkinData['placeId'], $checkinData['status'], 'public');
 		}
 	}
 
