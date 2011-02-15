@@ -380,7 +380,7 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	private function doOrkutCheckin($checkinData = '') {
-		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, $orkutAccessToken['oauth_token'], $orkutAccessToken['oauth_token_secret']);
+		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, Session::read('orkutToken'), Session::read('orkutTokenSecret'));
 
 		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $checkinData['status'], 'title' => $checkinData['placeName']));
 //		$checkResult = $api->get("https://www.googleapis.com/latitude/v1/currentLocation", array('key' => GOOGLE_APIS_KEY, 'latitude' => $checkinData['lat'], 'longitude' => $checkinData['lng']));
@@ -392,7 +392,7 @@ class PlacesController extends \lithium\action\Controller {
 	private function doFoursquareCheckin($checkinData = '') {
 		$callbackurl = ROOT_URL . "oauth/callback/foursquare";
 		$foursquareApi = new FourSquareApiV2(\FOURSQUARE_CONSUMER_KEY, \FOURSQUARE_CONSUMER_SECRET, $callbackurl);
-		$foursquareApi->setOAuth2Token($foursquareAccessToken);
+		$foursquareApi->setOAuth2Token(Session::read('foursquareToken'));
 
 		if (!empty($checkinData['radius_mt'])) {
 			$radius_mt = $checkinData['radius_mt'];

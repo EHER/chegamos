@@ -18,7 +18,7 @@ class SettingsController extends \lithium\action\Controller {
 		$apontador['email'] = Session::read('apontadorEmail');
 		$apontador['logged'] = !empty($apontador['token']);
 
-		$foursquare['token'] = Session::read('foursquareAccessToken');
+		$foursquare['token'] = Session::read('foursquareToken');
 		$foursquare['name'] = Session::read('foursquareName');
 		$foursquare['email'] = Session::read('foursquareEmail');
 		$foursquare['logged'] = !empty($foursquare['token']);

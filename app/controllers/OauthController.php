@@ -100,7 +100,7 @@ class OauthController extends \lithium\action\Controller {
 			$access_token = $api->accessToken($code);
 			$user_info = $api->getUser();
 
-			Session::write('foursquareAccessToken', $access_token);
+			Session::write('foursquareToken', $access_token);
 			Session::write('foursquareName', $user_info['name']);
 			Session::write('foursquarePhoto', $user_info['photo']);
 			Session::write('foursquareEmail', $user_info['email']);
@@ -167,7 +167,7 @@ class OauthController extends \lithium\action\Controller {
 	public function logout($provider = 'apontador') {
 
 		if ($provider == 'foursquare') {
-			Session::delete('foursquareAccessToken');
+			Session::delete('foursquareToken');
 			Session::delete('foursquareName');
 			Session::delete('foursquarePhoto');
 			Session::delete('foursquareEmail');
