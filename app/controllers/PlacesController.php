@@ -458,7 +458,11 @@ class PlacesController extends \lithium\action\Controller {
 			$abm = new ABMeta();
 			$abm->populate($place);
 
-			$meta = implode('', array($og->getMeta(), $abm->getMeta()));
+			$meta = implode('', array(
+					$og->getMeta(),
+					$abm->getMeta(),
+					"\t<link rel=\"canonical\" href=\"".$place->getPlaceUrl()."\" />\n",
+					));
 			$abmType = $abm->get('type');
 
 			$title = $place->getName();
