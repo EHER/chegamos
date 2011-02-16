@@ -8,7 +8,7 @@
 ?>
 <!doctype html>
 <html xmlns:og="http://ogp.me/ns#"<?php echo empty($abmType) ? '' : ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';?>>
-<head<?php echo empty($abmType) ? '' : ' typeof="'.$abmType.':'.$abmType.'"';?>>
+<head<?php echo empty($abmType) ? '' : ' typeof="'.$abmType.':'.ucwords($abmType).'"';?>>
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 	<meta property="og:site_name" content="chegamos"/>
 <?php echo (isset($meta)) ? $meta : '' ?>
