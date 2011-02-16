@@ -13,6 +13,7 @@ use app\models\Facebook;
 use app\models\OrkutOAuth;
 use app\models\oauth;
 use app\models\OpenGraph;
+use app\models\ABMeta;
 use lithium\storage\Session;
 
 class PlacesController extends \lithium\action\Controller {
@@ -454,9 +455,14 @@ class PlacesController extends \lithium\action\Controller {
 			$og = new OpenGraph();
 			$og->populate($place);
 
-			$meta = $og->getMeta();
+			$abm = new ABMeta();
+			$abm->populate($place);
+
+			$meta = implode('', array($og->getMeta(), $abm->getMeta()));
+			$abmType = $abm->get('type');
+
 			$title = $place->getName();
-			return compact('meta', 'title', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			return compact('meta', 'title', 'abmType', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
 		} else {
 			$this->redirect('/');
 		}
