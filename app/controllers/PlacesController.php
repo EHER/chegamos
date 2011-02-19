@@ -248,6 +248,9 @@ class PlacesController extends \lithium\action\Controller {
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 		$placeName = $place->getName();
 
+		$url = ApontadorApi::encurtaUrl(ROOT_URL . "places/show/" . $place->getId());
+		$status = "Eu estou em " . $place->getName() . ". " . $url . " #checkin via @sitechegamos";
+
 		if (!empty($_POST) && $place instanceof Place) {
 			$checkinData = array(
 				'placeId' => $place->getId(),
@@ -257,16 +260,8 @@ class PlacesController extends \lithium\action\Controller {
 				'lng' => $place->getPoint()->getLng(),
 			);
 
-			$checkinData['url'] = ROOT_URL . "places/show/" . $place->getId();
-			$checkinData['url'] = ApontadorApi::encurtaUrl($checkinData['url']);
-
-			if (empty($_POST['status'])) {
-				$checkinData['status'] = "Eu estou em " . $place->getName() . ". ";
-			} else {
-				$checkinData['status'] = $_POST['status'];
-			}
-			$checkinData['status'] .= ' ' . $checkinData['url'] . " #checkin via @sitechegamos";
-
+			$checkinData['url'] = isset($_POST['url']) ? $_POST['url'] : $url;
+			$checkinData['status'] = isset($_POST['status']) ? str_replace("\n", " ", $_POST['status']) : $status;
 			$checkinData['providers'] = isset($_POST['providers']) ? $_POST['providers'] : array();
 
 			$checkedin = $this->doCheckin($checkinData);
@@ -299,8 +294,6 @@ class PlacesController extends \lithium\action\Controller {
 		if (count($providers) == 0) {
 			OauthController::verifyLogged('apontador');
 		}
-
-		$status = "Eu estou em " . $placeName . ". ";
 
 		extract(OauthController::whereAmI());
 
@@ -383,27 +376,13 @@ class PlacesController extends \lithium\action\Controller {
 
 		$place_id = empty($searchPlaces->result->places[0]->id) ? null : $searchPlaces->result->places[0]->id;
 
-		if (empty($checkinData['status'])) {
-			$status = "Eu estou em " . $checkinData['placeName'] . ". ";
-		} else {
-			$status = $checkinData['status'];
-		}
-		$status = $checkinData['url'] . " #checkin via @sitechegamos";
-
-		$api->post("statuses/update", array('status' => $status, 'place_id' => $place_id));
+		$api->post("statuses/update", array('status' => $checkinData['status'], 'place_id' => $place_id));
 	}
 
 	private function doOrkutCheckin($checkinData = '') {
 		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, $orkutAccessToken['oauth_token'], $orkutAccessToken['oauth_token_secret']);
 
-		if (empty($checkinData['status'])) {
-			$status = "Eu estou em " . $checkinData['placeName'] . ". ";
-		} else {
-			$status = $checkinData['status'];
-		}
-		$status = $checkinData['url'] . " #checkin via @sitechegamos";
-
-		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $status, 'title' => $checkinData['placeName']));
+		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $checkinData['status'], 'title' => $checkinData['placeName']));
 //		$checkResult = $api->get("https://www.googleapis.com/latitude/v1/currentLocation", array('key' => GOOGLE_APIS_KEY, 'latitude' => $checkinData['lat'], 'longitude' => $checkinData['lng']));
 //		$checkResult = $api->post("https://www.googleapis.com/latitude/v1/currentLocation?key=" . GOOGLE_APIS_KEY . '&latitude=' . $checkinData['lat'] . '&longitude=' . $checkinData['lng']);
 //		var_dump($checkResult);
@@ -444,19 +423,7 @@ class PlacesController extends \lithium\action\Controller {
 			$checkinData['placeId'] = $venues[0]['id'];
 			$checkinData['placeName'] = $venues[0]['name'];
 
-//			$shout = "Eu estou em " . $venues[0]['name'] . ". #checkin via @sitechegamos";
-//			$venueId = $venues[0]['id'];
-
-			if (empty($checkinData['status'])) {
-				$status = "Eu estou em " . $checkinData['placeName'] . ". ";
-			} else {
-				$status = $checkinData['status'];
-			}
-			$status = $checkinData['url'] . " #checkin via @sitechegamos";
-
-//			$venueId = $venues[0]['id'];
-//			$broadcast = "public";
-			$checkin = $foursquareApi->checkinVenue($checkinData['placeId'], $status, 'public');
+			$checkin = $foursquareApi->checkinVenue($checkinData['placeId'], $checkinData['status'], 'public');
 		}
 	}
 
