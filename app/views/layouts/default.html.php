@@ -11,7 +11,7 @@
 <head xmlns:og="http://opengraphprotocol.org/schema/">
 	<meta content="og:site_name" property="chegamos"/>
 <?php echo (isset($meta)) ? $meta : '' ?>
-	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
+	<meta name="google-site-verification" content="nSgmfqNOpud7XKqEtIzxAmHppP-oDqE3PGKwLLOeGss" />
 	<?php echo $this->html->charset();?>
 
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
