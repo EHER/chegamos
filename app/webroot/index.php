@@ -47,5 +47,5 @@ try{
 	<h3>
 		Mas n&atilde;o desista! Daqui a pouco estamos de volta.
 	</h3>
-<?}?>
+<?php } ?>
 
