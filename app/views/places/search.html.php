@@ -6,18 +6,17 @@
 		<li data-role="list-divider">Locais por nome</li>
 		<?php if ($placeList instanceof PlaceList && $placeList->getNumFound() > 0) { ?>
 			<?php foreach ($placeList->getItems() as $place) { ?>
-				<li>
-					<span class="placename">
+				<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
+					<h3 class="ui-li-heading">
 						<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId() . ""); ?>
-					</span>
-					<br />
+					</h3>
 					<p class="ui-li-desc">
 						<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
 					</p>
 				</li>
 			<?php } ?>
 		<?php } else { ?>
-		<li>Nenhum local encontrado.</li>
+			<li>Nenhum local encontrado.</li>
 		<?php } ?>
 	</ul>
 <?php } else { ?>

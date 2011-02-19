@@ -45,17 +45,16 @@ if ($uniqueVisit != 0) { ?>
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($visits instanceof VisitList && $visits->getItems()) { ?>
 		<?php foreach ($visits->getItems() as $visit) { ?>
-		    <li>
-				<span class="placename">
+			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
+				<h3 class="ui-li-heading">
 					<?php echo $this->html->link($visit->getPlace()->getName(), "/places/show/" . $visit->getPlace()->getId() . ""); ?>
-				</span>
-				<br />
+				</h3>
 				<p class="ui-li-desc">
 					<?php echo $visit->getDate(); ?>
 				</p>
 			</li>
 		<?php } ?>
 	<?php } else { ?>
-	<li>Nenhum check-in encontrado.</li>
+		<li>Nenhum check-in encontrado.</li>
 	<?php } ?>
 </ul>

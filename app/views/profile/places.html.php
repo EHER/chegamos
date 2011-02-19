@@ -14,11 +14,8 @@
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($user->getPlaces() instanceof PlaceList && $user->getPlaces()->getNumFound() > 0) { ?>
 		<?php foreach ($user->getPlaces()->getItems() as $place) { ?>
-		    <li>
-				<span class="placename">
+			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
 					<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId() . ""); ?>
-				</span>
-				<br />
 				<p class="ui-li-desc">
 					<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
 				</p>
