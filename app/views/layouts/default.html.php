@@ -12,7 +12,7 @@
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 	<meta property="og:site_name" content="chegamos"/>
 <?php echo (isset($meta)) ? $meta : '' ?>
-	<meta name="google-site-verification" content="DHlJPavykQLKD9wWywvKhr_t04fToqn-wK4WPdODQcQ" />
+	<meta name="google-site-verification" content="nSgmfqNOpud7XKqEtIzxAmHppP-oDqE3PGKwLLOeGss" />
 	<?php echo $this->html->charset();?>
 
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
