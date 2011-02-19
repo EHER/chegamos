@@ -303,8 +303,6 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 				));
 
-
-
 		if (is_object($response->user)) {
 			return new User($response->user);
 		}
