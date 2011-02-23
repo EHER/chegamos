@@ -36,6 +36,7 @@ require dirname(__DIR__) . '/config/bootstrap.php';
 try{
 	echo lithium\action\Dispatcher::run(new lithium\action\Request());
 } catch (Exception $e) {
+	header('HTTP/1.1 500 Internal Server Error');
 ?>
 	<a href="http://api.apontador.com.br/pt/status.html" rel="external nofollow">
 		<img src="<?php echo ROOT_URL;?>img/a_casa_caiu.jpg" alt="A casa caiu" border="0"/>
