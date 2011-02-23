@@ -5,7 +5,9 @@
 	<?php echo $this->html->link($user->getName(), "/profile/show/" . $user->getId(), array("rel"=>"nofollow")); ?>
 </h2>
 <?php if ($user->getPhotoUrl()) { ?>
-	<img src="<?php echo $user->getPhotoUrl(); ?>" />
+	<a href="<?php echo $user->getProfileUrl();?>">
+		<img src="<?php echo $user->getPhotoUrl(); ?>" alt="Foto de <?php echo $user->getName(); ?>"/>
+	</a>
 <?php } ?>
 <p>
 	<?php echo $user->getUserInfo(); ?>
