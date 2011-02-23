@@ -4,11 +4,10 @@
 	<li data-role="list-divider"><?php echo $categoryName; ?></li>
 	<?php if ($placeList instanceof PlaceList && $placeList->getNumFound() > 0) { ?>
 		<?php foreach ($placeList->getItems() as $place) { ?>
-			<li>
-				<span class="placename">
-					<?php echo $this->html->link($place->getName(), $place->getPlaceUrl()); ?>
-				</span>
-				<br />
+			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
+				<h3 class="ui-li-heading">
+					<?php echo $this->html->link($place->getName(), $place->getPlaceUrl() . ""); ?>
+				</h3>
 				<p class="ui-li-desc">
 					<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
 				</p>
@@ -18,6 +17,6 @@
 			<li><a href="<?php echo ROOT_URL;?>places/category/<?php echo $categoryId; ?>/page<?php echo $page + 1; ?>">Mais</a></li>
 		<?php } ?>
 	<?php } else { ?>
-	<li>Nenhum local encontrado.</li>
+		<li>Nenhum local encontrado.</li>
 	<?php } ?>
 </ul>
