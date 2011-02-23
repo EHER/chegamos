@@ -1,3 +1,4 @@
+<?php use app\controllers\OauthController;?>
 <h2 style="margin:0;">
 	<?php echo $this->html->link($place->getName(), $place->getPlaceUrl(), array('rel'=>'nofollow')); ?>
 	<?php if($place->getAverageRatingString()) { ?>
@@ -50,22 +51,34 @@
     <p>Esse local ainda não foi avaliado.</p>
 <?php } ?>
 
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-	<li data-role="list-divider">Deixe sua avaliação</li>
-</ul>
-<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-	<fieldset>
-		<label for="rating">Nota:</label>
-		<select id="rating" name="rating">
-		  <option></option>
-		  <option value="1">Péssimo</option>
-		  <option value="2">Ruim</option>
-		  <option value="3">Regular</option>
-		  <option value="4">Bom</option>
-		  <option value="5">Excelente</option>
-		</select>
-		<label for="content">Avaliação:</label>
-		<textarea id="content" name="content"></textarea>
-	</fieldset>
-	<input type="submit" value="Publicar">
-</form>
+
+<?php if(oauthController::isLogged('apontador')) { ?>
+	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+		<li data-role="list-divider">Deixe sua avaliação</li>
+	</ul>
+	<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+		<fieldset>
+			<label for="rating">Nota:</label>
+			<select id="rating" name="rating">
+			  <option></option>
+			  <option value="1">Péssimo</option>
+			  <option value="2">Ruim</option>
+			  <option value="3">Regular</option>
+			  <option value="4">Bom</option>
+			  <option value="5">Excelente</option>
+			</select>
+			<label for="content">Avaliação:</label>
+			<textarea id="content" name="content"></textarea>
+		</fieldset>
+		<input type="submit" value="Publicar">
+	</form>
+<?php } else { ?>
+	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+		<li data-role="list-divider">Deixe sua avaliação</li>
+		<li>
+			<a href="<?php echo ROOT_URL . 'settings';?>" rel="nofollow">
+				Você deve logar com sua conta Apontador para fazer avaliações.
+			</a>
+		</li>
+	</ul>
+<?php } ?>
