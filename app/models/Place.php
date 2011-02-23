@@ -257,12 +257,13 @@ class Place {
 	}
 
 	public function getPlaceUrl() {
-		return ROOT_URL . $this->getId() .
-		'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getState())) .
-		'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getName())) .
-				'/' . \strtolower(Inflector::slug($this->getCategory())) .
-				'/' . \strtolower(Inflector::slug($this->getName())) .
-		'.html';
+		return ROOT_URL .
+			'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getState())) .
+			'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getName())) .
+					'/' . \strtolower(Inflector::slug($this->getCategory())) .
+					'/' . \strtolower(Inflector::slug($this->getName())) .
+			$this->getId() .
+			'.html';
 	}
 
 	public function getMapUrl() {

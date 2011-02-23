@@ -21,7 +21,7 @@ Router::connect('/', array('Places::index', 'args' => array('home')));
  */
 Router::connect('/pages/{:args}', 'Pages::view');
 
-Router::connect('/{:placeId}/{:state}/{:city}/{:category}/{:name}.html', 'Places::show');
+Router::connect('/{:state}/{:city}/{:category}/{:name}/{:placeId}.html', 'Places::show');
 
 /**
  * Connect the testing routes.
