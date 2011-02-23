@@ -249,7 +249,7 @@ class PlacesController extends \lithium\action\Controller {
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 		$placeName = $place->getName();
 
-		$url = ApontadorApi::encurtaUrl(ROOT_URL . $place->getPlaceUrl());
+		$url = ApontadorApi::encurtaUrl($place->getPlaceUrl());
 		$status = "Eu estou em " . $place->getName() . ". " . $url . " #checkin via @sitechegamos";
 
 		if (!empty($_POST) && $place instanceof Place) {
