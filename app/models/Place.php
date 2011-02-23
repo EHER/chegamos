@@ -252,6 +252,10 @@ class Place {
 		return $this->numPhotos;
 	}
 
+	public function getShortPlaceUrl() {
+		return ROOT_URL . 'places/show/' . $this->getId();
+	}
+
 	public function getPlaceUrl() {
 		return ROOT_URL . $this->getId() .
 		'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getState())) .
