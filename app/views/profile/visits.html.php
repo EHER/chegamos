@@ -1,7 +1,7 @@
 <?php use \app\models\User; ?>
 <?php use app\models\VisitList; ?>
 <h2 style="margin:0;">
-	<?php echo $this->html->link($user->getName(), "/profile/show/" . $user->getId(), array("rel"=>"nofollow")); ?>
+	<?php echo $this->html->link($user->getName(), $user->getPlaceUrl(), array("rel"=>"nofollow")); ?>
 </h2>
 <?php if ($user->getPhotoUrl()) { ?>
 	<img src="<?php echo $user->getPhotoUrl(); ?>" />
@@ -47,7 +47,7 @@ if ($uniqueVisit != 0) { ?>
 		<?php foreach ($visits->getItems() as $visit) { ?>
 			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<h3 class="ui-li-heading">
-					<?php echo $this->html->link($visit->getPlace()->getName(), "/places/show/" . $visit->getPlace()->getId() . ""); ?>
+					<?php echo $this->html->link($visit->getPlace()->getName(), $visit->getPlace()->getPlaceUrl() . ""); ?>
 				</h3>
 				<p class="ui-li-desc">
 					<?php echo $visit->getDate(); ?>

@@ -253,7 +253,12 @@ class Place {
 	}
 
 	public function getPlaceUrl() {
-		return ROOT_URL . 'places/show/' . $this->getId();
+		return ROOT_URL . $this->getId() .
+		'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getState())) .
+		'/' . \strtolower(Inflector::slug($this->getAddress()->getCity()->getName())) .
+				'/' . \strtolower(Inflector::slug($this->getCategory())) .
+				'/' . \strtolower(Inflector::slug($this->getName())) .
+		'.html';
 	}
 
 	public function getMapUrl() {
@@ -286,4 +291,5 @@ class Place {
 
 		return $routeUrl . '?' . http_build_query($params);
 	}
+
 }

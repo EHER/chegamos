@@ -1,6 +1,6 @@
 <?php use app\models\VisitorList; ?>
 <h2 style="margin:0;">
-	<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId()); ?>
+	<?php echo $this->html->link($place->getName(), $place->getPlaceUrl()); ?>
 	<?php if($place->getAverageRatingString()) { ?>
 		<small>(<?php echo $place->getAverageRatingString() ?>)</small>
 	<?php } ?>

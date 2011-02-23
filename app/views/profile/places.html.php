@@ -1,7 +1,7 @@
 <?php use \app\models\User; ?>
 <?php use app\models\PlaceList; ?>
 <h2 style="margin:0;">
-	<?php echo $this->html->link($user->getName(), "/profile/show/" . $user->getId(), array("rel"=>"nofollow")); ?>
+	<?php echo $this->html->link($user->getName(), $user->getPlaceUrl(), array("rel"=>"nofollow")); ?>
 </h2>
 <?php if ($user->getPhotoUrl()) { ?>
 	<img src="<?php echo $user->getPhotoUrl(); ?>" />
@@ -15,7 +15,7 @@
 	<?php if ($user->getPlaces() instanceof PlaceList && $user->getPlaces()->getNumFound() > 0) { ?>
 		<?php foreach ($user->getPlaces()->getItems() as $place) { ?>
 			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
-					<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId() . ""); ?>
+					<?php echo $this->html->link($place->getName(), $place->getPlaceUrl() . ""); ?>
 				<p class="ui-li-desc">
 					<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
 				</p>

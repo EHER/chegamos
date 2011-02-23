@@ -249,7 +249,7 @@ class PlacesController extends \lithium\action\Controller {
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 		$placeName = $place->getName();
 
-		$url = ApontadorApi::encurtaUrl(ROOT_URL . "places/show/" . $place->getId());
+		$url = ApontadorApi::encurtaUrl(ROOT_URL . $place->getPlaceUrl());
 		$status = "Eu estou em " . $place->getName() . ". " . $url . " #checkin via @sitechegamos";
 
 		if (!empty($_POST) && $place instanceof Place) {
@@ -270,7 +270,7 @@ class PlacesController extends \lithium\action\Controller {
 			if ($checkedin) {
 				$this->redirect('/places/checkins/' . $placeId);
 			} else {
-				$this->redirect('/places/show/' . $placeId);
+				$this->redirect($place->getPlaceUrl());
 			}
 		}
 
@@ -429,6 +429,7 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function show($placeId = null) {
+		$placeId = isset($this->request->params['placeId']) ? $this->request->params['placeId'] : $placeId;
 
 		if (empty($placeId)) {
 			$this->redirect('/');

@@ -6,7 +6,7 @@
 		<?php foreach ($placeList->getItems() as $place) { ?>
 			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<h3 class="ui-li-heading">
-					<?php echo $this->html->link($place->getName(), "/places/show/" . $place->getId() . ""); ?>
+					<?php echo $this->html->link($place->getName(), $place->getPlaceUrl() . ""); ?>
 				</h3>
 				<p class="ui-li-desc">
 					<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>

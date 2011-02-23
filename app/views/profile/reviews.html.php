@@ -1,6 +1,6 @@
 <?php use app\models\ReviewList; ?>
 <h2 style="margin:0;">
-	<?php echo $this->html->link($user->getName(), "/profile/show/" . $user->getId(), array("rel"=>"nofollow")); ?>
+	<?php echo $this->html->link($user->getName(), $user->getPlaceUrl(), array("rel"=>"nofollow")); ?>
 </h2>
 <?php if ($user->getPhotoUrl()) { ?>
 	<img src="<?php echo $user->getPhotoUrl(); ?>" />
@@ -14,7 +14,7 @@
 		<?php foreach ($user->getReviews()->getItems() as $review) { ?>
 			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
 				<a href="<?php echo ROOT_URL."profile/show/" . $user->getId();?>" class="ui-link-inherit">
-					<h3 class="ui-li-heading"><?php echo $this->html->link($review->getPlace()->getName(), "/places/show/" . $review->getPlace()->getId() . ""); ?></h3>
+					<h3 class="ui-li-heading"><?php echo $this->html->link($review->getPlace()->getName(), $review->getPlace()->getPlaceUrl() . ""); ?></h3>
 				</a>
 				<p class="ui-li-desc">
 					<?php echo $review->getContent(); ?>
