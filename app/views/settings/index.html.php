@@ -57,4 +57,7 @@
 		<?php } ?>
 	</li>
 </ul>
+<form method="GET" action="<?php echo ROOT_URL;?>">
+	<button type="submit">Salvar Configurações</button>
+</form>
 

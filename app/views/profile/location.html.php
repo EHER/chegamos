@@ -31,6 +31,9 @@
 		<input class='autoDetect' type="radio" name="autoDetect" id="autoDetect_off" value="off" <?php echo (isset($_COOKIE['disableAutoDetect']) ? ' checked="checked"' : '');?>>
 		</fieldset>
 	</div>
+	<form method="GET" action="<?php echo ROOT_URL;?>">
+		<button type="submit">Salvar Configurações</button>
+	</form>
 </span>
 
 <script type="text/javascript">
