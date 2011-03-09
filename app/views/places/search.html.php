@@ -11,7 +11,7 @@
 						<?php echo $this->html->link($place->getName(), $place->getPlaceUrl() . ""); ?>
 					</h3>
 					<p class="ui-li-desc">
-						<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
+						<?php echo $place->getAddress(); ?>
 					</p>
 				</li>
 			<?php } ?>
