@@ -58,6 +58,7 @@ PENDENTES
 	TIMELINE
 	- Habilitar a exibição de timeline do usuário
 	- Habilitar a exibição de timeline no perfil do usuário
+	- Mudar o formato da data para "Há tanto tempo"
 
 	PERFIL
 	- Mostra onde foi fetio o último checkin
@@ -78,9 +79,6 @@ PENDENTES
 	TODO
 	- Lista de lugares que fiz checkin mas não fiz avaliação
 	- Lista de lugares que fiz checkin mas não enviei fotos
-
-	MICROFORMATS
-	- Incluir microformats para ficar mais legível para outros sites (inclusive GetGlue)
 
 FINALIZADAS
 ===========
@@ -104,3 +102,4 @@ FINALIZADAS
 	- Criar funcionalidade para linkar outras contas (Twitter, Foursquare, Facebook, etc)
 	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais
 	- Criar lista de avaliações do usuário
+	- Incluir microformats para ficar mais legível para outros sites (inclusive GetGlue)
