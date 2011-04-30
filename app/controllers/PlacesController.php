@@ -105,16 +105,18 @@ class PlacesController extends \lithium\action\Controller {
 			$place = $this->api->getPlace(array('placeid' => $placeId));
 			$lat = $place->getPoint()->getLat();
 			$lng = $place->getPoint()->getLng();
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchByPoint(array(
 						'lat' => $lat,
 						'lng' => $lng,
+						'sort_by' => 'distance',
 						'page' => $page
-							), 'searchByPoint');
+							));
 		} elseif (!empty($zipcode)) {
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchByZipcode(array(
 						'zipcode' => $zipcode,
+						'sort_by' => 'distance',
 						'page' => $page
-							), 'searchByZipcode');
+							));
 		} elseif (!empty($cityState) and strstr($cityState, ',')) {
 			list($city, $state) = \explode(',', $cityState);
 			$placeList = $this->api->searchRecursive(array(
@@ -124,11 +126,12 @@ class PlacesController extends \lithium\action\Controller {
 						'page' => $page
 							), 'searchByAddress');
 		} elseif (!empty($lat) and !empty($lng)) {
-			$placeList = $this->api->searchRecursive(array(
+			$placeList = $this->api->searchByPoint(array(
 						'lat' => $lat,
 						'lng' => $lng,
+						'sort_by' => 'distance',
 						'page' => $page
-							), 'searchByPoint');
+							));
 		} else {
 			$this->redirect('/places/checkin');
 		}
