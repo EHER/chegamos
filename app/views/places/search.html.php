@@ -2,6 +2,9 @@
 
 <?php if ($searchName) { ?>
 
+	<?php if (strlen($suggestions)>0) { ?>
+		<p>Voc&ecirc; quis dizer: <?php echo $suggestions;?></p>
+	<?php } ?>
 	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 		<li data-role="list-divider">Locais por nome</li>
 		<?php if ($placeList instanceof PlaceList && $placeList->getNumFound() > 0) { ?>

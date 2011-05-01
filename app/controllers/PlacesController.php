@@ -41,13 +41,13 @@ class PlacesController extends \lithium\action\Controller {
 		extract(OauthController::whereAmI());
 
 		$searchName = '';
+		$suggestions = null;
+		$placeList = array();
 
 		if (isset($_GET['name'])) {
 			$searchName = $_GET['name'];
 
-
 			if (!empty($placeId)) {
-
 				$place = $this->api->getPlace(array('placeid' => $placeId));
 				$lat = $place->getPoint()->getLat();
 				$lng = $place->getPoint()->getLng();
@@ -89,11 +89,12 @@ class PlacesController extends \lithium\action\Controller {
 						'term' => $searchName,
 					));
 		}
+		$suggestions = $this->api->getSuggestions(array('q' => $searchName));
 
 		$title = "Locais por nome";
 		$title = empty($searchName) ? $title : $title . ": " . $searchName;
 
-		return compact('title', 'geocode', 'placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'suggestions', 'geocode', 'placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
 	public function near($page = 'page1') {

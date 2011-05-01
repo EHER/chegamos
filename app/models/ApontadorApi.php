@@ -450,6 +450,21 @@ class ApontadorApi {
 		return $visitsList;
 	}
 
+	public function getSuggestions($param=array()) {
+		if (empty($param['q'])) {
+			return false;
+		}
+		$response = $this->request('suggestions', array(
+				'q' => $param['q']
+			));
+
+		if (!is_object($response)) {
+			return false;
+		}
+		$suggestions = new Suggestions($response->suggestions);
+		return $suggestions;
+	}
+
 	private function request($method, $params=array(), $verb='GET') {
 		// Workaround para funcionar o PUT
 		if ($verb == 'PUT') {
