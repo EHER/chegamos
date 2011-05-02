@@ -74,7 +74,7 @@ var updateOnTimeout = function() {
 
 var intervalo = window.setInterval(function() {
 	if($.cookie('disableAutoDetect') === null) {
-		updateLocation();
+		updateOnTimeout();
 	}
 }, 5000);
 
