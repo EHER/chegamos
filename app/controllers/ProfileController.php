@@ -182,11 +182,17 @@ class ProfileController extends \lithium\action\Controller {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 			header('Content-type: application/json');
+			
+			if(empty($checkinData['lat']) || empty($checkinData['lng'])) {
+				echo json_encode(array('success' => false, 'error' => 'lat/lng nao informado'));
+				exit;
+			}
+			
 			$geocode = $this->api->revgeocode($checkinData['lat'], $checkinData['lng']);
 			if ($geocode instanceof Address) {
 				echo json_encode(array('success' => true, 'checkinData' => $geocode->toArray()));
 			} else {
-				echo json_encode(array('success' => false, 'error' => 'Desculpe! Não consegui fazer o checkin :('));
+				echo json_encode(array('success' => false, 'error' => 'Desculpe! Nao consegui fazer o checkin :('));
 			}
 			exit;
 		}
