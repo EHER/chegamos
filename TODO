@@ -22,12 +22,6 @@ PENDENTES
 	- Criar home com ícones
 	- Melhorar o espaço do "onde estou" para uma linha
 
-	ONDE ESTOU
-	- Tela de configuração criar a opção do detectar rodar de tempos em tempos ok
-	- Fazer um ajax para fazer o checkin automatico ok
-	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde) ok
-	- Gravar no cookie o tempo que fez a ultima verificacao e a opção do usuário
-	
 	POSTOS
 	- Posto mais barato perto de mim
 	
@@ -49,9 +43,6 @@ PENDENTES
 	- Criar a opção de Seguir (ou não) um usuário Apontador a partir do perfil
 
 	CHECKIN
-	- Criar uma tela pré-checkin para configurar o checkin
-	- Ter a opção de selecionar a rede social em que será feito o checkin
-	- Editar o texto do checkin
 	- Permitir escolher em qual local (Foursquare) deve ser feito o checkin
 	- Criar uma tela pós-checkin para exibir o resultado do checkin
 
@@ -103,3 +94,15 @@ FINALIZADAS
 	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais
 	- Criar lista de avaliações do usuário
 	- Incluir microformats para ficar mais legível para outros sites (inclusive GetGlue)
+
+	ONDE ESTOU
+	- Tela de configuração criar a opção do detectar rodar de tempos em tempos
+	- Fazer um ajax para fazer o checkin automatico
+	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde)
+	- Gravar no cookie o tempo que fez a ultima atualização e a opção do usuário
+	- Atualizar depois de 10 minutos, considerando o cookie da última atualiação
+	
+	CHECKIN
+	- Criar uma tela pré-checkin para configurar o checkin
+	- Ter a opção de selecionar a rede social em que será feito o checkin
+	- Editar o texto do checkin
