@@ -7,9 +7,9 @@
 <?php if ($categories instanceof CategoryList && $categories->getNumFound() > 0) { ?>
 
 		<?php if (!empty($all)) { ?>
-			<li><?php echo $this->html->link("Principais categorias", "/places/categories"); ?></li>
+			<li data-iconpos="left" data-icon="minus"><?php echo $this->html->link("Principais categorias", "/places/categories"); ?></li>
 		<?php } else { ?>
-			<li><?php echo $this->html->link("Todas as categorias", "/places/categories/all"); ?></li>
+			<li data-iconpos="left" data-icon="plus"><?php echo $this->html->link("Todas as categorias", "/places/categories/all"); ?></li>
 		<?php } ?>
 		
 		<?php foreach ($categories->getItems() as $category) { ?>

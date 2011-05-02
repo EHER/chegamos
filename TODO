@@ -7,7 +7,6 @@ PENDENTES
 =========
 	MIGRAÇÃO PARA JQUERY MOBILE NOVA
 	- Pau na paginação de following (testar followers)
-	- Omnibox clicada por padrão
 	- Horas na timeline
 	- Ver mapa na poi (manda para maplink?)
 	- Paginação na busca de locais
@@ -23,13 +22,11 @@ PENDENTES
 	GERAL
 	- Paginacao nas buscas (como twitter)
 	- Mais dados no resultado das buscas
-	- Informações de postos
 	- Criar página de SOBRE
 
 	LAYOUT
 	- Melhorar o layout da versão sem JS
 	- Criar home com ícones
-	- Melhorar o espaço do "onde estou" para uma linha
 
 	POSTOS
 	- Posto mais barato perto de mim
@@ -105,6 +102,7 @@ FINALIZADAS
 	- Incluir microformats para ficar mais legível para outros sites (inclusive GetGlue)
 	- Corrigir clicáveis das listagens
 	- Corrigir layout nas listagens
+	- Melhorar o espaço do "onde estou" para uma linha
 	
 
 	ONDE ESTOU
