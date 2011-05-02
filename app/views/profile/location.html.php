@@ -11,20 +11,13 @@
 	<input type="submit" value="Estou aqui">
 </form>
 <div data-role="fieldcontain" id="autoDetectContainer" class="ui-controlgroup-controls" style="display: none;">
-	<?php /*<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
+	<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
 		<label>Detectar localização automaticamente:</label>
 		<label for="autoDetect_on">&nbsp;&nbsp;Ligado</label>
 		<input data-theme="c" class='autoDetect' type="radio" name="autoDetect" id="autoDetect_on" value="on" <?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' checked="checked"' : '');?> />
 		<label for="autoDetect_off">&nbsp;&nbsp;Desligado</label>
 		<input data-theme="c" class='autoDetect' type="radio" name="autoDetect" id="autoDetect_off" value="off" <?php echo (isset($_COOKIE['disableAutoDetect']) ? ' checked="checked"' : '');?> />
-	</fieldset> */ ?>
-	<div data-role="fieldcontain">
-		<label for="slider">Detectar localização automaticamente:</label>
-		<select class='autoDetect' data-theme="d" name="slider" id="slider" data-role="slider">
-			<option <?php echo (isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?> value="off">Desligado</option>
-			<option <?php echo (!isset($_COOKIE['disableAutoDetect']) ? ' selected="selected"' : '');?> value="on">Ligado</option>
-		</select> 
-	</div>
+	</fieldset>
 </div>
 <form method="GET" action="<?php echo ROOT_URL;?>">
 	<button type="submit">Salvar Configurações</button>
@@ -34,7 +27,7 @@
 $('#autoDetectContainer').show();
 
 $('.autoDetect').change(function() {
-	if ($(this).val() == 'off') {
+	if ($("input[name='autoDetect']:checked").val() == 'off') {
 		$.cookie('disableAutoDetect', true, {'path' : '/'});
 	} else {
 		$.cookie('disableAutoDetect', null, {'path' : '/'});
