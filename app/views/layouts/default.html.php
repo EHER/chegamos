@@ -69,7 +69,7 @@ var updateOnTimeout = function() {
 	var now = currentTime.getTime();
 
 	if(lastUpdate === null || now > lastUpdate*1 + timeout*1) {
-		$.cookie('lastLocationUpdate', now);
+		$.cookie('lastLocationUpdate', now, {'path' : '/'});
 		getUserLocation();
 	}
 }
