@@ -59,9 +59,22 @@
 	</div>
 	
 <script type="text/javascript">
+
+var updateOnTimeout = function() {
+	var timeout = 1000 * 60 * 10;
+	var lastUpdate = $.cookie('lastLocationUpdate');
+	var currentTime = new Date();
+	var now = currentTime.getTime();
+
+	if(lastUpdate === null || now > lastUpdate*1 + timeout*1) {
+		$.cookie('lastLocationUpdate', now);
+		getUserLocation();
+	}
+}
+
 var intervalo = window.setInterval(function() {
 	if($.cookie('disableAutoDetect') === null) {
-		getUserLocation();
+		updateLocation();
 	}
 }, 5000);
 
