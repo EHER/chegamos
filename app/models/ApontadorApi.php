@@ -576,8 +576,8 @@ class ApontadorApi {
 	 * a última coisa chamada na página (vai mandar um redirect).
 	 */
 	function apontadorRedirectAutorizacao($callbackurl) {
-
-		$consumer = new \app\models\oauth\OAuthConsumer($this->config['consumerKey'], $this->config['consumerSecret'], NULL);
+		return 'http://auth.apontador.com.br/?key=' . $this->config['consumerKey'];
+		/*$consumer = new \app\models\oauth\OAuthConsumer($this->config['consumerKey'], $this->config['consumerSecret'], NULL);
 		$signature_method = new \app\models\oauth\OAuthSignatureMethod_HMAC_SHA1();
 
 		// Passo 1: Pedir o par de tokens inicial (oauth_token e oauth_token_secret) para o Apontador
@@ -591,7 +591,7 @@ class ApontadorApi {
 		$endpoint = "http://api.apontador.com.br/v1/oauth/authorize";
 		$oauth_callback = "$callbackurl?&key=" . $this->config['consumerKey'] . "&secret=" . $this->config['consumerSecret'] . "&token=$oauth_token&token_secret=$oauth_token_secret&endpoint=" . urlencode($endpoint);
 		$auth_url = $endpoint . "?oauth_token=$oauth_token&oauth_callback=" . urlencode($oauth_callback) . "";
-		return $auth_url;
+		return $auth_url;*/
 	}
 
 	/**
