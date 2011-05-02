@@ -1,10 +1,14 @@
 TODO
 ====
 Essa é a lista de coisas a fazer no projeto
-Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida técnica que não deve ser esquecida
+Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma dívida
+ técnica que não deve ser esquecida
 
 PENDENTES
 =========
+	LOGIN
+	- Testar novo login do Apontador
+	
 	MIGRAÇÃO PARA JQUERY MOBILE NOVA
 	- Pau na paginação de following (testar followers)
 	- Horas na timeline
@@ -15,7 +19,8 @@ PENDENTES
 	- Corrigir erro Ofertas por perto
 	
 	CATEGORIAS
-	- Melhorar a busca por categoria Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados
+	- Melhorar a busca por categoria Uma busca por uma categoria pequena como aeroportos
+	 abre e o radius até o máximo para tentar exibir 20 resultados
 	- Verificar porque a categoria aeroportos nao traz nada
 	- Filtragem por nome (js) na listagem de categorias
 		
@@ -63,7 +68,8 @@ PENDENTES
 	- Criar lista de fotos do usuário
 
 	OFERTAS
-	- Exibir mais informações na lista de promoções por perto (preço, preço original, % de desconto, etc)
+	- Exibir mais informações na lista de promoções por perto (preço, preço original, % de 
+	desconto, etc)
 	- Criar página de detalhes da oferta
 	- Na página de detalhes da oferta, criar link para página do local (do Chegamos!)
 
@@ -79,7 +85,6 @@ PENDENTES
 
 FINALIZADAS
 ===========
-
 	- Fazer página específica de uma review
 	- Criar listagem de quem me segue
 	- Criar listagem de quem eu sigo
@@ -90,7 +95,8 @@ FINALIZADAS
 	- Trazer a lista de checkins feitos no local
 	- Busca aumentando o raio de acordo com os resultados esperados
 	- Trocar o getPlace para retornar um objeto e não JSON
-	- Melhorar a busca por nome Uma busca por um nome exato abre o radius até o máximo para tentar exibir 20 resultados
+	- Melhorar a busca por nome Uma busca por um nome exato abre o radius até o máximo para 
+	tentar exibir 20 resultados
 	- Fazer a avaliação funcionar após o login e autorização da API
 	- Link para "Upload Multiplo" de fotos
 	- Opção de login via Post (Apontador)
@@ -103,17 +109,13 @@ FINALIZADAS
 	- Corrigir clicáveis das listagens
 	- Corrigir layout nas listagens
 	- Melhorar o espaço do "onde estou" para uma linha
-	
-
-	ONDE ESTOU
 	- Tela de configuração criar a opção do detectar rodar de tempos em tempos
 	- Fazer um ajax para fazer o checkin automatico
-	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde)
+	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve 
+	retornar o onde)
 	- Gravar no cookie o tempo que fez a ultima atualização e a opção do usuário
 	- Atualizar depois de 10 minutos, considerando o cookie da última atualiação
 	- Barra de footer ficar boiando
-	
-	CHECKIN
 	- Criar uma tela pré-checkin para configurar o checkin
 	- Ter a opção de selecionar a rede social em que será feito o checkin
 	- Editar o texto do checkin
