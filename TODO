@@ -5,7 +5,16 @@ Pode ser uma funcionalidade interessante, algo que deve ser corrigido ou alguma 
 
 PENDENTES
 =========
-
+	MIGRAÇÃO PARA JQUERY MOBILE NOVA
+	- Pau na paginação de following (testar followers)
+	- Omnibox clicada por padrão
+	- Horas na timeline
+	- Ver mapa na poi (manda para maplink?)
+	- Paginação na busca de locais
+	- Seguidores - trazer ultimo checkin do seguidor
+	- Fazer fotos do usuário
+	- Corrigir erro Ofertas por perto
+	
 	CATEGORIAS
 	- Melhorar a busca por categoria Uma busca por uma categoria pequena como aeropostos abre e o radius até o máximo para tentar exibir 20 resultados
 	- Verificar porque a categoria aeroportos nao traz nada
@@ -94,6 +103,9 @@ FINALIZADAS
 	- Criar funcionalidade de um checkin replicar automáticamente em todas as redes sociais
 	- Criar lista de avaliações do usuário
 	- Incluir microformats para ficar mais legível para outros sites (inclusive GetGlue)
+	- Corrigir clicáveis das listagens
+	- Corrigir layout nas listagens
+	
 
 	ONDE ESTOU
 	- Tela de configuração criar a opção do detectar rodar de tempos em tempos
@@ -101,6 +113,7 @@ FINALIZADAS
 	- Alterar o onde estou quando o checkin acontecer no retorno do ajax (o ajax já deve retornar o onde)
 	- Gravar no cookie o tempo que fez a ultima atualização e a opção do usuário
 	- Atualizar depois de 10 minutos, considerando o cookie da última atualiação
+	- Barra de footer ficar boiando
 	
 	CHECKIN
 	- Criar uma tela pré-checkin para configurar o checkin

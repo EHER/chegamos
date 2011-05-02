@@ -10,15 +10,19 @@
 <p>
 	<?php echo $user->getUserInfo(); ?>
 </p>
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" data-inset="true">
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($user->getReviews() instanceof ReviewList && $user->getReviews()->getNumFound() > 0) { ?>
 		<?php foreach ($user->getReviews()->getItems() as $review) { ?>
-			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
-				<h3 class="ui-li-heading"><?php echo $this->html->link($review->getPlace()->getName(), $review->getPlace()->getShortPlaceUrl() . ""); ?></h3>
-				<p class="ui-li-desc">
-					<?php echo $review->getContent(); ?>
-				</p>
+			<li>
+				<a href="<?php echo $review->getPlace()->getShortPlaceUrl(); ?>">
+					<h3>
+						<?php echo $review->getPlace()->getName(); ?>
+					</h3>
+					<p>
+						<?php echo $review->getContent(); ?>
+					</p>
+				</a>
 			</li>
 		<?php } ?>
 		<?php if ($user->getReviews()->getNumFound() >= $user->getReviews()->getCurrentPage() * 10) { ?>

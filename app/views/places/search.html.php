@@ -5,17 +5,19 @@
 	<?php if (strlen($suggestions)>0) { ?>
 		<p>Voc&ecirc; quis dizer: <?php echo $suggestions;?></p>
 	<?php } ?>
-	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+	<ul data-role="listview" data-inset="true">
 		<li data-role="list-divider">Locais por nome</li>
 		<?php if ($placeList instanceof PlaceList && $placeList->getNumFound() > 0) { ?>
 			<?php foreach ($placeList->getItems() as $place) { ?>
-				<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
-					<h3 class="ui-li-heading">
-						<?php echo $this->html->link($place->getName(), $place->getPlaceUrl() . ""); ?>
-					</h3>
-					<p class="ui-li-desc">
-						<?php echo $place->getAddress(); ?>
-					</p>
+				<li>
+					<a href="<?php echo $place->getPlaceUrl(); ?>">
+						<h3>
+							<?php echo $place->getName(); ?>
+						</h3>
+						<p class="ui-li-desc">
+							<?php echo $place->getAddress(); ?>
+						</p>
+					</a>
 				</li>
 			<?php } ?>
 		<?php } else { ?>

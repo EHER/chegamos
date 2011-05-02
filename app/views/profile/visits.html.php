@@ -45,13 +45,13 @@ if ($uniqueVisit != 0) { ?>
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($visits instanceof VisitList && $visits->getItems()) { ?>
 		<?php foreach ($visits->getItems() as $visit) { ?>
-			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
-				<h3 class="ui-li-heading">
-					<?php echo $this->html->link($visit->getPlace()->getName(), $visit->getPlace()->getShortPlaceUrl() . ""); ?>
-				</h3>
-				<p class="ui-li-desc">
-					<?php echo $visit->getDate(); ?>
-				</p>
+			<li class="ui-li ui-btn ui-btn-up-c" data-theme="c">
+				<a href="<?php echo $visit->getPlace()->getShortPlaceUrl();?>">
+					<h3><?php echo $visit->getPlace()->getName(); ?></h3>
+					<p class="ui-li-desc">
+						<?php echo $visit->getDate(); ?>
+					</p>
+				</a>
 			</li>
 		<?php } ?>
 	<?php } else { ?>

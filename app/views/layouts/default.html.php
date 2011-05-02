@@ -16,10 +16,10 @@
 	<?php echo $this->html->charset();?>
 
 	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
-	<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
 	<script src="<?php echo ROOT_URL ?>js/jquery.cookie.js"></script>
 	<script>
 		$.mobile.page.prototype.options.backBtnText = "Voltar";
@@ -28,7 +28,9 @@
 <body>
 	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header"> 
-			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "external")); ?></h1>
+			<h1>
+				<?php echo $this->html->link('Chegamos!', '/', array("rel" => "external", 'data-role' => "button")); ?>
+			</h1>
 			<?php echo $this->html->link('Config.', '/settings', array("rel" => "nofollow","data-icon"=>"gear","class"=>"ui-btn-right", "data-transition"=>"slideup")); ?>
 
 			<form method="GET" action="<?php echo ROOT_URL; ?>places/search" style="text-align: center; width:100%">
@@ -39,7 +41,7 @@
 		<div data-role="content">
 			<?php echo $this->content(); ?>
 		</div>
-		<div data-role="footer" style="text-align:center">
+		<div data-role="footer" style="text-align:center" data-position="fixed">
 				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
 					<?php if (!empty($zipcode)): ?>
 						CEP: <?php echo $zipcode; ?>
@@ -76,7 +78,9 @@ var intervalo = window.setInterval(function() {
 	if($.cookie('disableAutoDetect') === null) {
 		updateOnTimeout();
 	}
-}, 5000);
+}, 10000);
+
+$('#name').click();
 
 updateLocation = function(lat, lng) {
 	$.get('<?php echo ROOT_URL ?>profile/location', {'lat': lat, 'lng': lng, 'type' : 'json'},

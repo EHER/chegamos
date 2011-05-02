@@ -12,17 +12,19 @@
 	<?php echo $user->getUserInfo(); ?>
 </p>
 
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" data-inset="true">
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($user->getPlaces() instanceof PlaceList && $user->getPlaces()->getNumFound() > 0) { ?>
 		<?php foreach ($user->getPlaces()->getItems() as $place) { ?>
-			<li tabindex="0" class="ui-li ui-btn ui-btn-up-c" data-theme="c">
-				<h3 class="ui-li-heading">
-					<?php echo $this->html->link($place->getName(), $place->getShortPlaceUrl()); ?>
-				</h3>
-				<p class="ui-li-desc">
-					<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
-				</p>
+			<li>
+				<a href="<?php echo $place->getShortPlaceUrl(); ?>">
+					<h3>
+						<?php echo $place->getName(); ?>
+					</h3>
+					<p>
+						<?php echo $place->getAddress()->getStreet() . ", " . $place->getAddress()->getNumber(); ?>
+					</p>
+				</a>
 			</li>
 		<?php } ?>
 		<?php if ($user->getPlaces()->getNumFound() >= $user->getPlaces()->getCurrentPage() * 10 ) { ?>
