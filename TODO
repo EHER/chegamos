@@ -8,8 +8,12 @@ PENDENTES
 =========
 	LOGIN
 	- Testar novo login do Apontador
+		- Mandar as chaves para o Miguel ok
+		- Ver se o OAuth do chegamos está recebendo as informações corretas
 	
 	MIGRAÇÃO PARA JQUERY MOBILE NOVA
+	- Bug do checkin
+	- Cadastro de locais
 	- Pau na paginação de following (testar followers)
 	- Horas na timeline
 	- Ver mapa na poi (manda para maplink?)
