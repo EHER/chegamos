@@ -10,37 +10,6 @@
 	<?php echo $user->getUserInfo(); ?>
 </p>
 
-<?php
-
-$uniqueVisits = array();
-foreach ($visits->getItems() as $item) {
-	if (isset($uniqueVisits[$item->getPlace()->getId()])) {
-		$uniqueVisits[$item->getPlace()->getId()]++;
-	} else {
-		$uniqueVisits[$item->getPlace()->getId()] = 1;
-	}
-}
-$diffCheckins = count($uniqueVisits);
-
-$badge = 0;
-$uniqueVisit = 0;
-$badges = array(1, 5, 10, 25, 50, 100, 250, 500, 1000);
-foreach ($badges as $badgeCount) {
-	if ($badgeCount <= count($visits->getItems())) {
-		$badge = $badgeCount;
-	}
-	
-	if ($badgeCount <= $diffCheckins) {
-		$uniqueVisit = $badgeCount;
-	}
-}
-if ($badge != 0) { ?>
-<img title="<?php echo $badge ?> checkins" src="<?php echo ROOT_URL; ?>img/badges/<?php echo $badge; ?>_orange.jpg" />
-<?php } 
-if ($uniqueVisit != 0) { ?>
-<img title="checkins em <?php echo $uniqueVisit; ?> locais diferentes" src="<?php echo ROOT_URL; ?>img/badges/<?php echo $uniqueVisit; ?>_blue.jpg" />
-<?php } ?>
-
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($visits instanceof VisitList && $visits->getItems()) { ?>
