@@ -11,6 +11,7 @@ class PlayerProfile
     private $pointsAll;
     private $level;
     private $nextLevel;
+    private $badges;
 
     public function __construct($data = null)
     {
@@ -21,33 +22,33 @@ class PlayerProfile
 
     public function populate($data)
     {
-        if(isset($data->pointsMonth)) {
-           $this->setPointsMonth($data->pointsMonth);
+        if (isset($data->pointsMonth)) {
+            $this->setPointsMonth($data->pointsMonth);
         }
-        if(isset($data->pointsWeek)) {
-           $this->setPointsWeek($data->pointsWeek);
+        if (isset($data->pointsWeek)) {
+            $this->setPointsWeek($data->pointsWeek);
         }
-        if(isset($data->pointsDay)) {
-           $this->setPointsDay($data->pointsDay);
+        if (isset($data->pointsDay)) {
+            $this->setPointsDay($data->pointsDay);
         }
-        if(isset($data->pointsAll)) {
-           $this->setPointsAll($data->pointsAll);
+        if (isset($data->pointsAll)) {
+            $this->setPointsAll($data->pointsAll);
         }
-        if(isset($data->level)) {
-           $this->setLevel(new Reward($data->level));
+        if (isset($data->level)) {
+            $this->setLevel(new Reward($data->level));
         }
-        if(isset($data->nextLevel)) {
-           $this->setNextLevel(new Reward($data->nextLevel));
+        if (isset($data->nextLevel)) {
+            $this->setNextLevel(new Reward($data->nextLevel));
+        }
+        if (isset($data->badges) && is_array($data->badges)) {
+            $badges = array();
+            foreach ($data->badges as $badge) {
+                $badges[] = new Reward($badge);
+            }
+            $this->setBadges($badges);
         }
     }
 
-    /*
-     * @TODO: fazer a listagem de medalhas
-     */
-    public function getBadges() {
-        return null;
-    }
-    
     public function getPointsMonth()
     {
         return $this->pointsMonth;
@@ -107,4 +108,15 @@ class PlayerProfile
     {
         $this->nextLevel = $nextLevel;
     }
+
+    public function getBadges()
+    {
+        return $this->badges;
+    }
+
+    public function setBadges($badges)
+    {
+        $this->badges = $badges;
+    }
+
 }

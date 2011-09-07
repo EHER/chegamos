@@ -7,7 +7,7 @@ class ApontadorExtras
 
     public function getPlayerProfile($userId = null)
     {
-        $url = "http://www.apontador.com.br/player/get/{$userId}";
+        $url = "http://www.apontador.com.br/player/badges/{$userId}";
         $playerProfileJson = $this->simpleHttpGet($url);
         $jsonObject = json_decode($playerProfileJson);
         $playerProfile = new PlayerProfile($jsonObject);

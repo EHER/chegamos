@@ -223,7 +223,6 @@ class ProfileController extends \lithium\action\Controller
 
         $apontadorExtras = new ApontadorExtras();
         $playerProfile = $apontadorExtras->getPlayerProfile($userId);
-        var_dump($playerProfile);
 
         $title = 'Conquistas de ' . $user->getName();
         return compact('title', 'playerProfile', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
