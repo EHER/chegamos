@@ -589,5 +589,23 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 	}
+    
+	public function buy($placeId = null) {
+
+		if (empty($placeId)) {
+			$this->redirect('/');
+		}
+
+		OauthController::verifyLogged('apontador');
+        
+        $userName = Session::read('apontadorName');
+        
+		$place = $this->api->getPlace(array('placeid' => $placeId));
+
+        extract(OauthController::whereAmI());
+
+		$title = $place->getName() . ' - Quero Destaque';
+		return compact('userName','title', 'geocode', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+	}
 
 }

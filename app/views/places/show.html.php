@@ -75,19 +75,22 @@
 		<li>
 <?php
 echo $this->html->link(
-	"Ver no Apontador",
-	$place->getMainUrl(),
-	array("target" => "_blank", "rel" => "external")
-); ?>
-		</li>
-		<li>
-<?php
-echo $this->html->link(
 	"Como chegar",
 	$place->getRouteUrl($geocode, $lat, $lng),
 	array("target" => "_blank", "rel" => "external")
 );
 ?>
+		</li>
+		<li>
+			<?php echo $this->html->link("Sou o dono", "/places/buy/" . $place->getId(), array('rel' => 'external')); ?>
+		</li>
+		<li>
+<?php
+echo $this->html->link(
+	"Ver no Apontador",
+	$place->getMainUrl(),
+	array("target" => "_blank", "rel" => "external")
+); ?>
 		</li>
 	</ul>
 </div>
