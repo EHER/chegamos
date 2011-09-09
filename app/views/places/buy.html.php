@@ -1,4 +1,10 @@
 <?php use app\controllers\OauthController;?>
+
+<h2 style="margin:0;">
+    <?php echo $this->html->link($place->getName(), $place->getPlaceUrl(), array('rel'=>'nofollow', 'class'=>'fn org url')); ?>
+</h2>
+
+
 <p>Quer uma forma de divulgar a sua empresa na internet e atrair mais clientes para o seu negócio?<br/>
     Preencha o formulário com seus dados de contato e um consultor entrará em contato.</p>
 <form action="https://www.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="post" id="fale_conosco" name="fale_conosco">
