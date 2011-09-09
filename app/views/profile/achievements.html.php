@@ -22,6 +22,7 @@
 				<?php } ?>
 				<p style="white-space: normal; margin-top:0px;" class="ui-li-desc" style="white-space:normal;">
                     <h3><?php echo $badge->getName(); ?></h3>
+                    <?php echo $badge->getMessage(); ?>
 				</p>
 			</li>
 		<?php } ?>

@@ -5,6 +5,7 @@ namespace app\models;
 class Reward
 {
 
+    private $id;
     private $name;
     private $image;
     private $message;
@@ -19,6 +20,9 @@ class Reward
 
     public function populate($data)
     {
+        if (isset($data->id)) {
+            $this->setId($data->id);
+        }
         if (isset($data->name)) {
             $this->setName($data->name);
         }
@@ -33,6 +37,15 @@ class Reward
         }
     }
 
+    public function getId()     {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
     public function getName()
     {
         return $this->name;
