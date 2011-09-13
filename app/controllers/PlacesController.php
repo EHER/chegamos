@@ -45,8 +45,8 @@ class PlacesController extends \lithium\action\Controller {
 		$suggestions = null;
 		$placeList = array();
 
-		if (isset($_GET['name'])) {
-			$searchName = $_GET['name'];
+		if (isset($_GET['q'])) {
+			$searchName = $_GET['q'];
 
 			if (!empty($placeId)) {
 				$place = $this->api->getPlace(array('placeid' => $placeId));
