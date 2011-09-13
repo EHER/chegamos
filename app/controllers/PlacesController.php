@@ -15,6 +15,7 @@ use app\models\oauth;
 use app\models\OpenGraph;
 use app\models\ABMeta;
 use lithium\storage\Session;
+use lithium\storage\Cache;
 
 class PlacesController extends \lithium\action\Controller {
 
@@ -439,7 +440,13 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/');
 		}
 
-		$place = $this->api->getPlace(array('placeid' => $placeId));
+        $place = unserialize(Cache::read('default', $placeId));
+        if(empty($place)) {
+    		$place = $this->api->getPlace(array('placeid' => $placeId));
+            if(!empty($place)) {
+                Cache::write("default", $placeId, serialize($place),"+1 day");
+            }
+        }
 
 		if ($place instanceof Place) {
 

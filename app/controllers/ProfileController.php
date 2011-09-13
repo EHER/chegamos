@@ -6,8 +6,9 @@ use app\models\ApontadorApi;
 use app\models\Address;
 use app\models\City;
 use app\models\oauth;
-use lithium\storage\Session;
 use app\models\ApontadorExtras;
+use lithium\storage\Session;
+use lithium\storage\Cache;
 
 class ProfileController extends \lithium\action\Controller
 {
@@ -134,7 +135,13 @@ class ProfileController extends \lithium\action\Controller
             $userId = Session::read('apontadorId');
         }
 
-        $user = $this->api->getUser(array('userid' => $userId));
+        $user = unserialize(Cache::read('default', $userId));
+        if(empty($user)) {
+            $user = $this->api->getUser(array('userid' => $userId));
+            if(!empty($user)) {
+                Cache::write("default", $userId, serialize($user),"+1 day");
+            }
+        }
 
         \extract(OauthController::whereAmI());
 

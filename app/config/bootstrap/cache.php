@@ -13,7 +13,8 @@
 use lithium\storage\Cache;
 use lithium\core\Libraries;
 use lithium\action\Dispatcher;
-use lithium\storage\cache\adapter\Apc;
+use lithium\storage\cache\adapter\Memcache;
+use lithium\storage\cache\adapter\File;
 
 if (PHP_SAPI === 'cli') {
 	return;
@@ -22,15 +23,24 @@ if (PHP_SAPI === 'cli') {
 /**
  * If APC is not available and the cache directory is not writeable, bail out.
  */
-if (!($apcEnabled = Apc::enabled()) && !is_writable(LITHIUM_APP_PATH . '/resources/tmp/cache')) {
+if (!($memcacheEnabled = Memcache::enabled()) && !is_writable(LITHIUM_APP_PATH . '/resources/tmp/cache')) {
 	return;
 }
 
-Cache::config(array(
-	'default' => array(
-		'adapter' => 'lithium\storage\cache\adapter\\' . ($apcEnabled ? 'Apc' : 'File')
-	)
-));
+
+if($memcacheEnabled) {
+    Cache::config(array(
+        'default' => array(
+            'adapter' => 'Memcache',
+            'host' => '127.0.0.1:11211'
+        )
+    ));
+} else {
+    Cache::config(array(
+        'default' => array('adapter' => 'File')
+    ));
+}
+
 
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	if ($cache = Cache::read('default', 'core.libraries')) {
