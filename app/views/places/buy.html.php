@@ -36,6 +36,7 @@
     		<input type="hidden" value="Web (web to lead)" name="lead_source">
     		<input type="hidden" value="012C0000000GCdR" name="recordType">
     		<input type="hidden" value="<?php echo $place->getPlaceUrl(); ?>" name="retURL">
+    		<input type="hidden" value="<?php echo $place->getPlaceUrl(); ?>" name="URL">
 			
 		</fieldset>
 	</form>
