@@ -5,3 +5,4 @@ app/config/config.php
 .settings/
 *.swp
 *~
+/nbproject/private/
