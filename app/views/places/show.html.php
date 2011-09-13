@@ -25,7 +25,7 @@
 			</div>
 			<p>Categoria: <span class="category"><?php echo $place->getCategory(); ?></span></p>
 		</div>
-		<img src="<?php echo $place->getMapUrl() ?>" class="logo photo"/>
+		<img src="<?php echo $place->getMapUrl() ?>" width="150" height="150" class="logo photo"/>
 
 		<p class="summary"><?php echo $place->getDescription(); ?></p>
 
