@@ -10,8 +10,10 @@
 <html>
 <head>
 	<?php echo $this->html->charset();?>
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
-	<title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
+    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
+    <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 	<meta property="og:site_name" content="chegamos"/>
@@ -28,8 +30,6 @@
 		</div>
 		<div data-role="footer">&nbsp</div>
 	</div>
-	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
 	<script src="<?php echo ROOT_URL ?>js/jquery.cookie.js"></script>
 	<script src="<?php echo ROOT_URL ?>js/chegamos.js"></script>
 </body>
