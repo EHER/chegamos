@@ -1,3 +1,4 @@
+var rootUrl = $("#rootUrl").val();
 var updateOnTimeout = function() {
     var timeout = 1000 * 60 * 10;
     var lastUpdate = $.cookie('lastLocationUpdate');
@@ -19,7 +20,7 @@ var intervalo = window.setInterval(function() {
 }, 10000);
 
 var updateLocation = function(lat, lng) {
-    $.get('<?php echo ROOT_URL ?>profile/location', {
+    $.get(rootUrl + 'profile/location', {
         'lat': lat, 
         'lng': lng, 
         'type' : 'json'
@@ -51,10 +52,6 @@ getUserLocation = function() {
         );
 }
 
-$.mobile.page.prototype.options.backBtnText = "Voltar";
-
-$('#q').click();
-
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-19798490-1']);
 _gaq.push(['_setDomainName', 'none']);
@@ -69,3 +66,10 @@ _gaq.push(['_trackPageview']);
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(ga, s);
 })();
+
+$.extend($.mobile, {
+    loadingMessage: "Carregando..."
+});
+$.mobile.page.prototype.options.backBtnText = "Voltar";
+$("#q").focus();
+

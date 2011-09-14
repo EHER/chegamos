@@ -10,12 +10,12 @@
 <html xmlns:og="http://ogp.me/ns#"<?php echo empty($abmType) ? '' : ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';?>>
 <head<?php echo empty($abmType) ? '' : ' typeof="'.$abmType.':'.ucwords($abmType).'"';?>>
 	<?php echo $this->html->charset();?>
+    <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
     <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
-    <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
 	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 	<meta property="og:site_name" content="chegamos"/>
@@ -56,6 +56,7 @@
 				</a>
 		</div>
 	</div>
+    <input type="hidden" id="rootUrl" value="<?php echo ROOT_URL;?>"/>
 	<script src="<?php echo ROOT_URL ?>js/jquery.cookie.js"></script>
 	<script src="<?php echo ROOT_URL ?>js/chegamos.js"></script>
 </body>
