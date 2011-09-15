@@ -12,6 +12,11 @@ ini_set('display_errors', '1');
 date_default_timezone_set("America/Sao_Paulo");
 
 /**
+ * Define charset padrão (recomendado: utf-8) 
+ */
+ini_set("default_charset", "utf-8");
+
+/**
  * Para usar a api do apontador basta fazer o cadastro no link
  * http://www.apontador.com.br/accounts/app/create.html
  * Você pode consultar esses dados a qualquer momento no seu perfil do Apontador
