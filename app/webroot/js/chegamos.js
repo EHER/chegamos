@@ -68,7 +68,7 @@ _gaq.push(['_trackPageview']);
 })();
 
 $.extend($.mobile, {
-    loadingMessage: "Carregando..."
+    loadingMessage: "Carregando"
 });
 $.mobile.page.prototype.options.backBtnText = "Voltar";
 $("#q").focus();
