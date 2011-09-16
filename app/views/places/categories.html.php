@@ -2,7 +2,7 @@
 
 <?php //<li><input placeholder="Filter results..." data-type="search" class="ui-input-text ui-body-c"></li> ?>
 
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 	<li data-role="list-divider">Categorias</li>
 <?php if ($categories instanceof CategoryList && $categories->getNumFound() > 0) { ?>
 

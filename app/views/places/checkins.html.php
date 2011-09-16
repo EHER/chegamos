@@ -13,14 +13,14 @@
 	<?php if(!empty($place->getPhone()->number)) echo $place->getPhone()->number; ?>
 </p>
 
-<ul data-role="listview" role="listbox" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" role="listbox" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 	<li data-role="list-divider">
 		Quem esteve aqui
 		<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $visitors instanceof VisitorList ? $visitors->getNumFound() : '' ?></span>
 	</li>
 <?php if ($visitors instanceof VisitorList && $visitors->getNumFound() > 0) { ?>
 	<?php foreach ($visitors->getItems() as $visitor) { ?>
-		<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">
+		<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="<?php echo THEME_LIST; ?>">
 			<a href="<?php echo $visitor->getProfileUrl(); ?>" class="ui-link-inherit">
 				<img width="64" height="64" src="<?php echo ($visitor->getPhotoMediumUrl() ? $visitor->getPhotoMediumUrl() : 'http://www.apontador.com.br/apontador_v8/images/accounts/user64.gif'); ?>">
 				<h3 class="ui-li-heading"><?php echo $visitor->getName(); ?></h3>
@@ -30,6 +30,6 @@
 		</li>
 	<?php } ?>
 <?php } else { ?>
-	<li>Ninguém registrou a presença neste local.</li>
+        <li>Ninguém registrou a presença neste local.</li>
 <?php } ?>
 </ul>

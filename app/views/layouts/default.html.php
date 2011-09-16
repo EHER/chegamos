@@ -23,8 +23,8 @@
 	<meta name="google-site-verification" content="nSgmfqNOpud7XKqEtIzxAmHppP-oDqE3PGKwLLOeGss" />
 </head>
 <body>
-	<div data-role="page" data-theme="b" id="jqm-home">
-		<div data-role="header" data-theme="b"> 
+	<div data-role="page" data-theme="<?php echo THEME_MAIN; ?>" id="jqm-home">
+		<div data-role="header" data-theme="<?php echo THEME_MAIN; ?>"> 
 			<h1>
 				<?php echo $this->html->link('Chegamos!', '/', array("rel" => "external", 'data-role' => "button", "data-icon" => "home")); ?>
 			</h1>
@@ -38,7 +38,7 @@
 		<div data-role="content">
 			<?php echo $this->content(); ?>
 		</div>
-		<div data-role="footer" data-theme="b" style="text-align:center" data-position="fixed">
+		<div data-role="footer" data-theme="<?php echo THEME_MAIN; ?>" style="text-align:center" data-position="fixed">
 				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
 					<?php if (!empty($zipcode)): ?>
 						CEP: <?php echo $zipcode; ?>

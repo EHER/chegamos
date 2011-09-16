@@ -25,7 +25,7 @@
 		<?php } ?>
 	</ul>
 <?php } else { ?>
-	<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+	<ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 		<li data-role="list-divider">Buscar local por nome</li>
 	</ul>
 	<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">

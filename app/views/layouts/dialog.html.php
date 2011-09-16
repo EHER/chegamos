@@ -23,7 +23,7 @@
 	<meta name="google-site-verification" content="nSgmfqNOpud7XKqEtIzxAmHppP-oDqE3PGKwLLOeGss" />
 </head>
 <body>
-	<div data-role="page" data-theme="b" id="jqm-home">
+	<div data-role="page" data-theme="<?php echo THEME_MAIN; ?>" id="jqm-home">
 		<div data-role="header">
 			<h1><?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?></h1>
 		</div>

@@ -16,6 +16,6 @@
 			<li><a href="<?php echo ROOT_URL;?>profile/following/<?php echo $following->getUserId(); ?>/page<?php echo $following->getCurrentPage() + 1; ?>" rel="external">Mais</a></li>
 		<?php } ?>
 	<?php } else { ?>
-		<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="c">Ninguém.</li>
+		<li tabindex="0" class="ui-li-has-thumb ui-li ui-btn ui-btn-up-c" data-theme="<?php echo THEME_LIST; ?>">Ninguém.</li>
 	<?php } ?>
 </ul>
