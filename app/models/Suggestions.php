@@ -14,7 +14,7 @@ class Suggestions {
 		$suggestions = "";
 		if(is_array($this->getSuggestions())) {
 			foreach($this->getSuggestions() as $suggestion) {
-				$suggestions .= '<a href="' . ROOT_URL . 'places/search?name=' . $suggestion . '" rel="external">' . $suggestion . '</a> ';
+				$suggestions .= '<a href="' . ROOT_URL . 'places/search?q=' . $suggestion . '" rel="external">' . $suggestion . '</a> ';
 			}
 		}
 		return $suggestions;
