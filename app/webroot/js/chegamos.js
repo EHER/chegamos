@@ -73,3 +73,17 @@ $.extend($.mobile, {
 $.mobile.page.prototype.options.backBtnText = "Voltar";
 $("#q").focus();
 
+$('#autoDetectContainer').show();
+
+$('.autoDetect').change(function() {
+    if ($("input[name='autoDetect']:checked").val() == 'off') {
+        $.cookie('disableAutoDetect', true, {
+            'path' : '/'
+        });
+    } else {
+        $.cookie('disableAutoDetect', null, {
+            'path' : '/'
+        });
+        getUserLocation();
+    }
+});

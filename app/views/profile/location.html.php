@@ -22,16 +22,3 @@
 <form method="GET" action="<?php echo ROOT_URL;?>">
 	<button type="submit">Salvar Configurações</button>
 </form>
-
-<script type="text/javascript">
-$('#autoDetectContainer').show();
-
-$('.autoDetect').change(function() {
-	if ($("input[name='autoDetect']:checked").val() == 'off') {
-		$.cookie('disableAutoDetect', true, {'path' : '/'});
-	} else {
-		$.cookie('disableAutoDetect', null, {'path' : '/'});
-		getUserLocation();
-	}
-});
-</script>
