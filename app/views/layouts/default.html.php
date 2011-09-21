@@ -11,18 +11,17 @@
 <head<?php echo empty($abmType) ? '' : ' typeof="'.$abmType.':'.ucwords($abmType).'"';?>>
 	<?php echo $this->html->charset();?>
     <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="<?php echo STATIC_URL ?>favicon.ico"/>
 <?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
-    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
+    <link rel="stylesheet" href="<?php echo STATIC_URL ?>min/?g=css"/>
+    <script src="<?php echo STATIC_URL ?>min/?g=js"></script>
 <?php } ?>
-	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 	<meta property="og:site_name" content="chegamos"/>
-<?php echo (isset($meta)) ? $meta : '' ?>
 	<meta name="google-site-verification" content="nSgmfqNOpud7XKqEtIzxAmHppP-oDqE3PGKwLLOeGss" />
+<?php echo (isset($meta)) ? $meta : '' ?>
 </head>
 <body>
 	<div data-role="page" data-theme="b" id="jqm-home">
@@ -58,10 +57,6 @@
 				</a>
 		</div>
 	</div>
-<?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	
     <input type="hidden" id="rootUrl" value="<?php echo ROOT_URL;?>"/>
-	<script src="<?php echo ROOT_URL ?>js/jquery.cookie.js"></script>
-	<script src="<?php echo ROOT_URL ?>js/chegamos.js"></script>
-<?php } ?>
 </body>
 </html>

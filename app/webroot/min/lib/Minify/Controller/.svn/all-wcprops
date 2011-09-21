@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller
+END
+Base.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller/Base.php
+END
+Page.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller/Page.php
+END
+Groups.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller/Groups.php
+END
+Files.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller/Files.php
+END
+MinApp.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller/MinApp.php
+END
+Version1.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/443/trunk/min/lib/Minify/Controller/Version1.php
+END
