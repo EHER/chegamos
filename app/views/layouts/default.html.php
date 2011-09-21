@@ -14,7 +14,7 @@
 	<link rel="shortcut icon" href="<?php echo STATIC_URL ?>favicon.ico"/>
 <?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	
     <link rel="stylesheet" href="<?php echo STATIC_URL ?>min/?g=css"/>
-    <script src="<?php echo STATIC_URL ?>min/?g=js"></script>
+    <script src="<?php echo STATIC_URL ?>min/?g=js_head"></script>
 <?php } ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -58,5 +58,8 @@
 		</div>
 	</div>
     <input type="hidden" id="rootUrl" value="<?php echo ROOT_URL;?>"/>
+<?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	    
+    <script src="<?php echo STATIC_URL ?>min/?g=js_body"></script>
+<?php } ?>
 </body>
 </html>
