@@ -27,7 +27,7 @@
 	<div data-role="page" data-theme="b" id="jqm-home">
 		<div data-role="header" data-theme="b">
 			<h1>
-                <?php echo $this->html->link('Chegamos!', '/', array("rel" => "nofollow")); ?>
+                <?php echo $this->html->link('Chegamos!', '/', array("data-role" => "button", "data-icon" => "home")); ?>
             </h1>
 		</div>
 		<div data-role="content">
