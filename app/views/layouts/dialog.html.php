@@ -12,8 +12,10 @@
 	<?php echo $this->html->charset();?>
     <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
 	<link rel="shortcut icon" href="<?php echo STATIC_URL ?>favicon.ico"/>
+<?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	
     <link rel="stylesheet" href="<?php echo STATIC_URL ?>min/?g=css"/>
-    <script src="<?php echo STATIC_URL ?>min/?g=js"></script>
+    <script src="<?php echo STATIC_URL ?>min/?g=js_head"></script>
+<?php } ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
@@ -31,8 +33,11 @@
 		<div data-role="content">
 			<?php echo $this->content(); ?>
 		</div>
-		<div data-role="footer">&nbsp</div>
+		<div data-role="footer">&nbsp;</div>
 	</div>
     <input type="hidden" id="rootUrl" value="<?php echo ROOT_URL;?>"/>
+<?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	    
+    <script src="<?php echo STATIC_URL ?>min/?g=js_body"></script>
+<?php } ?>
 </body>
 </html>

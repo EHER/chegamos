@@ -26,6 +26,7 @@ ini_set("default_charset", "utf-8");
  */
 define('ROOT_URL', 'http://localhost/chegamos/');
 define('STATIC_URL', 'http://localhost/chegamos/');
+define('LIGHT_VERSION', false);
 define('APONTADOR_URL', 'api.apontador.com.br/v1/');
 define('APONTADOR_PORT', 80);
 define('APONTADOR_CONSUMER_KEY', '');
