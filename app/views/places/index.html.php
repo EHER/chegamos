@@ -8,8 +8,6 @@
 	<li data-role="list-divider">Pessoas</li>
 	<li><?php echo $this->html->link('Meu Perfil', "/profile/show", array("rel"=>"external")); ?></li>
 	<li><?php echo $this->html->link('Pessoas por perto', "/profile/near"); ?></li>
-	<li><?php echo $this->html->link('Amigos', "/profile/following", array("rel"=>"external")); ?></li>
-	<li><?php echo $this->html->link('Seguidores', "/profile/followers", array("rel"=>"external")); ?></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
 	<li data-role="list-divider">Informações</li>
