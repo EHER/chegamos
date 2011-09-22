@@ -138,7 +138,7 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/places/checkin');
 		}
 
-		$title = "Locais Próximos";
+		$title = "Locais por perto";
 		return compact('title', 'page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
