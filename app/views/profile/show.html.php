@@ -35,9 +35,11 @@
 	<li>
 		<?php echo $this->html->link("Locais Cadastrados (" . $user->getStats()->getPlaces() . ")", "/profile/places/" . $user->getId()); ?>
 	</li>
+<?php /* Não disponível na API Apontador :(
 	<li>
 		<?php echo $this->html->link("Fotos (" . $user->getStats()->getPhotos() . ")", "/profile/photos/" .$user->getId(), array("rel" => "nofollow")); ?>
 	</li>
+*/?>	
 	<li>
 		<?php echo $this->html->link("Ver no Apontador", 'http://www.apontador.com.br/profile/'.$user->getId().'.html', array("rel" => "external", "target" => "_blank")); ?>
 	</li>
