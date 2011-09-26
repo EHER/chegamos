@@ -31,6 +31,17 @@ class Location {
 
 	public function load() {
 		$this->populate(unserialize(Session::read('location')));
+		$lat = $this->point->getLat();
+		$lng = $this->point->getLng();
+		if(empty($lat) || empty($lng)) {
+			$city = new City();
+			$city->setName("São Paulo");
+			$city->setState("SP");
+			
+			$this->point->setLat(-23.48033);
+			$this->point->setLng(-46.63459);
+			$this->address->setCity($city);
+		}
 	}
 
 	public function setPoint(Point $point) {
