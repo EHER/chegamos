@@ -14,6 +14,7 @@ use app\models\OrkutOAuth;
 use app\models\oauth;
 use app\models\OpenGraph;
 use app\models\ABMeta;
+use app\models\Location;
 use lithium\storage\Session;
 use lithium\storage\Cache;
 
@@ -27,59 +28,33 @@ class PlacesController extends \lithium\action\Controller {
 	}
 
 	public function index() {
-		extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
-		if (empty($placeId) && empty($placeName) && empty($zipcode) && empty($cityState) && (empty($lat) or empty($lng))) {
-			$checkinData = array('cityState' => 'São Paulo, SP', 'lat' => '-23.48033', 'lng' => '-46.63459');
-			ProfileController::updateLocation($checkinData);
-			return $checkinData;
-		}
 		$title = "";
-		return \array_merge(compact('title'), OauthController::whereAmI());
+		return compact('title', 'location');
 	}
 
 	public function search() {
-		extract(OauthController::whereAmI());
 
 		$searchName = '';
 		$suggestions = null;
 		$placeList = array();
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
 
 		if (isset($_GET['q'])) {
 			$searchName = $_GET['q'];
 
-			if (!empty($placeId)) {
-				$place = $this->api->getPlace(array('placeid' => $placeId));
-				$lat = $place->getPoint()->getLat();
-				$lng = $place->getPoint()->getLng();
+			if (!empty($lat) and !empty($lng)) {
 				$placeList = $this->api->searchByPoint(array(
 							'term' => $searchName,
 							'radius_mt' => 10000,
 							'lat' => $lat,
 							'lng' => $lng
-						));
-			} elseif (!empty($zipcode)) {
-				$placeList = $this->api->searchByZipcode(array(
-							'term' => $searchName,
-							'radius_mt' => 10000,
-							'zipcode' => $zipcode
-						));
-			} elseif (!empty($cityState) and strstr($cityState, ',')) {
-				list($city, $state) = \explode(',', $cityState);
-				$placeList = $this->api->searchByAddress(array(
-							'term' => $searchName,
-							'radius_mt' => 10000,
-							'city' => trim($city),
-							'state' => trim($state),
-							'country' => 'BR'
-						));
-			} elseif (!empty($lat) and !empty($lng)) {
-				$placeList = $this->api->searchByPoint(array(
-							'term' => $searchName,
-							'radius_mt' => 10000,
-							'lat' => $lat,
-							'lng' => $lng
-						));
+				));
 			} else {
 				$this->redirect('/places/checkin');
 			}
@@ -88,96 +63,62 @@ class PlacesController extends \lithium\action\Controller {
 		if ($placeList->getNumFound() == 0) {
 			$placeList = $this->api->search(array(
 						'term' => $searchName,
-					));
+			));
 		}
 		$suggestions = $this->api->getSuggestions(array('q' => $searchName));
 
-		$title = "Locais por nome";
+		$title = "Busca de Locais";
 		$title = empty($searchName) ? $title : $title . ": " . $searchName;
 
-		return compact('title', 'suggestions', 'geocode', 'placeList', 'searchName', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'searchName', 'suggestions', 'placeList');
 	}
 
 	public function near($page = 'page1') {
-		extract(OauthController::whereAmI());
 
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
 		$page = str_replace('page', '', $page);
 
-		if (!empty($placeId)) {
-			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->getPoint()->getLat();
-			$lng = $place->getPoint()->getLng();
+		if (!empty($lat) and !empty($lng)) {
 			$placeList = $this->api->searchByPoint(array(
 						'lat' => $lat,
 						'lng' => $lng,
 						'sort_by' => 'distance',
 						'page' => $page
-							));
-		} elseif (!empty($zipcode)) {
-			$placeList = $this->api->searchByZipcode(array(
-						'zipcode' => $zipcode,
-						'sort_by' => 'distance',
-						'page' => $page
-							));
-		} elseif (!empty($cityState) and strstr($cityState, ',')) {
-			list($city, $state) = \explode(',', $cityState);
-			$placeList = $this->api->searchRecursive(array(
-						'city' => trim($city),
-						'state' => trim($state),
-						'country' => 'BR',
-						'page' => $page
-							), 'searchByAddress');
-		} elseif (!empty($lat) and !empty($lng)) {
-			$placeList = $this->api->searchByPoint(array(
-						'lat' => $lat,
-						'lng' => $lng,
-						'sort_by' => 'distance',
-						'page' => $page
-							));
+			));
 		} else {
 			$this->redirect('/places/checkin');
 		}
 
 		$title = "Locais por perto";
-		return compact('title', 'page', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'placeList', 'page');
 	}
 
 	public function gasstations() {
-		extract(OauthController::whereAmI());
 
-		if (!empty($placeId)) {
-			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->getPoint()->getLat();
-			$lng = $place->getPoint()->getLng();
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
+
+		if (!empty($lat) and !empty($lng)) {
 			$placeList = $this->api->searchGasStations(array(
 						'lat' => $lat,
 						'lng' => $lng
-							), 'searchByPoint');
-		} elseif (!empty($zipcode)) {
-			$placeList = $this->api->searchGasStations(array(
-						'zipcode' => $zipcode
-							), 'searchByZipcode');
-		} elseif (!empty($cityState) and strstr($cityState, ',')) {
-			list($city, $state) = \explode(',', $cityState);
-			$placeList = $this->api->searchGasStations(array(
-						'city' => trim($city),
-						'state' => trim($state),
-						'country' => 'BR'
-							), 'searchByAddress');
-		} elseif (!empty($lat) and !empty($lng)) {
-			$placeList = $this->api->searchGasStations(array(
-						'lat' => $lat,
-						'lng' => $lng
-							), 'searchByPoint');
+			), 'searchByPoint');
 		} else {
 			$this->redirect('/places/checkin');
 		}
 
-		return compact('title', 'geocode', 'placeList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'placeList');
 	}
 
 	public function categories($all = null) {
-		extract(OauthController::whereAmI());
+
+		$location = new Location();
+		$location->load();
 
 		if (!empty($all)) {
 			$categories = $this->api->getCategories();
@@ -187,12 +128,15 @@ class PlacesController extends \lithium\action\Controller {
 			$title = "Principais categorias";
 		}
 
-		return compact('title', 'all', 'geocode', 'categories', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'all', 'location', 'categories');
 	}
 
 	public function category($categoryId, $page='page1') {
-		extract(OauthController::whereAmI());
 
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
 		$page = str_replace('page', '', $page);
 
 		if (empty($categoryId)) {
@@ -203,47 +147,20 @@ class PlacesController extends \lithium\action\Controller {
 
 		$categoryName = $category->category->name;
 
-		if (!empty($placeId)) {
-			$place = $this->api->getPlace(array('placeid' => $placeId));
-			$lat = $place->getPoint()->getLat();
-			$lng = $place->getPoint()->getLng();
+		if (!empty($lat) and !empty($lng)) {
 			$placeList = $this->api->searchRecursive(array(
 						'category_id' => $categoryId,
 						'lat' => $lat,
 						'lng' => $lng,
 						'page' => $page
-							), 'searchByPoint');
-		} elseif (!empty($zipcode)) {
-			$placeList = $this->api->searchRecursive(array(
-						'category_id' => $categoryId,
-						'zipcode' => $zipcode,
-						'page' => $page
-							), 'searchByZipcode');
-		} elseif (!empty($cityState) and strstr($cityState, ',')) {
-			list($city, $state) = \explode(',', $cityState);
-			$placeList = $this->api->searchRecursive(array(
-						'category_id' => $categoryId,
-						'city' => trim($city),
-						'state' => trim($state),
-						'country' => 'BR',
-						'page' => $page
-							), 'searchByAddress');
-		} elseif (!empty($lat) and !empty($lng)) {
-			$placeList = $this->api->searchRecursive(array(
-						'category_id' => $categoryId,
-						'lat' => $lat,
-						'lng' => $lng,
-						'page' => $page
-							), 'searchByPoint');
+			), 'searchByPoint');
 		} else {
 			$this->redirect('/places/checkin');
 		}
 
-		extract(OauthController::whereAmI());
-
 		$title = $categoryName;
 
-		return compact('title', 'page', 'categoryId', 'geocode', 'placeList', 'categoryName', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title','location', 'page', 'categoryId', 'categoryName', 'placeList');
 	}
 
 	public function checkin($placeId = null) {
@@ -258,13 +175,10 @@ class PlacesController extends \lithium\action\Controller {
 		$status = "Eu estou em " . $place->getName() . ". " . $url . " #checkin via @sitechegamos";
 
 		if (!empty($_POST) && $place instanceof Place) {
-			$checkinData = array(
-				'placeId' => $place->getId(),
-				'placeName' => $place->getName(),
-				'term' => $place->getName(),
-				'lat' => $place->getPoint()->getLat(),
-				'lng' => $place->getPoint()->getLng(),
-			);
+			$location = new Location();
+			$location->setPoint($place->getPoint());
+			$location->setAddress($place->getAddress());
+			$location->save();
 
 			$checkinData['url'] = isset($_POST['url']) ? $_POST['url'] : $url;
 			$checkinData['status'] = isset($_POST['status']) ? str_replace("\n", " ", $_POST['status']) : $status;
@@ -301,10 +215,11 @@ class PlacesController extends \lithium\action\Controller {
 			OauthController::verifyLogged('apontador');
 		}
 
-		extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$title = 'Check-in em ' . $placeName;
-		return compact('title', 'providers', 'status', 'geocode', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title', 'providers', 'status', 'location');
 	}
 
 	private function doCheckin(Array $checkinData = array()) {
@@ -355,7 +270,7 @@ class PlacesController extends \lithium\action\Controller {
 					'appId' => \FACEBOOK_AP_ID,
 					'secret' => \FACEBOOK_SECRET,
 					'cookie' => true,
-				));
+		));
 
 		$session = array(
 			'access_token' => Session::read('facebookToken'),
@@ -389,10 +304,10 @@ class PlacesController extends \lithium\action\Controller {
 		$api = new OrkutOAuth(ORKUT_CONSUMER_KEY, ORKUT_CONSUMER_SECRET, Session::read('orkutToken'), Session::read('orkutTokenSecret'));
 
 		$checkResult = $api->post("http://www.orkut.com/social/rest/activities/@me/@self", array('body' => $checkinData['status'], 'title' => $checkinData['placeName']));
-//		$checkResult = $api->get("https://www.googleapis.com/latitude/v1/currentLocation", array('key' => GOOGLE_APIS_KEY, 'latitude' => $checkinData['lat'], 'longitude' => $checkinData['lng']));
-//		$checkResult = $api->post("https://www.googleapis.com/latitude/v1/currentLocation?key=" . GOOGLE_APIS_KEY . '&latitude=' . $checkinData['lat'] . '&longitude=' . $checkinData['lng']);
-//		var_dump($checkResult);
-//		exit;
+		//		$checkResult = $api->get("https://www.googleapis.com/latitude/v1/currentLocation", array('key' => GOOGLE_APIS_KEY, 'latitude' => $checkinData['lat'], 'longitude' => $checkinData['lng']));
+		//		$checkResult = $api->post("https://www.googleapis.com/latitude/v1/currentLocation?key=" . GOOGLE_APIS_KEY . '&latitude=' . $checkinData['lat'] . '&longitude=' . $checkinData['lng']);
+		//		var_dump($checkResult);
+		//		exit;
 	}
 
 	private function doFoursquareCheckin($checkinData = '') {
@@ -440,20 +355,21 @@ class PlacesController extends \lithium\action\Controller {
 			$this->redirect('/');
 		}
 
-        $place = unserialize(Cache::read('default', $placeId));
-        if(empty($place)) {
-    		$place = $this->api->getPlace(array('placeid' => $placeId));
-            if(!empty($place)) {
-                Cache::write("default", $placeId, serialize($place),"+1 day");
-            }
-        }
+		$place = unserialize(Cache::read('default', $placeId));
+		if(empty($place)) {
+			$place = $this->api->getPlace(array('placeid' => $placeId));
+			if(!empty($place)) {
+				Cache::write("default", $placeId, serialize($place),"+1 day");
+			}
+		}
 
 		if ($place instanceof Place) {
 
 			$thePlaceId = $placeId;
 
-			extract(OauthController::whereAmI());
-
+			$location = new Location();
+			$location->load();
+				
 			$placeId = $thePlaceId;
 
 			$visitors = $this->api->getVisitors(array('placeid' => $placeId));
@@ -471,14 +387,14 @@ class PlacesController extends \lithium\action\Controller {
 			$abm->populate($place);
 
 			$meta = implode('', array(
-					$og->getMeta(),
-					$abm->getMeta(),
+			$og->getMeta(),
+			$abm->getMeta(),
 					"\t<link rel=\"canonical\" href=\"".$place->getPlaceUrl()."\" />\n",
-					));
+			));
 			$abmType = $abm->get('type');
 
 			$title = $place->getName();
-			return compact('meta', 'title', 'abmType', 'numVisitors', 'geocode', 'showCheckin', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+			return compact('meta', 'title', 'location', 'abmType', 'numVisitors', 'showCheckin', 'place');
 		} else {
 			$this->redirect('/');
 		}
@@ -493,14 +409,15 @@ class PlacesController extends \lithium\action\Controller {
 
 		$thePlaceId = $placeId;
 
-		extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$placeId = $thePlaceId;
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
 		$title = $place->getName() . ' - Quem esteve aqui';
-		return compact('title', 'placeId', 'geocode', 'visitors', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title', 'location', 'visitors', 'place');
 	}
 
 	public function photos($placeId = null, $photoId = 0) {
@@ -512,14 +429,15 @@ class PlacesController extends \lithium\action\Controller {
 
 		$thePlaceId = $placeId;
 
-		extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$placeId = $thePlaceId;
 
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
 		$title = $place->getName() . ' - Foto ' . ($photoId + 1);
-		return compact('title', 'photoId', 'geocode', 'placeId', 'photos', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title', 'location', 'photoId', 'photos', 'place');
 	}
 
 	public function review($placeId = null, $reviewId = null) {
@@ -542,12 +460,13 @@ class PlacesController extends \lithium\action\Controller {
 		$reviews = $this->api->getReviews(array(
 					'place_id' => $placeId,
 					'limit' => 100,
-				));
+		));
 
 
 		$thePlaceId = $placeId;
 
-		extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$placeId = $thePlaceId;
 
@@ -562,14 +481,14 @@ class PlacesController extends \lithium\action\Controller {
 				}
 			}
 			$title = $place->getName() . ' - Avaliação de '
-					. $reviews->place->reviews[$keyReview]->review->created->user->name
-					. ' (' . $reviews->place->reviews[$keyReview]->review->id . ')';
+			. $reviews->place->reviews[$keyReview]->review->created->user->name
+			. ' (' . $reviews->place->reviews[$keyReview]->review->id . ')';
 		} else {
 
 
 			$title = $place->getName() . ' - Avaliações';
 		}
-		return compact('title', 'geocode', 'reviewId', 'reviews', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title', 'location', 'reviewId', 'reviews', 'place');
 	}
 
 	private function doReview(Array $reviewData = array()) {
@@ -585,7 +504,7 @@ class PlacesController extends \lithium\action\Controller {
 							'content' => $reviewData['content'],
 							'oauth_token' => $apontadorToken,
 							'oauth_token_secret' => $apontadorTokenSecret,
-						));
+				));
 				return $response;
 			} else {
 				Session::write('redir', ROOT_URL . 'places/review/' . $reviewData['place_id'] .
@@ -596,23 +515,20 @@ class PlacesController extends \lithium\action\Controller {
 			}
 		}
 	}
-    
+
 	public function buy($placeId = null) {
 
 		if (empty($placeId)) {
 			$this->redirect('/');
 		}
 
-		OauthController::verifyLogged('apontador');
-        
-        $userName = Session::read('apontadorName');
-        
 		$place = $this->api->getPlace(array('placeid' => $placeId));
 
-        extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$title = $place->getName() . ' - Quero Destaque';
-		return compact('userName','title', 'geocode', 'place', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
+		return compact('title', 'location', 'place');
 	}
 
 }

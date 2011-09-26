@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ApontadorApi;
+use app\models\Location;
 use lithium\storage\Session;
 
 class DealsController extends \lithium\action\Controller {
@@ -15,8 +16,12 @@ class DealsController extends \lithium\action\Controller {
 	}
 
 	public function near() {
-		extract(OauthController::whereAmI());
-
+		
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
+		
 		if (!empty($lat) and !empty($lng)) {
 			$dealsList = $this->api->searchDeals(array(
 						'lat' => $lat,
@@ -26,6 +31,6 @@ class DealsController extends \lithium\action\Controller {
 			$this->redirect('/places/checkin');
 		}
 		$title = "Ofertas por perto";
-		return compact('title', 'page', 'geocode', 'dealsList', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'page', 'dealsList');
 	}
 }

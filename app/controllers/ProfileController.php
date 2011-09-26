@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Location;
+
 use app\models\ApontadorApi;
 use app\models\Address;
 use app\models\City;
@@ -44,11 +46,14 @@ class ProfileController extends \lithium\action\Controller
 
 		$page = str_replace('page', '', $page);
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
 
 		$following = $this->api->getUserFollowing(array(
                     'userId' => $userId,
-                    'nearby' => false,
+                    'nearby' => true,
                     'lat' => $lat,
                     'lng' => $lng,
                     'page' => $page
@@ -57,7 +62,7 @@ class ProfileController extends \lithium\action\Controller
 		$user = $this->api->getUser(array('userid' => $userId));
 
 		$title = 'Quem ' . $user->getName() . ' segue';
-		return compact('title', 'following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'following');
 	}
 
 	public function followers($userId=null, $page='page1')
@@ -69,7 +74,8 @@ class ProfileController extends \lithium\action\Controller
 
 		$page = str_replace('page', '', $page);
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$following = $this->api->getUserFollowers(array(
                     'userId' => $userId,
@@ -81,7 +87,7 @@ class ProfileController extends \lithium\action\Controller
 		$user = $this->api->getUser(array('userid' => $userId));
 
 		$title = 'Quem segue ' . $user->getName();
-		return compact('title', 'following', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'following');
 	}
 
 	public function reviews($userId=null, $page='page1')
@@ -93,7 +99,8 @@ class ProfileController extends \lithium\action\Controller
 
 		$page = str_replace('page', '', $page);
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$user = $this->api->getUserReviews(array(
                     'userId' => $userId,
@@ -104,7 +111,7 @@ class ProfileController extends \lithium\action\Controller
 		));
 
 		$title = 'Avaliações de ' . $user->getName();
-		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'user');
 	}
 
 	public function visits($userId=null, $page='page1')
@@ -116,7 +123,8 @@ class ProfileController extends \lithium\action\Controller
 
 		$page = str_replace('page', '', $page);
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$visits = $this->api->getUserVisits(array(
                     'userid' => $userId,
@@ -125,7 +133,7 @@ class ProfileController extends \lithium\action\Controller
 		$user = $this->api->getUser(array('userid' => $userId));
 
 		$title = 'Últimas visitas de ' . $user->getName();
-		return compact('title', 'visits', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'visits', 'user');
 	}
 
 	public function show($userId = null)
@@ -143,79 +151,11 @@ class ProfileController extends \lithium\action\Controller
 			}
 		}
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$title = 'Perfil de ' . $user->getName();
-		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
-	}
-
-	public function location()
-	{
-		$hideWhereAmI = true;
-		if (!empty($_GET)) {
-			if (!empty($_GET['lat']) and !empty($_GET['lng'])) {
-				$checkinData = array('lat' => $_GET['lat'], 'lng' => $_GET['lng']);
-			} elseif (!empty($_GET['cep'])) {
-				$address = new Address();
-				$address->setZipcode($_GET['cep']);
-				$geocode = $this->api->geocode($address);
-				$checkinData = array('zipcode' => $_GET['cep'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
-			} elseif (!empty($_GET['cityState'])) {
-				$cityState = \explode(',', $_GET['cityState']);
-
-				$city = new City();
-				$city->setName(trim($cityState[0]));
-				$city->setState(trim($cityState[1]));
-
-				$address = new Address();
-				$address->setCity(new City($city));
-				$geocode = $this->api->geocode($address);
-
-				$checkinData = array('cityState' => $_GET['cityState'], 'lat' => $geocode->getLat(), 'lng' => $geocode->getLng());
-			} else {
-				$checkinData = array();
-			}
-
-			$this->updateLocation($checkinData);
-		}
-
-		extract(OauthController::whereAmI());
-
-		$title = 'Onde estou';
-		return compact('title', 'geocode', 'hideWhereAmI', 'checkinData', 'zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
-	}
-
-	public function updateLocation(Array $checkinData = array())
-	{
-		$checkinVars = array('zipcode', 'cityState', 'lat', 'lng', 'placeId', 'placeName');
-
-		foreach ($checkinVars as $method) {
-			Session::write($method);
-		}
-
-		foreach ($checkinData as $method => $value) {
-			Session::write($method, $value);
-		}
-
-		if (isset($_GET['type']) && $_GET['type'] == 'json') {
-			header('Cache-Control: no-cache, must-revalidate');
-			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-			header('Content-type: application/json');
-
-			if (empty($checkinData['lat']) || empty($checkinData['lng'])) {
-				echo json_encode(array('success' => false, 'error' => 'lat/lng nao informado'));
-				exit;
-			}
-
-			$geocode = $this->api->revgeocode($checkinData['lat'], $checkinData['lng']);
-			if ($geocode instanceof Address) {
-				echo json_encode(array('success' => true, 'checkinData' => $geocode->toArray()));
-			} else {
-				echo json_encode(array('success' => false, 'error' => 'Desculpe! Nao consegui fazer o checkin :('));
-			}
-			exit;
-		}
-		$this->redirect('/');
+		return compact('title', 'location', 'user');
 	}
 
 	public function achievements($userId = null)
@@ -226,19 +166,24 @@ class ProfileController extends \lithium\action\Controller
 		}
 		$user = $this->api->getUser(array('userid' => $userId));
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
 
 		$apontadorExtras = new ApontadorExtras();
 		$playerProfile = $apontadorExtras->getPlayerProfile($userId);
 
 		$title = 'Conquistas de ' . $user->getName();
-		return compact('title', 'playerProfile', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
+		return compact('title', 'location', 'playerProfile', 'user');
 	}
 
-	public function near($page = 'page1') {
+	public function near($page = 'page1')
+	{
 		$page = str_replace('page', '', $page);
 
-		\extract(OauthController::whereAmI());
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
 
 		$users = $this->api->searchUsersByPoint(array(
                     'lat' => $lat,
@@ -246,9 +191,63 @@ class ProfileController extends \lithium\action\Controller
                     'page' => $page
 		));
 
-
 		$title = 'Pessoas por perto';
-		return compact('title', 'users', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
-			
+		return compact('title', 'location', 'users');
+	}
+
+	public function location()
+	{
+		$hideWhereAmI = true;
+		$location = new Location();
+		$location->load();
+
+		if (!empty($_GET)) {
+			$location = new Location();
+			if (!empty($_GET['lat']) and !empty($_GET['lng'])) {
+				$location->getPoint()->setLat($_GET['lat']);
+				$location->getPoint()->setLng($_GET['lng']);
+				$location->save();
+			} elseif (!empty($_GET['cep'])) {
+				$address = new Address();
+				$address->setZipcode($_GET['cep']);
+				$geocode = $this->api->geocode($address);
+				if(!empty($geocode)) {
+					$location->getPoint()->setLat($geocode->getLat());
+					$location->getPoint()->setLng($geocode->getLng());
+					$revgeocode = $this->api->revgeocode($geocode->getLat(), $geocode->getLng());
+					$location->setAddress($revgeocode);
+					$location->save();
+				} else {
+					$this->redirect("profile/location");
+				}
+			} elseif (!empty($_GET['cityState'])) {
+				if(!strstr($_GET['cityState'],',')){
+					$this->redirect("profile/location");
+				}
+				$cityStateToUpper = strtoupper($_GET['cityState']);
+				list($cityField, $stateField) = \explode(',', $cityStateToUpper);
+
+				$city = new City();
+				$city->setName(trim($cityField));
+				$city->setState(trim($stateField));
+
+				$address = new Address();
+				$address->setCity(new City($city));
+				$geocode = $this->api->geocode($address);
+
+				if(!empty($geocode)) {
+					$location->getPoint()->setLat($geocode->getLat());
+					$location->getPoint()->setLng($geocode->getLng());
+					$location->getAddress()->setCity($city);
+					$location->save();
+				} else {
+					$this->redirect("profile/location");
+				}
+			}
+			$this->redirect("/");
+		}
+
+		$title = 'Onde estou';
+		return compact('title', 'geocode', 'hideWhereAmI', 'location');
 	}
 }
