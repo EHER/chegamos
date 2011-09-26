@@ -14,10 +14,11 @@ use app\models\OrkutOAuth;
 use app\models\oauth;
 use app\models\OpenGraph;
 use app\models\ABMeta;
+use \lithium\action\Controller;
 use lithium\storage\Session;
 use lithium\storage\Cache;
 
-class PlacesController extends \lithium\action\Controller {
+class PlacesController extends Controller {
 
 	public $api;
 
