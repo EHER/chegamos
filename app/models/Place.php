@@ -281,7 +281,7 @@ class Place {
 		return false;
 	}
 
-	public function getRouteUrl($userAddress, $lat, $lng) {
+	public function getRouteUrl($location) {
 		$routeUrl = "http://maps.google.com.br/m/directions";
 
 		$params = array();
@@ -290,8 +290,8 @@ class Place {
 
 		$params['daddr'] = $this->address->getRouteAddress();
 
-		if ($userAddress instanceof Address) {
-			$params['saddr'] = $userAddress->getRouteAddress();
+		if ($location->getAddress() instanceof Address) {
+			$params['saddr'] = $location->getAddress()->getRouteAddress();
 		}
 
 		return $routeUrl . '?' . http_build_query($params);

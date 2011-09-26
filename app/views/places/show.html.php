@@ -76,7 +76,7 @@
 <?php
 echo $this->html->link(
 	"Como chegar",
-	$place->getRouteUrl($geocode, $lat, $lng),
+	$place->getRouteUrl($location),
 	array("target" => "_blank", "rel" => "external")
 );
 ?>

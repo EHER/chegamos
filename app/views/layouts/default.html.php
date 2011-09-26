@@ -5,6 +5,7 @@
  * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
+use app\models\Point;
 ?>
 <!doctype html>
 <html xmlns:og="http://ogp.me/ns#"<?php echo empty($abmType) ? '' : ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';?>>
@@ -41,18 +42,15 @@
 		</div>
 		<div data-role="footer" data-theme="b" style="text-align:center" data-position="fixed">
 				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
-					<?php if (!empty($zipcode)): ?>
-						CEP: <?php echo $zipcode; ?>
-					<?php endif; ?>
-
-					<?php if (!empty($cityState)): ?>
-						<?php echo $cityState; ?>
-					<?php endif; ?>
-
-					<?php if (!empty($geocode) && empty($zipcode) && empty($cityState)) { ?>
-						<?php echo $geocode->toOneLine(); ?>
-					<?php } else if (!empty($lat) and !empty($lng)) { ?>
-					(<?php echo $lat; ?>, <?php echo $lng; ?>)
+					<?php if(isset($location)){ ?>
+						<?php echo $location->getAddress()->toOneLine(); ?>
+						<!-- 
+						<?php if($location->getPoint() instanceof Point){ ?>
+							(<?php echo $location->getPoint(); ?>)
+						<?php } ?>
+						 -->
+					<?php } else {?>
+						Clique para selecionar sua localização
 					<?php } ?>
 				</a>
 		</div>
