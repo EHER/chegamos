@@ -54,8 +54,8 @@ class Address {
 		return array(
 			'street' => $this->getStreet(),
 			'district' => $this->getDistrict(),
-			'city' => $this->getCity()->getName(),
-			'state' => $this->getCity()->getState()
+			'city' => $this->getCity() ? $this->getCity()->getName() : null,
+			'state' => $this->getCity() ? $this->getCity()->getState() : null
 		);
 	}
 
