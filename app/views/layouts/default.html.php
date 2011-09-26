@@ -40,7 +40,6 @@ use app\models\Point;
 		<div data-role="content">
 			<?php echo $this->content(); ?>
 		</div>
-		<?php echo ROOT_URL; ?>profile/location
 		<div data-role="footer" data-theme="b" style="text-align:center" data-position="fixed">
 				<a href="<?php echo ROOT_URL; ?>/profile/location" rel="external" id="ondeEstou">
 					<?php if(isset($location)){ ?>
