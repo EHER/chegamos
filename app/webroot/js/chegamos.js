@@ -3,6 +3,7 @@ _gaq.push([ '_setAccount', 'UA-19798490-1' ]);
 _gaq.push([ '_setDomainName', 'none' ]);
 _gaq.push([ '_setAllowLinker', true ]);
 _gaq.push([ '_trackPageview' ]);
+_gaq.push([ '_trackPageLoadTime' ]);
 
 var rootUrl = $("#rootUrl").val();
 
