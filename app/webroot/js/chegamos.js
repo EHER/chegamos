@@ -68,8 +68,9 @@ $('.autoDetect').change(function() {
 	}
 });
 
-$.mobile.page.prototype.options.backBtnText = "Voltar";
-
-$.extend($.mobile, {
-	loadingMessage : "Carregando"
-});
+$(document).bind("mobileinit", function(){
+	$.extend($.mobile, {
+		loadingMessage : "Carregando",
+		pageLoadErrorMessage : "Erro ao carregar a página"
+	});
+};
