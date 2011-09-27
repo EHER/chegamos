@@ -1,17 +1,13 @@
 <ul data-role="listview" data-inset="true" data-<?php echo THEME_LIST; ?> data-divider<?php echo THEME_MAIN; ?>>
 	<li data-role="list-divider">Locais</li>
 	<li><?php echo $this->html->link('Locais por Categoria', "/places/categories"); ?></li>
-	<li><?php echo $this->html->link('Locais Próximos', "/places/near"); ?></li>
+	<li><?php echo $this->html->link('Locais por perto', "/places/near"); ?></li>
 	<li><?php echo $this->html->link('Locais Visitados', "/profile/visits", array("rel"=>"external")); ?></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-<?php echo THEME_LIST; ?> data-divider<?php echo THEME_MAIN; ?>>
 	<li data-role="list-divider">Pessoas</li>
 	<li><?php echo $this->html->link('Meu Perfil', "/profile/show", array("rel"=>"external")); ?></li>
-	<li><?php echo $this->html->link('Amigos', "/profile/following", array("rel"=>"external")); ?></li>
-	<li><?php echo $this->html->link('Seguidores', "/profile/followers", array("rel"=>"external")); ?></li>
-<?php /* WIP
 	<li><?php echo $this->html->link('Pessoas por perto', "/profile/near"); ?></li>
- */?>
 </ul>
 <ul data-role="listview" data-inset="true" data-<?php echo THEME_LIST; ?> data-divider<?php echo THEME_MAIN; ?>>
 	<li data-role="list-divider">Informações</li>

@@ -15,7 +15,7 @@ class Address {
 	public function __construct($data=null) {
 		$this->populate($data);
 	}
-	
+
 	public function populate($data) {
 		if(isset($data->street)) {
 			$this->setStreet($data->street);
@@ -36,7 +36,7 @@ class Address {
 			$this->setCity(new City($data->city));
 		}
 	}
-	
+
 	public function __toString() {
 		$data = $this->getStreet();
 		$data .= $this->getNumber() ? ', ' . $this->getNumber() : '';
@@ -44,22 +44,38 @@ class Address {
 		$data .= $this->getCity() ? '<br/>' . $this->getCity() : '';
 		return $data;
 	}
-	
+
 	public function toOneLine() {
-		return implode(', ', $this->toArray());
+		$addressArray = array_filter($this->toArray());
+		return implode(', ', $addressArray);
 	}
 	
 	public function toArray() {
 		return array(
 			'street' => $this->getStreet(),
 			'district' => $this->getDistrict(),
-			'city' => $this->getCity()->getName(),
-			'state' => $this->getCity()->getState()
+			'city' => $this->getCity() ? $this->getCity()->getName() : null,
+			'state' => $this->getCity() ? $this->getCity()->getState() : null
 		);
 	}
-	
-	public function toJSON() {
-		return json_encode($this->toArray());
+
+	public function toJson() {
+		$json = new \stdClass();
+		if($this->getStreet()){
+			$json->street = $this->getStreet();
+		}
+		if($this->getDistrict()){
+			$json->district = $this->getDistrict();
+		}
+		if($this->getZipcode()){
+			$json->zipcode = $this->getZipcode();
+		}
+		if($this->getCity() instanceof City) {
+			$json->city->name = $this->getCity()->getName();
+			$json->city->state = $this->getCity()->getState();
+		}
+
+		return $json;
 	}
 	
 	public function getStreetCity() {
@@ -77,56 +93,55 @@ class Address {
 	public function setStreet($street) {
 		$this->street = Inflector::formatTitle($street);
 	}
-	
+
 	public function getRouteAddress() {
 		$data = $this->getStreet();
 		$data .= $this->getNumber() ? ', ' . $this->getNumber() : '';
 		$data .= $this->getCity() ? ', ' . $this->getCity() : '';
 		return $data;
 	}
-	
+
 	public function getStreet() {
 		return $this->street;
 	}
-	
+
 	public function setNumber($number) {
 		$this->number = $number;
 	}
-	
+
 	public function getNumber() {
 		return $this->number;
 	}
-	
+
 	public function setComplement($complement) {
 		$this->complement = Inflector::formatTitle($complement);
 	}
-	
+
 	public function getComplement() {
 		return $this->complement;
 	}
-	
+
 	public function setDistrict($district) {
 		$this->district = Inflector::formatTitle($district);
 	}
-	
+
 	public function getDistrict() {
 		return $this->district;
 	}
-	
+
 	public function setZipcode($zipcode) {
 		$this->zipcode = $zipcode;
 	}
-	
+
 	public function getZipcode() {
 		return $this->zipcode;
 	}
-	
+
 	public function setCity($city) {
 		$this->city = $city;
 	}
-	
+
 	public function getCity() {
 		return $this->city;
 	}
-
 }

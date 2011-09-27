@@ -6,3 +6,5 @@ app/config/config.php
 *.swp
 *~
 /nbproject/private/
+.DS_Store
+.checkstyle

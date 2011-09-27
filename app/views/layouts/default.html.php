@@ -5,22 +5,24 @@
  * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
+use app\models\Point;
 ?>
 <!doctype html>
 <html xmlns:og="http://ogp.me/ns#"<?php echo empty($abmType) ? '' : ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';?>>
 <head<?php echo empty($abmType) ? '' : ' typeof="'.$abmType.':'.ucwords($abmType).'"';?>>
 	<?php echo $this->html->charset();?>
     <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
+	<link rel="shortcut icon" href="<?php echo STATIC_URL ?>favicon.ico"/>
+<?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	
+    <link rel="stylesheet" href="<?php echo STATIC_URL ?>min/?g=css"/>
+    <script src="<?php echo STATIC_URL ?>min/?g=js_head"></script>
+<?php } ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
-    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
-	<link rel="shortcut icon" href="<?php echo ROOT_URL ?>favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<meta property="fb:app_id" content="<?php echo FACEBOOK_AP_ID; ?>"/>
 	<meta property="og:site_name" content="chegamos"/>
-<?php echo (isset($meta)) ? $meta : '' ?>
 	<meta name="google-site-verification" content="nSgmfqNOpud7XKqEtIzxAmHppP-oDqE3PGKwLLOeGss" />
+<?php echo (isset($meta)) ? $meta : '' ?>
 </head>
 <body>
 	<div data-role="page" data-theme="<?php echo THEME_MAIN; ?>" id="jqm-home">
@@ -38,26 +40,24 @@
 		<div data-role="content">
 			<?php echo $this->content(); ?>
 		</div>
-		<div data-role="footer" data-theme="<?php echo THEME_MAIN; ?>" style="text-align:center" data-position="fixed">
-				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
-					<?php if (!empty($zipcode)): ?>
-						CEP: <?php echo $zipcode; ?>
-					<?php endif; ?>
-
-					<?php if (!empty($cityState)): ?>
-						<?php echo $cityState; ?>
-					<?php endif; ?>
-
-					<?php if (!empty($geocode) && empty($zipcode) && empty($cityState)) { ?>
-						<?php echo $geocode->toOneLine(); ?>
-					<?php } else if (!empty($lat) and !empty($lng)) { ?>
-					(<?php echo $lat; ?>, <?php echo $lng; ?>)
+		<div data-role="footer" data-theme="b" style="text-align:center" data-position="fixed">
+				<a href="<?php echo ROOT_URL; ?>/profile/location" rel="external" id="ondeEstou">
+					<?php if(isset($location)){ ?>
+						<?php echo $location->getAddress()->toOneLine(); ?>
+						<!-- 
+						<?php if($location->getPoint() instanceof Point){ ?>
+							(<?php echo $location->getPoint(); ?>)
+						<?php } ?>
+						 -->
+					<?php } else {?>
+						Clique para selecionar sua localização
 					<?php } ?>
 				</a>
 		</div>
 	</div>
     <input type="hidden" id="rootUrl" value="<?php echo ROOT_URL;?>"/>
-	<script src="<?php echo ROOT_URL ?>js/jquery.cookie.js"></script>
-	<script src="<?php echo ROOT_URL ?>js/chegamos.js"></script>
+<?php if(!defined('LIGHT_VERSION') || LIGHT_VERSION === false) { ?>	    
+    <script src="<?php echo STATIC_URL ?>min/?g=js_body"></script>
+<?php } ?>
 </body>
 </html>

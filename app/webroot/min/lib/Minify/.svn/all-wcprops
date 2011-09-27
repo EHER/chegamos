@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/443/trunk/min/lib/Minify
+END
+Lines.php
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/443/trunk/min/lib/Minify/Lines.php
+END
+ImportProcessor.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/443/trunk/min/lib/Minify/ImportProcessor.php
+END
+Build.php
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/443/trunk/min/lib/Minify/Build.php
+END
+Logger.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/443/trunk/min/lib/Minify/Logger.php
+END
+Source.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/443/trunk/min/lib/Minify/Source.php
+END
+CommentPreserver.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/443/trunk/min/lib/Minify/CommentPreserver.php
+END
+YUICompressor.php
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/443/trunk/min/lib/Minify/YUICompressor.php
+END
+HTML.php
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/443/trunk/min/lib/Minify/HTML.php
+END
+Packer.php
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/443/trunk/min/lib/Minify/Packer.php
+END
+CSS.php
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/443/trunk/min/lib/Minify/CSS.php
+END

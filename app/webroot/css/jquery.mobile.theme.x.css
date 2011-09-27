@@ -1,0 +1,159 @@
+Sass
+gem install sass
+mv style.css style.scss
+sass --watch style.scss:style.css
+
+    * About
+    * Tutorial
+    * Documentation
+    * Blog
+    * Try Online
+
+Latest Release:
+Brainy Betty (3.1.1)
+
+What's New?
+
+Download
+Editor Support
+Development
+
+Give Sass a try online! Just type in some Sass code below, press Render, and see the beautiful CSS output.
+/* * jQuery Mobile v1.0a4.1 * http://jquerymobile.com/ * * Copyright 2010, jQuery Project * Dual licensed under the MIT or GPL Version 2 licenses. * http://jquery.org/license * * jQuery Mobile Framework * Copyright (c) jQuery Project * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses. * Note: Code is in draft form and is subject to change * * * ============================================================================ * jQuery Mobile -- Sass Theme Generator * https://github.com/shawn/jquery.mobile-theme-sass * ============================================================================ * * Shawn Allison, April 2011 * http://yayinternets.com */ // ---------------------------------------------------------------------------- // Define all of these variables -- REQUIRED! // ---------------------------------------------------------------------------- $theme: x $font-family: helvetica, arial, sans-serif $color: white $ui-bar-grad-1: #FF4404 $ui-bar-grad-2: #FF8424 $ui-bar-border-color: #CC8424 $ui-bar-text-shadow-color: white $ui-bar-ui-link-color: white $ui-body-grad-1: white $ui-body-grad-2: white $ui-body-border-color: white $ui-body-text-shadow-color: white $ui-body-ui-link-color: white $ui-br-border-color: white $ui-btn-text-shadow-color: white $ui-btn-up-grad-1: white $ui-btn-up-grad-2: white $ui-btn-up-border-color: white $ui-btn-hover-grad-1: white $ui-btn-hover-grad-2: white $ui-btn-hover-border-color: white $ui-btn-down-grad-1: white $ui-btn-down-grad-2: white $ui-btn-down-border-color: white // ---------------------------------------------------------------------------- // +mixin & @extend Library -- DON'T TOUCH THIS! // ---------------------------------------------------------------------------- =background-gradient( $b1, $b2) :-ms-filter unquote("progid:DXImageTransform.Microsoft.gradient(startColorStr='") + $b2 + unquote("', EndColorStr='") + $b1 + unquote("')") :background $b1 :background -moz-linear-gradient(top, $b2, $b1) :background -webkit-gradient(linear, left top, left bottom, color-stop(0, $b2), color-stop(1, $b1)) // ---------------------------------------------------------------------------- .color :color $color .border-1px-solid :border 1px solid .font-family :font-family $font-family .font-weight-bold :font-weight bold /* * ---------------------------------------------------------------------------- * Baseline Styles -- override these if you wish * ---------------------------------------------------------------------------- */ .ui-bar-#{$theme}, .ui-body-#{$theme} @extend .border-1px-solid &, button, input, select, textarea @extend .font-family &, .ui-link-inherit @extend .color .ui-link @extend .font-weight-bold .ui-bar-#{$theme} +background-gradient( $ui-bar-grad-1, $ui-bar-grad-2) @extend .font-weight-bold :border-color $ui-bar-border-color :text-shadow 0 -1px 1px $ui-bar-text-shadow-color .ui-link :color $ui-bar-ui-link-color .ui-body-#{$theme} +background-gradient( $ui-body-grad-1, $ui-body-grad-2) :border-color $ui-body-border-color :font-weight normal :text-shadow 0 1px 0 $ui-body-text-shadow-color .ui-link :color $ui-body-ui-link-color .ui-br :border-bottom 1px solid :border-bottom :color $ui-br-border-color :color rgba( $ui-br-border-color, 0.3) .ui-btn-up-#{$theme}, .ui-btn-hover-#{$theme}, .ui-btn-down-#{$theme} @extend .border-1px-solid @extend .font-family @extend .font-weight-bold :text :decoration none :shadow 0 -1px 1px $ui-btn-text-shadow-color &, a.ui-link-inherit @extend .color .ui-btn-up-#{$theme} +background-gradient( $ui-btn-up-grad-1, $ui-btn-up-grad-2) :border-color $ui-btn-up-border-color .ui-btn-hover-#{$theme} +background-gradient( $ui-btn-hover-grad-1, $ui-btn-hover-grad-2) :border-color $ui-btn-hover-border-color .ui-btn-down-#{$theme} +background-gradient( $ui-btn-down-grad-1, $ui-btn-down-grad-2) :border-color $ui-btn-down-border-color
+
+/*
+ * jQuery Mobile v1.0a4.1
+ *
+ * http://jquerymobile.com/
+ *
+ *
+ *
+ * Copyright 2010, jQuery Project
+ *
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * http://jquery.org/license
+ *
+ *
+ *
+ * jQuery Mobile Framework
+ *
+ * Copyright (c) jQuery Project
+ *
+ * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * Note: Code is in draft form and is subject to change 
+ *
+ *
+ *
+ *
+ *
+ * ============================================================================
+ *
+ * jQuery Mobile -- Sass Theme Generator
+ *
+ * https://github.com/shawn/jquery.mobile-theme-sass
+ *
+ * ============================================================================
+ *
+ *
+ *
+ * Shawn Allison, April 2011
+ *
+ * http://yayinternets.com
+ *
+ */
+.color, .ui-bar-x, .ui-bar-x .ui-link-inherit,
+.ui-body-x,
+.ui-body-x .ui-link-inherit, .ui-btn-up-x, .ui-btn-up-x a.ui-link-inherit,
+.ui-btn-hover-x,
+.ui-btn-hover-x a.ui-link-inherit,
+.ui-btn-down-x,
+.ui-btn-down-x a.ui-link-inherit {
+  color: white; }
+
+.border-1px-solid, .ui-bar-x,
+.ui-body-x, .ui-btn-up-x,
+.ui-btn-hover-x,
+.ui-btn-down-x {
+  border: 1px solid; }
+
+.font-family, .ui-bar-x, .ui-bar-x button, .ui-bar-x input, .ui-bar-x select,
+.ui-bar-x textarea,
+.ui-body-x,
+.ui-body-x button,
+.ui-body-x input,
+.ui-body-x select,
+.ui-body-x textarea, .ui-btn-up-x,
+.ui-btn-hover-x,
+.ui-btn-down-x {
+  font-family: helvetica, arial, sans-serif; }
+
+.font-weight-bold, .ui-bar-x .ui-link,
+.ui-body-x .ui-link, .ui-bar-x, .ui-btn-up-x,
+.ui-btn-hover-x,
+.ui-btn-down-x {
+  font-weight: bold; }
+
+/*
+ * ----------------------------------------------------------------------------
+ *
+ * Baseline Styles -- override these if you wish
+ *
+ * ----------------------------------------------------------------------------
+ *
+ */
+.ui-bar-x {
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ff8424', EndColorStr='#ff4404');
+  background: #ff4404;
+  background: -moz-linear-gradient(top, #ff8424, #ff4404);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff8424), color-stop(1, #ff4404));
+  border-color: #cc8424;
+  text-shadow: 0 -1px 1px white; }
+  .ui-bar-x .ui-link {
+    color: white; }
+
+.ui-body-x {
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='white', EndColorStr='white');
+  background: white;
+  background: -moz-linear-gradient(top, white, white);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, white));
+  border-color: white;
+  font-weight: normal;
+  text-shadow: 0 1px 0 white; }
+  .ui-body-x .ui-link {
+    color: white; }
+
+.ui-br {
+  border-bottom: 1px solid;
+  border-bottom-color: white;
+  border-bottom-color: rgba(255, 255, 255, 0.3); }
+
+.ui-btn-up-x,
+.ui-btn-hover-x,
+.ui-btn-down-x {
+  text-decoration: none;
+  text-shadow: 0 -1px 1px white; }
+
+.ui-btn-up-x {
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='white', EndColorStr='white');
+  background: white;
+  background: -moz-linear-gradient(top, white, white);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, white));
+  border-color: white; }
+
+.ui-btn-hover-x {
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='white', EndColorStr='white');
+  background: white;
+  background: -moz-linear-gradient(top, white, white);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, white));
+  border-color: white; }
+
+.ui-btn-down-x {
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='white', EndColorStr='white');
+  background: white;
+  background: -moz-linear-gradient(top, white, white);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, white));
+  border-color: white; }
+
+Sass © 2006-2011 Hampton Catlin, Nathan Weizenbaum, Chris Eppstein, and numerous contributors. It is available for use and modification under the MIT license.

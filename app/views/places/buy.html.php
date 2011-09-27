@@ -4,7 +4,6 @@
     <?php echo $this->html->link($place->getName(), $place->getPlaceUrl(), array('rel'=>'nofollow', 'class'=>'fn org url')); ?>
 </h2>
 
-
 <p>Quer uma forma de divulgar a sua empresa na internet e atrair mais clientes para o seu negócio?<br/>
     Preencha o formulário com seus dados de contato e um consultor entrará em contato.</p>
 <form action="https://www.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="post" id="fale_conosco" name="fale_conosco">
@@ -13,7 +12,7 @@
 				<li>
                     <label for="last_name">Nome</label>
                     <span id="nome_error" class="erro_form" style="display: none;">É necessário informar seu nome.</span>
-					<input type="text" value="<?php echo $userName;?>" id="last_name" class="text" name="last_name">
+					<input type="text" value="<?php echo $place->getName();?>" id="last_name" class="text" name="last_name">
 				</li>
                 <li>
                     <label for="phone">Telefone</label>

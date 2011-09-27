@@ -53,7 +53,7 @@ class ApontadorApi {
 					'place_id' => $param['place_id'],
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
-						), 'PUT');
+		), 'PUT');
 		return $response;
 	}
 
@@ -67,7 +67,7 @@ class ApontadorApi {
 					'content' => empty($param['content']) ? '' : $param['content'],
 					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
 					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret'],
-						), 'PUT');
+		), 'PUT');
 		return $response;
 	}
 
@@ -88,14 +88,14 @@ class ApontadorApi {
 					'place_id' => $param['place_id'],
 					'page' => empty($param['page']) ? '' : $param['page'],
 					'limit' => empty($param['limit']) ? '' : $param['limit'],
-				));
+		));
 		return $response;
 	}
 
 	public function getCategories($param=array()) {
 		$response = $this->request('categories', array(
 					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
-				));
+		));
 
 
 		return new CategoryList($response);
@@ -115,7 +115,7 @@ class ApontadorApi {
 		$response = $this->request('categories/' . $param['categoryid'] . '/subcategories', array(
 					'categoryid' => $param['categoryid'],
 					'term' => isset($param['term']) ? $this->removeAccents($param['term']) : '',
-				));
+		));
 		return $response;
 	}
 
@@ -136,7 +136,7 @@ class ApontadorApi {
 					'page' => isset($param['page']) ? $param['page'] : '1',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
-				));
+		));
 
 		if (!empty($response->search)) {
 			return new PlaceList($response->search);
@@ -206,6 +206,24 @@ class ApontadorApi {
 		return $gasStationList;
 	}
 
+	public function searchUsersByPoint($param=array()) {
+		if (empty($param['lat']) || empty($param['lng'])) {
+			return false;
+		}
+
+		$response = $this->request('search/users/bypoint', array(
+			'lat' => isset($param['lat']) ? $param['lat'] : '',
+			'lng' => isset($param['lng']) ? $param['lng'] : '',
+			'page' => isset($param['page']) ? $param['page'] : '',
+			'limit' => isset($param['limit']) ? $param['limit'] : '',
+		));
+
+		if (is_object($response->search)) {
+			return new UserList($response->search);
+		}
+		return false;
+	}
+
 	public function searchByAddress($param=array()) {
 		if (empty($param['state']) || empty($param['city'])) {
 			return false;
@@ -228,7 +246,7 @@ class ApontadorApi {
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
-				));
+		));
 
 
 		if (is_object($response->search)) {
@@ -247,7 +265,7 @@ class ApontadorApi {
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
-				));
+		));
 
 
 		if (is_object($response->search)) {
@@ -264,13 +282,13 @@ class ApontadorApi {
 							'zipcode' => $address->getZipcode(),
 							'sort_by' => 'distance',
 							'limit' => 1
-								), 'searchByZipcode');
+				), 'searchByZipcode');
 			} else {
 				$search = $this->searchRecursive(array(
 							'city' => $address->getCity()->getName(),
 							'state' => $address->getCity()->getState(),
 							'limit' => 1
-								), 'searchByAddress');
+				), 'searchByAddress');
 			}
 			if ($search) {
 				return $search->getItem(0)->getPoint();
@@ -285,7 +303,7 @@ class ApontadorApi {
 						'lat' => $lat,
 						'lng' => $lng,
 						'limit' => 1
-							), 'searchByPoint');
+			), 'searchByPoint');
 			if ($search) {
 				return $search->getItem(0)->getAddress();
 			}
@@ -301,7 +319,7 @@ class ApontadorApi {
 		$response = $this->request('users/' . $param['userId'] . '/places', array(
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
-				));
+		));
 
 		if (is_object($response->user)) {
 			return new User($response->user);
@@ -320,7 +338,7 @@ class ApontadorApi {
 					'lng' => isset($param['lng']) ? $param['lng'] : '',
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
-				));
+		));
 
 
 
@@ -337,15 +355,15 @@ class ApontadorApi {
 		}
 
 		$response = $this->request('users/' . $param['userId'] . '/followers', array(
-					/**
-					 * Não foi feito na API
-					 * 'nearby' => isset($param['nearby']) ? $param['nearby'] : '',
-					 * 'lat' => isset($param['lat']) ? $param['lat'] : '',
-					 * 'lng' => isset($param['lng']) ? $param['lng'] : '',
-					 */
+		/**
+		 * Não foi feito na API
+		 * 'nearby' => isset($param['nearby']) ? $param['nearby'] : '',
+		 * 'lat' => isset($param['lat']) ? $param['lat'] : '',
+		 * 'lng' => isset($param['lng']) ? $param['lng'] : '',
+		 */
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
-				));
+		));
 
 
 		if (is_object($response) && isset($response->followers)) {
@@ -363,7 +381,7 @@ class ApontadorApi {
 		$response = $this->request('users/' . $param['userId'] . '/reviews', array(
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
-				));
+		));
 
 
 		if (is_object($response) && isset($response->user)) {
@@ -390,7 +408,7 @@ class ApontadorApi {
 					'page' => isset($param['page']) ? $param['page'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 					'user_id' => isset($param['user_id']) ? $param['user_id'] : '',
-				));
+		));
 
 		if (is_object($response->search)) {
 			return new PlaceList($response->search);
@@ -407,7 +425,7 @@ class ApontadorApi {
 					'lat' => isset($param['lat']) ? $param['lat'] : '',
 					'lng' => isset($param['lng']) ? $param['lng'] : '',
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
-				));
+		));
 		if (is_object($response)) {
 			return new DealList($response);
 		}
@@ -456,7 +474,7 @@ class ApontadorApi {
 		}
 		$response = $this->request('suggestions', array(
 				'q' => $param['q']
-			));
+		));
 
 		if (!is_object($response)) {
 			return false;
@@ -488,7 +506,7 @@ class ApontadorApi {
 					'username' => $this->config['consumerKey'],
 					'password' => $this->config['consumerSecret'],
 					'timeout' => $this->config['timeout'],
-				));
+		));
 
 		if (empty($response)) {
 			throw new ApontadorException('Empty response.');
@@ -675,7 +693,7 @@ class ApontadorApi {
 					'method' => $method,
 					'fields' => $data,
 					'header' => $optional_headers,
-				));
+		));
 		return $response;
 	}
 
