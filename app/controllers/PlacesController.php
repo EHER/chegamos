@@ -181,6 +181,13 @@ class PlacesController extends Controller {
 			$location->setAddress($place->getAddress());
 			$location->save();
 
+			$checkinData = array(
+				'placeId' => $place->getId(),
+				'placeName' => $place->getName(),
+				'term' => $place->getName(),
+				'lat' => $place->getPoint()->getLat(),
+				'lng' => $place->getPoint()->getLng(),
+			);
 			$checkinData['url'] = isset($_POST['url']) ? $_POST['url'] : $url;
 			$checkinData['status'] = isset($_POST['status']) ? str_replace("\n", " ", $_POST['status']) : $status;
 			$checkinData['providers'] = isset($_POST['providers']) ? $_POST['providers'] : array();
@@ -370,7 +377,7 @@ class PlacesController extends Controller {
 
 			$location = new Location();
 			$location->load();
-				
+
 			$placeId = $thePlaceId;
 
 			$visitors = $this->api->getVisitors(array('placeid' => $placeId));
