@@ -28,11 +28,11 @@ if (!($memcacheEnabled = Memcache::enabled()) && !is_writable(LITHIUM_APP_PATH .
 }
 
 
-if($memcacheEnabled) {
+if($memcacheEnabled && USE_MEMCACHED === true) {
     Cache::config(array(
         'default' => array(
             'adapter' => 'Memcache',
-            'host' => '127.0.0.1:11211'
+            'host' => MEMCACHED_SERVER
         )
     ));
 } else {
