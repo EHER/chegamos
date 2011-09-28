@@ -34,6 +34,9 @@ define('APONTADOR_CONSUMER_SECRET', '');
 define('APONTADOR_TIMEOUT', 10);
 define('APONTADOR_POST_LOGIN', false);
 
+define('THEME_MAIN', 'b');
+define('THEME_LIST', 'c');
+
 define('FOURSQUARE_CONSUMER_KEY', '');
 define('FOURSQUARE_CONSUMER_SECRET', '');
 

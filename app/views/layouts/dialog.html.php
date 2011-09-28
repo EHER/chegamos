@@ -24,11 +24,11 @@
 <?php echo (isset($meta)) ? $meta : '' ?>
 </head>
 <body>
-	<div data-role="page" data-theme="b" id="jqm-home">
+	<div data-role="page" data-theme="<?php echo THEME_MAIN; ?>" id="jqm-home">
 		<div data-role="header" data-theme="b">
 			<h1>
-                <?php echo $this->html->link('Chegamos!', '/', array("data-role" => "button", "data-icon" => "home")); ?>
-            </h1>
+                		<?php echo $this->html->link('Chegamos!', '/', array("data-role" => "button", "data-icon" => "home")); ?>
+            		</h1>
 		</div>
 		<div data-role="content">
 			<?php echo $this->content(); ?>

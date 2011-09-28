@@ -12,7 +12,7 @@
     com <?php echo $playerProfile->getPointsAll(); ?> Pts
 </p>
 
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($playerProfile instanceof PlayerProfile && $playerProfile->getBadges()) { ?>
 		<?php foreach ($playerProfile->getBadges() as $badge) { ?>

@@ -10,11 +10,11 @@
 	<?php echo $user->getUserInfo(); ?>
 </p>
 
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 	<li data-role="list-divider"><?php echo $title; ?></li>
 	<?php if ($visits instanceof VisitList && $visits->getItems()) { ?>
 		<?php foreach ($visits->getItems() as $visit) { ?>
-			<li class="ui-li ui-btn ui-btn-up-c" data-theme="c">
+			<li class="ui-li ui-btn ui-btn-up-c" data-theme="<?php echo THEME_LIST; ?>">
 				<a href="<?php echo $visit->getPlace()->getShortPlaceUrl();?>">
 					<h3><?php echo $visit->getPlace()->getName(); ?></h3>
 					<p class="ui-li-desc">
