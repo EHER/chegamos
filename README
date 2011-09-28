@@ -17,7 +17,7 @@ Apontador API <http://api.apontador.com.br/>
 
 Instalação dos pacontes no Ubuntu (e provavelmente no Debian)
 
-sudo aptitude install apache2 php5 php5-curl 
+sudo aptitude install apache2 php5 php5-curl php5-memcached memcached
 
 
 Setup do projeto
@@ -39,7 +39,7 @@ Sequencia de comandos para configurar o Projeto
 cd /var/www
 git clone git://github.com/EHER/chegamos.git 
 cd chegamos 
-mkdir app/resources
+mkdir -p app/resources/tmp/cache
 chmod -R 0777 app/resources
 cp -fr app/config/config.exemplo.php app/config/config.php
 
