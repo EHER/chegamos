@@ -26,9 +26,9 @@ class LocationControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$api = $this->getMock("ApontadorApi", array("revgeocode"));
 		$api->expects($this->once())
-			->method("revgeocode")
-			->with($latitude, $longitude)
-			->will($this->returnValue($address));
+		->method("revgeocode")
+		->with($latitude, $longitude)
+		->will($this->returnValue($address));
 
 		$locationController = new LocationController();
 		$locationController->setApi($api);
@@ -53,9 +53,9 @@ class LocationControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$api = $this->getMock("ApontadorApi", array("revgeocode"));
 		$api->expects($this->once())
-			->method("revgeocode")
-			->with($latitude, $longitude)
-			->will($this->returnValue(null));
+		->method("revgeocode")
+		->with($latitude, $longitude)
+		->will($this->returnValue(null));
 
 		$locationController = new LocationController();
 		$locationController->setApi($api);
@@ -65,7 +65,10 @@ class LocationControllerTest extends \PHPUnit_Framework_TestCase {
 		$currentLocation = new Location($current['location']);
 
 		$this->assertNotNull($currentLocation);
-		$this->assertNull($currentLocation->getAddress());
+		$this->assertSame("", $currentLocation->getAddress()->getCity()->getState());
+		$this->assertSame("", $currentLocation->getAddress()->getCity()->getName());
+		$this->assertSame("", $currentLocation->getAddress()->getDistrict());
+		$this->assertSame("", $currentLocation->getAddress()->getStreet());
 		$this->assertSame($latitude, $currentLocation->getPoint()->getLat());
 		$this->assertSame($longitude, $currentLocation->getPoint()->getLng());
 	}
