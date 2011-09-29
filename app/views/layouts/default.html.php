@@ -5,6 +5,7 @@
  * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
+use app\models\Point;
 ?>
 <!doctype html>
 <html xmlns:og="http://ogp.me/ns#"<?php echo empty($abmType) ? '' : ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';?>>
@@ -24,8 +25,8 @@
 <?php echo (isset($meta)) ? $meta : '' ?>
 </head>
 <body>
-	<div data-role="page" data-theme="b" id="jqm-home">
-		<div data-role="header" data-theme="b"> 
+	<div data-role="page" data-theme="<?php echo THEME_MAIN; ?>" id="jqm-home">
+		<div data-role="header" data-theme="<?php echo THEME_MAIN; ?>"> 
 			<h1>
 				<?php echo $this->html->link('Chegamos!', '/', array("rel" => "external", 'data-role' => "button", "data-icon" => "home")); ?>
 			</h1>
@@ -39,20 +40,17 @@
 		<div data-role="content">
 			<?php echo $this->content(); ?>
 		</div>
-		<div data-role="footer" data-theme="b" style="text-align:center" data-position="fixed">
-				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
-					<?php if (!empty($zipcode)): ?>
-						CEP: <?php echo $zipcode; ?>
-					<?php endif; ?>
-
-					<?php if (!empty($cityState)): ?>
-						<?php echo $cityState; ?>
-					<?php endif; ?>
-
-					<?php if (!empty($geocode) && empty($zipcode) && empty($cityState)) { ?>
-						<?php echo $geocode->toOneLine(); ?>
-					<?php } else if (!empty($lat) and !empty($lng)) { ?>
-					(<?php echo $lat; ?>, <?php echo $lng; ?>)
+                <div data-role="footer" data-theme="<?php echo THEME_MAIN; ?>" style="text-align:center" data-position="fixed">
+				<a href="<?php echo ROOT_URL; ?>/profile/location" rel="external" id="ondeEstou">
+					<?php if(isset($location)){ ?>
+						<?php echo $location->getAddress()->toOneLine(); ?>
+						<!-- 
+						<?php if($location->getPoint() instanceof Point){ ?>
+							(<?php echo $location->getPoint(); ?>)
+						<?php } ?>
+						 -->
+					<?php } else {?>
+						Clique para selecionar sua localização
 					<?php } ?>
 				</a>
 		</div>

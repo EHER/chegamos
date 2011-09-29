@@ -16,7 +16,7 @@
 	<?php echo $user->getLastVisitInfo(); ?>
 </p>
 
-<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+<ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 	<li>
 		<?php echo $this->html->link("Conquistas", "/profile/achievements/" . $user->getId()); ?>
 	</li>

@@ -42,5 +42,12 @@ class Point {
 	public function setLng($lng) {
 		$this->lng = $lng;
 	}
-
+	
+	public function toJson() {
+		$json = new \stdClass();
+		$json->lat = $this->getLat();
+		$json->lng = $this->getLng();
+		
+		return $json;
+	}
 }
