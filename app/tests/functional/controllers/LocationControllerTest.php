@@ -65,10 +65,6 @@ class LocationControllerTest extends \PHPUnit_Framework_TestCase {
 		$currentLocation = new Location($current['location']);
 
 		$this->assertNotNull($currentLocation);
-		$this->assertSame("", $currentLocation->getAddress()->getCity()->getState());
-		$this->assertSame("", $currentLocation->getAddress()->getCity()->getName());
-		$this->assertSame("", $currentLocation->getAddress()->getDistrict());
-		$this->assertSame("", $currentLocation->getAddress()->getStreet());
 		$this->assertSame($latitude, $currentLocation->getPoint()->getLat());
 		$this->assertSame($longitude, $currentLocation->getPoint()->getLng());
 	}

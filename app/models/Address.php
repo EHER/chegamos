@@ -34,8 +34,6 @@ class Address {
 		}
 		if(isset($data->city)) {
 			$this->setCity(new City($data->city));
-		} else {
-			$this->setCity(new City());
 		}
 	}
 
