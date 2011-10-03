@@ -6,6 +6,6 @@ namespace app\models\oauth;
 
 /* Generic exception class
  */
-class OAuthException extends Exception {
+class OAuthException extends \Exception {
   // pass
 }

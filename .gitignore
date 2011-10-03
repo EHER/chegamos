@@ -8,3 +8,4 @@ app/config/config.php
 /nbproject/private/
 .DS_Store
 .checkstyle
+coverage.db
