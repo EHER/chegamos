@@ -4,18 +4,25 @@
 	<target name="help">
 		<echo>Comandos válidos:</echo>
 		<echo>phing help</echo>
+		<echo>phing config</echo>
 		<echo>phing test</echo>
 	</target>
 
 	<target name="init">
 		<echo msg="Carregando configurações..." />
 		<property name="app-dir" value="app" />
+		<property name="config-dir" value="${app-dir}/config" />
 		<property name="unit-test-dir" value="${app-dir}/tests/functional" />
 	</target>
 
+	<target name="config" depends="init">
+		<echo msg="Gerando arquivo de configurações config.php..." />
+		<copy file="${config-dir}/config.exemplo.php" tofile="${config-dir}/config.php" overwrite="false"/>
+	</target>
+	
 	<target name="test" depends="unit-test" />
 
-	<target name="unit-test" depends="init">
+	<target name="unit-test" depends="init, config">
 		<echo msg="Rodandos testes unitários..." />
 		<coverage-setup database="coverage.db">
 			<fileset dir="app/models">
