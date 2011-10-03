@@ -24,8 +24,8 @@ ini_set("default_charset", "utf-8");
  * Qualquer dúvida sobre a api do apontador, a documentação está em
  * http://api.apontador.com.br/pt/acesso.html
  */
-define('APONTADOR_CONSUMER_KEY', '');
-define('APONTADOR_CONSUMER_SECRET', '');
+define('APONTADOR_CONSUMER_KEY', 'consumer_key_exemplo');
+define('APONTADOR_CONSUMER_SECRET', 'consumer_secret_exemplo');
 
 /**
  * Configuração das URLs
