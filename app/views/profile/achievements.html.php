@@ -4,7 +4,7 @@
 	<?php echo $this->html->link($user->getName(), $user->getProfileUrl(), array("rel"=>"nofollow")); ?>
 </h2>
 <?php if ($user->getPhotoUrl()) { ?>
-	<img src="<?php echo $user->getPhotoUrl(); ?>" />
+	<img src="<?php echo $user->getPhotoUrl(); ?>" width="200" height="200"/>
 <?php } ?>
 <p>
     <img src="<?php echo $playerProfile->getLevel()->getImage(); ?>" width="20px" height="20px" alt="<?php echo $playerProfile->getLevel()->getName(); ?>">

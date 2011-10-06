@@ -4,7 +4,7 @@
 </h2>
 <?php if ($user->getPhotoUrl()) { ?>
 	<a href="<?php echo $user->getProfileUrl();?>">
-		<img src="<?php echo $user->getPhotoUrl(); ?>" alt="Foto de <?php echo $user->getName(); ?>"/>
+		<img src="<?php echo $user->getPhotoUrl(); ?>" alt="Foto de <?php echo $user->getName(); ?>" width="200" height="200"/>
 	</a>
 <?php } ?>
 <p>
