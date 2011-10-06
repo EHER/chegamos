@@ -37,7 +37,7 @@ class ProfileController extends \lithium\action\Controller
 		return compact('title', 'user', 'geocode', 'placeId', 'placeName', 'zipcode', 'cityState', 'lat', 'lng');
 	}
 
-	public function following($userId=null, $page='page1')
+	public function followingNearby($userId=null, $page='page1')
 	{
 		if (empty($userId)) {
 			OauthController::verifyLogged('apontador');
@@ -54,6 +54,35 @@ class ProfileController extends \lithium\action\Controller
 		$following = $this->api->getUserFollowing(array(
                     'userId' => $userId,
                     'nearby' => true,
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'page' => $page
+		));
+
+		$user = $this->api->getUser(array('userid' => $userId));
+
+		$title = 'Quem ' . $user->getName() . ' segue e está por perto';
+		return compact('title', 'location', 'following');
+	}
+	
+	
+	public function following($userId=null, $page='page1')
+	{
+		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
+			$userId = Session::read('apontadorId');
+		}
+
+		$page = str_replace('page', '', $page);
+
+		$location = new Location();
+		$location->load();
+		$lat = $location->getPoint()->getLat();
+		$lng = $location->getPoint()->getLng();
+
+		$following = $this->api->getUserFollowing(array(
+                    'userId' => $userId,
+                    'nearby' => false,
                     'lat' => $lat,
                     'lng' => $lng,
                     'page' => $page
@@ -79,9 +108,6 @@ class ProfileController extends \lithium\action\Controller
 
 		$following = $this->api->getUserFollowers(array(
                     'userId' => $userId,
-                    'nearby' => true,
-                    'lat' => $lat,
-                    'lng' => $lng,
                     'page' => $page
 		));
 		$user = $this->api->getUser(array('userid' => $userId));
@@ -104,9 +130,6 @@ class ProfileController extends \lithium\action\Controller
 
 		$user = $this->api->getUserReviews(array(
                     'userId' => $userId,
-                    'nearby' => true,
-                    'lat' => $lat,
-                    'lng' => $lng,
                     'page' => $page
 		));
 
