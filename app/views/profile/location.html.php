@@ -1,10 +1,10 @@
-<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+<form method="GET">
 	<fieldset>
 		<label for="cep">CEP:</label> <input type="text" id="cep" name="cep">
 	</fieldset>
 	<input type="submit" value="Estou aqui">
 </form>
-<form method="GET" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+<form method="GET">
 	<fieldset>
 		<label for="cityState">Cidade, UF:</label> <input type="text" id="cityState" name="cityState">
 	</fieldset>
