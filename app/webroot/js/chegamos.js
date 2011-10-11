@@ -74,4 +74,4 @@ $(document).bind("mobileinit", function(){
 		loadingMessage : "Carregando",
 		pageLoadErrorMessage : "Erro ao carregar a página"
 	});
-};
+});
