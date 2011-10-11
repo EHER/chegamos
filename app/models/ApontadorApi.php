@@ -340,8 +340,6 @@ class ApontadorApi {
 					'limit' => isset($param['limit']) ? $param['limit'] : '',
 		));
 
-
-
 		if (is_object($response->following)) {
 			return new FollowingList($response->following);
 		}
