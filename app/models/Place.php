@@ -268,7 +268,7 @@ class Place {
 
 	public function getMapUrl() {
 		if ($this->getPoint()->getLat() && $this->getPoint()->getLng()) {
-			$mapUrl = "http://maplink.apontador.com.br/widget";
+			$mapUrl = "http://maplink.com.br/widget";
 
 			$params = array();
 
