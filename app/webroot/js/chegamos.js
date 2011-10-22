@@ -69,9 +69,7 @@ $('.autoDetect').change(function() {
 	}
 });
 
-$(document).bind("mobileinit", function(){
-	$.extend($.mobile, {
-		loadingMessage : "Carregando",
-		pageLoadErrorMessage : "Erro ao carregar a página"
-	});
+$.extend($.mobile, {
+	loadingMessage : "Carregando",
+	pageLoadErrorMessage : "Erro ao carregar a página"
 });
