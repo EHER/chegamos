@@ -1,0 +1,15 @@
+CACHE MANIFEST
+#23/10/2011 00:41
+
+CACHE:
+min/?g=css
+min/?g=js_head
+min/?g=js_body
+img/ajax-loader.png
+img/icons-18-white.png
+img/ok.png
+img/nok.png
+index.php
+
+NETWORK:
+*
