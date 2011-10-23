@@ -8,8 +8,8 @@
 $htmlParams = '';
 $htmlParams .= ' xmlns:og="http://ogp.me/ns#"';
 if(defined('USE_OFFLINE_CACHE')) {
-	$htmlParams .= ' manifest="chegamos.manifest"';
-} 
+	$htmlParams .= ' manifest="'.ROOT_URL.'chegamos.manifest"';
+	} 
 if (!empty($abmType)) {
 	$htmlParams .= ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';
 }
