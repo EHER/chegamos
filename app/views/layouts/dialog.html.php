@@ -5,10 +5,23 @@
  * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
+$htmlParams = '';
+$htmlParams .= ' xmlns:og="http://ogp.me/ns#"';
+if(defined('USE_OFFLINE_CACHE')) {
+	$htmlParams .= ' manifest="chegamos.manifest"';
+} 
+if (!empty($abmType)) {
+	$htmlParams .= ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';
+}
+
+$headParams = '';
+if(!empty($abmType)) {
+	$headParams .= ' typeof="'.$abmType.':'.ucwords($abmType).'"';
+}
 ?>
 <!doctype html>
-<html xmlns:og="http://ogp.me/ns#"<?php echo empty($abmType) ? '' : ' xmlns:"'.$abmType.'="http://www.abmeta.org/ns#"';?>>
-<head<?php echo empty($abmType) ? '' : ' typeof="'.$abmType.':'.ucwords($abmType).'"';?>>
+<html<?php echo $htmlParams;?>>
+<head<?php echo $headParams;?>>
 	<?php echo $this->html->charset();?>
     <title>Chegamos! <?php if(!empty($title)) echo "- " . $title; ?></title>
 	<link rel="shortcut icon" href="<?php echo STATIC_URL ?>favicon.ico"/>

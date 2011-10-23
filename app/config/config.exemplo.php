@@ -39,6 +39,11 @@ define('STATIC_URL', 'http://localhost/chegamos/');
 define('LIGHT_VERSION', false);
 
 /**
+ * Habilita o cache offline do html5
+ */
+define('USE_OFFLINE_CACHE', false);
+
+/**
  * Chaves para fazer connect do Foursquare
  */
 define('FOURSQUARE_CONSUMER_KEY', '');
