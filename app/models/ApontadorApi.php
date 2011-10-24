@@ -691,6 +691,7 @@ class ApontadorApi {
 					'method' => $method,
 					'fields' => $data,
 					'header' => $optional_headers,
+                                        'port' => APONTADOR_PORT,
 		));
 		return $response;
 	}
