@@ -9,7 +9,7 @@ use app\models\Point;
 
 $htmlParams = '';
 $htmlParams .= ' xmlns:og="http://ogp.me/ns#"';
-if(defined('USE_OFFLINE_CACHE')) {
+if(defined('USE_OFFLINE_CACHE') && USE_OFFLINE_CACHE === true) {
 	$htmlParams .= ' manifest="'.ROOT_URL.'chegamos.manifest"';
 } 
 if (!empty($abmType)) {
@@ -55,14 +55,9 @@ if(!empty($abmType)) {
 			<?php echo $this->content(); ?>
 		</div>
                 <div data-role="footer" data-theme="<?php echo THEME_MAIN; ?>" style="text-align:center" data-position="fixed">
-				<a href="<?php echo ROOT_URL; ?>/profile/location" rel="external" id="ondeEstou">
+				<a href="<?php echo ROOT_URL; ?>profile/location" rel="external" id="ondeEstou">
 					<?php if(isset($location)){ ?>
 						<?php echo $location->getAddress()->toOneLine(); ?>
-						<!-- 
-						<?php if($location->getPoint() instanceof Point){ ?>
-							(<?php echo $location->getPoint(); ?>)
-						<?php } ?>
-						 -->
 					<?php } else {?>
 						Clique para selecionar sua localização
 					<?php } ?>
