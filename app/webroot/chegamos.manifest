@@ -1,6 +1,5 @@
 CACHE MANIFEST
-#23/10/2011 01:12
-
+#23/10/2011 01:46
 CACHE:
 http://static.chegamos.com/min/?g=css
 http://static.chegamos.com/min/?g=js_head
@@ -9,7 +8,8 @@ http://static.chegamos.com/img/ok.png
 http://static.chegamos.com/img/nok.png
 http://static.chegamos.com/app/webroot/img/ajax-loader.png
 http://static.chegamos.com/app/webroot/img/icons-18-white.png
-index.php
-
 NETWORK:
+*places*
+*deals*
+*profile*
 *
