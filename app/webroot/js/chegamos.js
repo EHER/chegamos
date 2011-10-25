@@ -7,6 +7,12 @@ _gaq.push([ '_trackPageLoadTime' ]);
 
 var rootUrl = $("#rootUrl").val();
 
+var intervalo = window.setInterval(function() {
+	if ($.cookie('disableAutoDetect') === null) {
+		updateOnTimeout();
+	}
+}, 10000);
+
 var updateOnTimeout = function() {
 	var timeout = 1000 * 60 * 10;
 	var lastUpdate = $.cookie('lastLocationUpdate');
@@ -17,43 +23,12 @@ var updateOnTimeout = function() {
 		$.cookie('lastLocationUpdate', now, {
 			'path' : '/'
 		});
-		getUserLocation();
+		locationService.detect();
+		locationService.save();
+		locationService.updateLabel();
 	}
 };
 
-var intervalo = window.setInterval(function() {
-	if ($.cookie('disableAutoDetect') === null) {
-		updateOnTimeout();
-	}
-}, 10000);
-
-var updateLocation = function(lat, lng) {
-	$.get(rootUrl + 'location/update', {
-		'lat' : lat,
-		'lng' : lng
-	}, function(data) {
-		if (data.success === true) {
-			var addressData = [ 
-                    data.location.address.street,
-					data.location.address.district,
-					data.location.address.city.name,
-					data.location.address.city.state 
-			];
-
-			$('#ondeEstou').fadeOut();
-			$('#ondeEstou span').html(addressData.filter(String).join(', '));
-			$('#ondeEstou').fadeIn();
-		}
-	});
-};
-
-getUserLocation = function() {
-	navigator.geolocation.getCurrentPosition(function(position) {
-		lat = position.coords.latitude;
-		lng = position.coords.longitude;
-		updateLocation(lat, lng);
-	});
-};
 
 $('#autoDetectContainer').show();
 $('.autoDetect').change(function() {
@@ -65,11 +40,24 @@ $('.autoDetect').change(function() {
 		$.cookie('disableAutoDetect', null, {
 			'path' : '/'
 		});
-		getUserLocation();
+		locationService.detect();
+		locationService.save();
+		locationService.updateLabel();
 	}
 });
 
-$.extend($.mobile, {
-	loadingMessage : "Carregando",
-	pageLoadErrorMessage : "Erro ao carregar a página"
+
+$(document).ready(function() {
+	locationService = new LocationService();
+	locationService.setSaveUrl(rootUrl + 'location/update');
+	locationService.setLoadUrl(rootUrl + 'location/current');
+	locationService.setLabel($("#ondeEstou"));
+
+	locationService.load();
+	locationService.updateLabel();	
+	
+	$.extend($.mobile, {
+		loadingMessage : "Carregando",
+		pageLoadErrorMessage : "Erro ao carregar a página"
+	});
 });

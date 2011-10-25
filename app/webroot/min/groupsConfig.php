@@ -16,6 +16,9 @@ return array(
     'js_body' => array(
         '../js/jquery.cookie.js',
         '../js/chegamos.js',
+        '../js/point.js',
+        '../js/location.js',
+        '../js/locationService.js',
         '../js/ga.js',
     ),
     'css' => array(

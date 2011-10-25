@@ -62,8 +62,11 @@ class LocationController extends Controller {
 		if($this->isSessionEnabled) {
 			$this->location->load();
 		}
+
+		$success = (bool) $this->location->getPoint();
 		$location = $this->location->toJson();
-		return compact('location');
+		
+		return compact("success", "location");
 	}
 }
 
