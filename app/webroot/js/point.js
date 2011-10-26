@@ -1,5 +1,4 @@
-Point = function() {
-	
-	this.lat = 0.0;
-	this.lng = 0.0;	
+function Point(lat, lng) {
+	this.lat = lat;
+	this.lng = lng;	
 };

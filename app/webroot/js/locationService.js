@@ -1,67 +1,46 @@
-LocationService = function() {
+function LocationService() {
+	this.saveUrl = 'location/update';
+	this.loadUrl = 'location/current';
+	this.label = null;
+	this.location = new Location();
+}	
 
-	var saveUrl = 'location/update';
-	var loadUrl = 'location/current';
-	var label = null;
-	var location = new Location();
-	
-	this.setSaveUrl = function(saveUrl) {
-		this.saveUrl = saveUrl;
-	};
+LocationService.prototype.detect = function() {
+	navigator.geolocation.getCurrentPosition($.proxy(this.setPointFromDetect, this));
+	this.save();
+};
 
-	this.setLoadUrl = function(loadUrl) {
-		this.loadUrl = loadUrl;
-	};
-	
-	this.setLabel = function(label) {
-		this.label = label;
-	};
-	
-	this.getPoint = function() {
-		return location.point;
-	};
+LocationService.prototype.setPointFromDetect = function(position) {
+	this.location.point = new Point(
+		position.coords.latitude,
+		position.coords.longitude
+	);
+};
 
-	this.getAddress = function() {
-		return location.address;
-	};
-	
-	this.getLocation = function() {
-		return location;
-	};
+LocationService.prototype.save = function() {
+	$.get(this.saveUrl, this.location.point, $.proxy(this.setAddressFromJson, this));
+};
 
-	this.detect = function() {
-		navigator.geolocation.getCurrentPosition(this.setPointFromDetect);
-	};
-	
-	this.setPointFromDetect = function(position) {
-		location.point.lat = position.coords.latitude;
-		location.point.lng = position.coords.longitude;
-	};
-	
-	this.save = function() {
-		$.get(saveUrl, location.point, this.setAddressFromJson);
-	};
-	
-	this.load = function() {
-		$.get(loadUrl, {}, this.setAddressFromJson);
-	};
+LocationService.prototype.load = function() {
+	$.get(this.loadUrl, {}, $.proxy(this.setAddressFromJson, this));
+};
 
-	this.setAddressFromJson = function(json) {
-		if (json.success === true) {
-			location.address = [ json.location.address.street,
-					json.location.address.district,
-					json.location.address.city.name,
-					json.location.address.city.state ];
-		}
-	};
-	
-	this.updateLabel = function() {
-		if (this.label !== undefined && location.address !== undefined) {
-			var labelHtml = '<span class="ui-btn-inner ui-btn-corner-all">' + location.address.filter(String).join(', ') + '</span>';
+LocationService.prototype.setAddressFromJson = function(json) {
+	if (json.success === true) {
+		this.location.address = [ json.location.address.street,
+				json.location.address.district,
+				json.location.address.city.name,
+				json.location.address.city.state ];
+	}
+	this.updateLabel();
+};
 
-			$(label).fadeOut();
-			$(label).html(labelHtml);
-			$(label).fadeIn();
-		}
-	};
+LocationService.prototype.updateLabel = function() {
+	if (this.label !== undefined && this.location.address !== undefined) {
+		var labelHtml = '<span class="ui-btn-inner ui-btn-corner-all">' + this.location.address.filter(String).join(', ') + '</span>';
+
+		$(this.label).fadeOut();
+		$(this.label).html(labelHtml);
+		$(this.label).fadeIn();
+	}
 };

@@ -24,8 +24,6 @@ var updateOnTimeout = function() {
 			'path' : '/'
 		});
 		locationService.detect();
-		locationService.save();
-		locationService.updateLabel();
 	}
 };
 
@@ -41,21 +39,17 @@ $('.autoDetect').change(function() {
 			'path' : '/'
 		});
 		locationService.detect();
-		locationService.save();
-		locationService.updateLabel();
 	}
 });
 
 
 $(document).ready(function() {
 	locationService = new LocationService();
-	locationService.setSaveUrl(rootUrl + 'location/update');
-	locationService.setLoadUrl(rootUrl + 'location/current');
-	locationService.setLabel($("#ondeEstou"));
-
+	locationService.saveUrl = rootUrl + 'location/update';
+	locationService.loadUrl = rootUrl + 'location/current';
+	locationService.label = $("#ondeEstou");
 	locationService.load();
-	locationService.updateLabel();	
-	
+
 	$.extend($.mobile, {
 		loadingMessage : "Carregando",
 		pageLoadErrorMessage : "Erro ao carregar a página"
