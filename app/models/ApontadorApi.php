@@ -44,7 +44,44 @@ class ApontadorApi {
 
 		return new User($response->user);
 	}
+	
+	public function isUserFollowedByMe($myUserId = null, $checkUserId = null) {
+	    if (empty($myUserId) || empty($checkUserId)) {
+	        return false;
+	    }
 
+	    $following = $this->getUserFollowing(array('userId' => $myUserId, 'limit' => 1000));
+        foreach($following->getItems() as $user) {
+            if($checkUserId === $user->getId()) {
+                return true;
+            }
+        }
+        return false;
+	}
+
+	public function follow($param=array()) {
+		if (empty($param['activeUserId']) || empty($param['passiveUserId'])) {
+			return false;
+		}
+		$response = $this->request('users/' . $param['activeUserId'] . '/following', array(
+		            'user_id' => $param['passiveUserId'],
+					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
+					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
+		), 'PUT');
+		return $response;
+	}
+	
+	public function unfollow($param=array()) {
+		if (empty($param['activeUserId']) || empty($param['passiveUserId'])) {
+			return false;
+		}
+		$response = $this->request('users/' . $param['activeUserId'] . '/following/' . $param['passiveUserId'], array(
+					'oauth_token' => empty($param['oauth_token']) ? '' : $param['oauth_token'],
+					'oauth_token_secret' => empty($param['oauth_token_secret']) ? '' : $param['oauth_token_secret']
+		), 'DELETE');
+		return $response;
+	}
+	
 	public function checkin($param=array()) {
 		if (empty($param['place_id'])) {
 			return false;
@@ -480,7 +517,7 @@ class ApontadorApi {
 		$suggestions = new Suggestions($response->suggestions);
 		return $suggestions;
 	}
-
+	
 	private function request($method, $params=array(), $verb='GET') {
 		// Workaround para funcionar o PUT
 		if ($verb == 'PUT') {
@@ -493,6 +530,8 @@ class ApontadorApi {
 
 		$default = array('type' => 'json');
 
+		$params = array_filter($params);
+		
 		$queryString = \http_build_query($params + $default);
 
 		$url = $this->config['apiUrl'] . $method . '?' . $queryString;
@@ -663,7 +702,7 @@ class ApontadorApi {
 		$endpoint = APONTADOR_URL . $metodo;
 		if (!$oauth_token) {
 			$queryparams = http_build_query($params);
-			$auth_hash = base64_encode("$email:$key");
+			$auth_hash = base64_encode("$key:$secret");
 			return $this->_post("$endpoint?$queryparams", "GET", null, "Authorization: $auth_hash");
 		} else {
 			// OAuth
@@ -673,6 +712,7 @@ class ApontadorApi {
 			$req_req = OAuthRequest::from_consumer_and_token($consumer, $token, $verbo, $endpoint, $params);
 			$req_req->sign_request($signature_method, $consumer, $token);
 
+            //echo $req_req;
 			if ($verbo == "GET") {
 				return $this->_post($req_req, $verbo);
 			} else {

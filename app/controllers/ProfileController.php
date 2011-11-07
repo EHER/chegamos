@@ -177,8 +177,50 @@ class ProfileController extends \lithium\action\Controller
 		$location = new Location();
 		$location->load();
 
+		$myUserId = Session::read('apontadorId');
+	    
+		$iFollow = $this->api->isUserFollowedByMe($myUserId, $userId);
+		
 		$title = 'Perfil de ' . $user->getName();
-		return compact('title', 'location', 'user');
+		return compact('title', 'location', 'user', 'iFollow');
+	}
+
+	public function follow($passiveUserId = null)
+	{
+		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
+			$activeUserId = Session::read('apontadorId');
+		}
+
+		$response = $this->api->follow(array(
+			'activeUserId' => $activeUserId, 
+			'passiveUserId' => $passiveUserId,
+			'oauth_token' => Session::read('apontadorToken'),
+			'oauth_token_secret' => Session::read('apontadorTokenSecret'),
+		));
+		//echo $response;
+
+		$this->redirect('profile/show/' . $passiveUserId);
+		exit;
+	}
+
+	public function unfollow($passiveUserId = null)
+	{
+		if (empty($userId)) {
+			OauthController::verifyLogged('apontador');
+			$activeUserId = Session::read('apontadorId');
+		}
+
+		$response = $this->api->unfollow(array(
+			'activeUserId' => $activeUserId, 
+			'passiveUserId' => $passiveUserId,
+			'oauth_token' => Session::read('apontadorToken'),
+			'oauth_token_secret' => Session::read('apontadorTokenSecret'),
+		));
+		echo $response;
+
+		//$this->redirect('profile/show/' . $passiveUserId);
+		exit;
 	}
 
 	public function achievements($userId = null)

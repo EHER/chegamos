@@ -17,6 +17,17 @@
 </p>
 
 <ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
+	<?php if($iFollow) { ?>
+    	<li>
+    		<?php echo $this->html->link("Parar de seguir", "/profile/unfollow/" . $user->getId()); ?>
+    	</li>
+    <?php } else { ?>
+    	<li>
+    		<?php echo $this->html->link("Seguir", "/profile/follow/" . $user->getId(), array("rel" => "external")); ?>
+    	</li>
+    <?php } ?>
+</ul>
+<ul data-role="listview" data-inset="true" data-theme="<?php echo THEME_LIST; ?>" data-dividertheme="<?php echo THEME_MAIN; ?>">
 	<li>
 		<?php echo $this->html->link("Conquistas", "/profile/achievements/" . $user->getId()); ?>
 	</li>
