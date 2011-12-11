@@ -40,7 +40,7 @@ class ABMetaTest extends \PHPUnit_Framework_TestCase {
 		$place->setId("UCV34B2P");
 		$place->setName("Uziel Restaurante");
 		$place->setDescription("Se você procura um restaurante com variedade, qualidade com preço justo você encontra no Uziel restaurante!O preço do kilo é R$ 26,90, mas você paga no máximo R$ 15,90 por pesagem de refeições (excluindo sobremesas, bebidas e doces). Acima de 500 gramas você ainda ganha um refrescoUm bom vinho, gelatina e cafezinho são por nossa conta.Se precisar de internet você pode contar com nossa rede Wi-Fi.Nosso cardápio diário possui 5 tipos de carne todos os dias, feijoada completa e separada (feijão e carnes) às quartas, 6 tipos de massa nas quintas e 4 tipos de pizzas nassextas, além de opções de peixes todas as terças e sextas.Oferecemos convênio com descontos progressivos para empresas e um bolo com o sabor a escolha do aniversariante, caso agende com antecedência e traga mais de 10 pessoas para almoçar no seu aniversário.Aceitamos todos os cartões de crédito e vales refeição.Você pode receber nosso cardápio atualizado diariamente pelo twitter http://twitter.com/uzielrestaurant");
-		$place->setIconUrl("http://maplink.apontador.com.br/widget?v=4.1&lat=-23.5926083&lng=-46.6818329");
+		$place->setIconUrl("http://maplink.com.br/widget?v=4.1&lat=-23.5926083&lng=-46.6818329");
 		$place->setPoint($point);
 		$place->setCategory($category);
 		$place->setAddress($address);

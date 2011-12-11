@@ -1,4 +1,5 @@
-app/resources/*
+app/resources/
+app/tests/web/
 app/config/config.php
 .buildpath
 .project
