@@ -50,7 +50,7 @@ class ApontadorApi {
 	        return false;
 	    }
 
-	    $following = $this->getUserFollowing(array('userId' => $myUserId, 'limit' => 1000));
+	    $following = $this->getUserFollowing(array('userId' => $myUserId, 'limit' => 100));
         foreach($following->getItems() as $user) {
             if($checkUserId === $user->getId()) {
                 return true;

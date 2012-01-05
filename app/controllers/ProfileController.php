@@ -12,14 +12,23 @@ use app\models\ApontadorExtras;
 use lithium\storage\Session;
 use lithium\storage\Cache;
 
+use chegamos\rest\Curl as RestClient;
+use chegamos\entity\repository\UserRepository;
+
 class ProfileController extends \lithium\action\Controller
 {
 
-	var $api;
+	private $api;
+        private $userRepository;
 
 	public function __construct(array $config = array())
 	{
 		$this->api = new ApontadorApi();
+
+                $restClient = new RestClient(APONTADOR_URL);
+                $restClient->setAuth(APONTADOR_CONSUMER_KEY, APONTADOR_CONSUMER_SECRET);
+                $this->userRepository = new UserRepository($restClient);
+
 		parent::__construct($config);
 	}
 
@@ -168,7 +177,7 @@ class ProfileController extends \lithium\action\Controller
 
 		$user = unserialize(Cache::read('default', $userId));
 		if(empty($user)) {
-			$user = $this->api->getUser(array('userid' => $userId));
+                        $user = $this->userRepository->get($userId);
 			if(!empty($user)) {
 				Cache::write("default", $userId, serialize($user),"+1 day");
 			}
@@ -178,7 +187,7 @@ class ProfileController extends \lithium\action\Controller
 		$location->load();
 
 		$myUserId = Session::read('apontadorId');
-	    
+
 		$iFollow = $this->api->isUserFollowedByMe($myUserId, $userId);
 		
 		$title = 'Perfil de ' . $user->getName();
