@@ -5,32 +5,42 @@ namespace app\controllers;
 use app\models\Location;
 
 use app\models\ApontadorApi;
-use app\models\Address;
-use app\models\City;
 use app\models\oauth;
 use app\models\ApontadorExtras;
 use lithium\storage\Session;
 use lithium\storage\Cache;
 
-use chegamos\rest\Curl as RestClient;
+use chegamos\rest\client\Curl as RestClient;
+use chegamos\rest\auth\BasicAuth;
+use chegamos\entity\Config;
 use chegamos\entity\repository\UserRepository;
+
+use chegamos\entity\City;
+use chegamos\entity\Address;
+use chegamos\entity\Point;
+
 
 class ProfileController extends \lithium\action\Controller
 {
+    private $api;
+    private $userRepository;
 
-	private $api;
-        private $userRepository;
+    public function __construct(array $config = array())
+    {
+        $this->api = new ApontadorApi();
 
-	public function __construct(array $config = array())
-	{
-		$this->api = new ApontadorApi();
+        $apiConfig = new Config();
+        $apiConfig->setBaseUrl(APONTADOR_URL);
+        $apiConfig->setBasicAuth(
+            new BasicAuth(APONTADOR_CONSUMER_KEY, APONTADOR_CONSUMER_SECRET)
+        );
+        $apiConfig->setRestClient(
+            new RestClient()
+        );
+        $this->userRepository = new UserRepository($apiConfig);
 
-                $restClient = new RestClient(APONTADOR_URL);
-                $restClient->setAuth(APONTADOR_CONSUMER_KEY, APONTADOR_CONSUMER_SECRET);
-                $this->userRepository = new UserRepository($restClient);
-
-		parent::__construct($config);
-	}
+        parent::__construct($config);
+    }
 
 	public function places($userId, $page='page1')
 	{

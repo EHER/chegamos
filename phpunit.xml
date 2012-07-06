@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
 	colors="true"
-	bootstrap="../config/bootstrap.php"
+	bootstrap="app/config/bootstrap.php"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
@@ -9,14 +9,14 @@
 
 	<testsuites>
 		<testsuite name="Unit Tests">
-			<directory>./unit/</directory>
+            <directory>app/tests/unit/</directory>
 		</testsuite>
 		<testsuite name="Integration Tests">
-			<directory>./integration/</directory>
+            <directory>app/tests/integration/</directory>
 		</testsuite>
 	</testsuites>
 
 	<logging>
-		<log type="coverage-html" target="./web/coverage" charset="UTF-8" yui="false" highlight="true" lowUpperBound="65" highLowerBound="85"/>
+        <log type="coverage-html" target="app/tests/web/coverage" charset="UTF-8" yui="false" highlight="true" lowUpperBound="65" highLowerBound="85"/>
 	</logging>
 </phpunit>

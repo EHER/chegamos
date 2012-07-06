@@ -1,6 +1,9 @@
 app/resources/
 app/tests/web/
 app/config/config.php
+vendor
+composer.lock
+composer.phar
 .buildpath
 .project
 .settings/

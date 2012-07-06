@@ -1,0 +1,16 @@
+{
+    "name": "EHER/chegamos",
+    "description": "Versão light do apontador com as funções basica para rodar no celular, usando a API do apontador.",
+    "require": {
+        "eher/chegamos-lib": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Eher",
+            "email": "alexandre@eher.com.br"
+        }
+    ],
+    "require-dev": {
+        "eher/phpunit": "dev-master"
+    }
+}

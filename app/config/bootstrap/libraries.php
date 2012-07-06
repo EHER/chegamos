@@ -46,7 +46,7 @@ require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/adapter/Apc.php';
 Libraries::add('lithium');
 //Libraries::add('chegamos');
 Libraries::add('chegamos', array(
-    'path' => LITHIUM_LIBRARY_PATH . '/chegamos-lib/src/chegamos'
+    'path' => VENDOR_PATH . '/EHER/chegamos-lib/src/chegamos'
 ));
 
 /**

@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule  css/main.css  min/?g=css
-    RewriteRule  js/head.js  min/?g=js_head
-    RewriteRule  js/body.js  min/?g=js_body
+    RewriteRule css/main.css min/?g=css
+    RewriteRule js/head.js min/?g=js_head
+    RewriteRule js/body.js min/?g=js_body
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !favicon.ico$

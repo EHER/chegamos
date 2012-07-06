@@ -31,6 +31,7 @@ date_default_timezone_set("America/Sao_Paulo");
  * set this to a shared path on your server.
  */
 define('LITHIUM_LIBRARY_PATH', dirname(dirname(__DIR__)) . '/libraries');
+define('VENDOR_PATH', dirname(dirname(__DIR__)) . '/vendor');
 
 /**
  * This is the path to your application's directory.  It contains all the sub-folders for your
