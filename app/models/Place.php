@@ -268,13 +268,15 @@ class Place {
 
 	public function getMapUrl() {
 		if ($this->getPoint()->getLat() && $this->getPoint()->getLng()) {
-			$mapUrl = "http://maplink.com.br/widget";
+			$mapUrl = "http://maps.googleapis.com/maps/api/staticmap";
 
 			$params = array();
 
-			$params['v'] = '4.1';
-			$params['lat'] = $this->getPoint()->getLat();
-			$params['lng'] = $this->getPoint()->getLng();
+			$params['zoom'] = '15';
+			$params['size'] = '150x150';
+			$params['center'] = $this->getPoint()->getLat() . "," . $this->getPoint()->getLng();
+			$params['markers'] = "color:blue|" . $this->getPoint()->getLat() . "," . $this->getPoint()->getLng();
+			$params['sensor'] = 'false';
 
 			return $mapUrl . '?' . http_build_query($params);
 		}
