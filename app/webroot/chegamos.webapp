@@ -2,6 +2,11 @@
   "version": "1.0",
   "name": "Chegamos!",
   "description": "Encontre locais, pessoas e ofertas ao seu redor",
+  "icons": {
+    "16": "/img/icon-16.png",
+    "48": "/img/icon-48.png",
+    "128": "/img/icon-128.png"
+  },
   "developer": {
     "name": "Alexandre Eher",
     "url": "http://eher.com.br"
