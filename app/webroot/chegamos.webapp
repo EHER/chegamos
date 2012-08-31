@@ -4,7 +4,7 @@
   "description": "Encontre locais, pessoas e ofertas ao seu redor",
   "developer": {
     "name": "Alexandre Eher",
-    "url": "http://eher.com.br",
+    "url": "http://eher.com.br"
   },
   "installs_allowed_from": ["*"],
   "orientation": "portrait,landscape-secondary",
