@@ -7,7 +7,6 @@
     "url": "http://eher.com.br"
   },
   "installs_allowed_from": ["*"],
-  "orientation": "portrait,landscape-secondary",
   "fullscreen": "true",
   "default_locale": "pt-br"
 }
