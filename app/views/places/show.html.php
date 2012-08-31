@@ -1,19 +1,5 @@
 <?php use \app\models\GasStation; ?>
 <?php use \app\models\PlaceInfo; ?>
-
-<script type="text/javascript"><!--
-    google_ad_client = "ca-pub-3072646151237504";
-    /* poi chegamos topo */
-    google_ad_slot = "9528608382";
-    google_ad_width = 234;
-    google_ad_height = 60;
-    //-->
-</script>
-
-<script type="text/javascript"
-    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-
 <div class="hreview-aggregate">
 	<div class="item vcard">
 		<div style="float: left; margin-right: 10px;">
