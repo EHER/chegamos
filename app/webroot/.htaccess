@@ -10,3 +10,4 @@
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>
 AddType 'text/cache-manifest; charset=UTF-8' .manifest
+AddType 'application/x-web-app-manifest+json' .webapp

@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "name": "Chegamos!",
+  "description": "Encontre locais, pessoas e ofertas ao seu redor",
+  "developer": {
+    "name": "Alexandre Eher",
+    "url": "http://eher.com.br",
+  },
+  "installs_allowed_from": ["*"],
+  "orientation": "portrait,landscape-secondary",
+  "fullscreen": "true",
+  "default_locale": "pt-br"
+}
